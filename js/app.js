@@ -266,29 +266,45 @@
     document.body.dataset.examType = state.examType;
     document.body.dataset.examLevel = lvl;
 
-    // 1. Header Toggle Buttons
+    // 1. Header Toggle Buttons (Desktop & Mobile)
     const btnHsk = document.getElementById('exam-toggle-hsk');
     const btnYct = document.getElementById('exam-toggle-yct');
-    if (btnHsk && btnYct) {
-      if (isYCT) {
-        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
-        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
-      } else {
-        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
-        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
-      }
+    const btnHskMobile = document.getElementById('exam-toggle-hsk-mobile');
+    const btnYctMobile = document.getElementById('exam-toggle-yct-mobile');
+
+    if (isYCT) {
+      if (btnYct) btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
+      if (btnHsk) btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
+      if (btnYctMobile) btnYctMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-emerald-600 text-white shadow-sm';
+      if (btnHskMobile) btnHskMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate text-gray-700 hover:bg-white';
+    } else {
+      if (btnHsk) btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
+      if (btnYct) btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
+      if (btnHskMobile) btnHskMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-indigo-600 text-white shadow-sm';
+      if (btnYctMobile) btnYctMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate text-gray-700 hover:bg-white';
     }
 
-    // 2. Header Level Selector Button
+    // 2. Header Level Selector Button (Desktop & Mobile)
     const headerLevelLabel = document.getElementById('header-level-label');
     const headerLevelBtn = document.getElementById('header-level-btn');
+    const headerLevelLabelMobile = document.getElementById('header-level-label-mobile');
+    const headerLevelBtnMobile = document.getElementById('header-level-btn-mobile');
+
     if (headerLevelLabel) {
       headerLevelLabel.textContent = `🏷️ ระดับ: ${meta.shortLabel} (${poolCount} คำ) ▾`;
+    }
+    if (headerLevelLabelMobile) {
+      headerLevelLabelMobile.textContent = `🏷️ ${meta.shortLabel} (${poolCount}) ▾`;
     }
     if (headerLevelBtn) {
       headerLevelBtn.className = isYCT
         ? 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm transition'
         : 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm transition';
+    }
+    if (headerLevelBtnMobile) {
+      headerLevelBtnMobile.className = isYCT
+        ? 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm'
+        : 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm';
     }
 
     // 3. Logo & Header Text
