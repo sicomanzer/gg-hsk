@@ -187,7 +187,7 @@
         : (isSelected ? 'border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-400' : 'border-gray-200 bg-white hover:border-indigo-300');
 
       return `
-        <div class="level-card p-3.5 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ${activeBorder}" onclick="window.HSKApp.selectModalLevel('${lvl.id}')">
+        <div class="level-card p-3.5 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ${activeBorder}" data-level="${lvl.id}" onclick="window.HSKApp.selectModalLevel('${lvl.id}')">
           <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
             ${lvl.icon}
           </div>
@@ -599,11 +599,14 @@
   function toggleAudioSpeed() {
     if (state.audioSpeed === 1.0) {
       state.audioSpeed = 0.8;
-      if (dom.speedLabel) dom.speedLabel.textContent = '🐢 เสียงช้า 0.8x';
+      if (dom.speedLabel) dom.speedLabel.textContent = '🐢 0.8x';
     } else {
       state.audioSpeed = 1.0;
-      if (dom.speedLabel) dom.speedLabel.textContent = '⚡ เสียงปกติ 1.0x';
+      if (dom.speedLabel) dom.speedLabel.textContent = '⚡ 1.0x';
     }
+    const current = Storage.getSettings();
+    current.audioSpeed = state.audioSpeed;
+    Storage.saveSettings(current);
   }
 
   // --- ROLE TOGGLE (Parent / Student) ---
@@ -2065,11 +2068,15 @@
       };
     }
 
-    // Load saved exam mode & level
+    // Load saved exam mode & level & audio speed
     const savedSettings = Storage.getSettings();
     state.examType = savedSettings.examType || 'hsk';
     state.selectedLevel = savedSettings.selectedLevel || 'all';
     state.filterLevel = state.selectedLevel;
+    state.audioSpeed = typeof savedSettings.audioSpeed === 'number' ? savedSettings.audioSpeed : 1.0;
+    if (dom.speedLabel) {
+      dom.speedLabel.textContent = state.audioSpeed === 0.8 ? '🐢 0.8x' : '⚡ 1.0x';
+    }
 
     // Initial render
     const portal = document.body.dataset.portal || '';
