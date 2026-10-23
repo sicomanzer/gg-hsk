@@ -330,16 +330,16 @@
       const portal = document.body.dataset.portal || '';
       if (portal === 'student') {
         logoTitle.innerHTML = isYCT 
-          ? `YCT <span class="text-emerald-600">Youth</span>`
-          : `HSK 3 <span class="text-indigo-600">Student</span>`;
+          ? `YCT <span class="hidden sm:inline text-emerald-600">Youth</span>`
+          : `HSK 3 <span class="hidden sm:inline text-indigo-600">Student</span>`;
       } else if (portal === 'parent') {
         logoTitle.innerHTML = isYCT
-          ? `YCT <span class="text-emerald-600">Parent</span>`
-          : `HSK 3 <span class="text-amber-600">Parent</span>`;
+          ? `YCT <span class="hidden sm:inline text-emerald-600">Parent</span>`
+          : `HSK 3 <span class="hidden sm:inline text-amber-600">Parent</span>`;
       } else {
         logoTitle.innerHTML = isYCT
-          ? `YCT <span class="text-emerald-600">Master</span>`
-          : `HSK 3 <span class="text-indigo-600">Master</span>`;
+          ? `YCT <span class="hidden sm:inline text-emerald-600">Master</span>`
+          : `HSK 3 <span class="hidden sm:inline text-indigo-600">Master</span>`;
       }
     }
     if (headerSubtitle) {

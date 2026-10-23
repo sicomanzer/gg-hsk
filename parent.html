@@ -37,25 +37,33 @@
     nav {
       -webkit-overflow-scrolling: touch;
     }
+    /* Hide scrollbars for smooth touch navigation */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 <body data-portal="parent" class="min-h-screen flex flex-col antialiased selection:bg-amber-100 selection:text-amber-900 overflow-x-hidden w-full max-w-full">
 
   <!-- ================= TOP HEADER ================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
       
       <!-- Top Row: Logo & Utilities -->
-      <div class="flex items-center justify-between h-14 sm:h-20 gap-2">
+      <div class="flex items-center justify-between h-13 sm:h-20 gap-1.5 sm:gap-2">
         
         <!-- Logo -->
-        <div class="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
-          <div id="header-logo-icon" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 text-white flex items-center justify-center font-chinese font-bold text-xl sm:text-2xl shadow-md flex-shrink-0">
+        <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div id="header-logo-icon" class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 text-white flex items-center justify-center font-chinese font-bold text-lg sm:text-2xl shadow-md flex-shrink-0">
             父
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <span id="header-logo-title" class="font-black text-lg sm:text-2xl text-gray-900 tracking-tight whitespace-nowrap">HSK 3 <span class="text-amber-600">Parent</span></span>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <span id="header-logo-title" class="font-black text-base sm:text-2xl text-gray-900 tracking-tight whitespace-nowrap">HSK 3 <span class="hidden sm:inline text-amber-600">Parent</span></span>
               <span id="current-exam-badge" class="hidden md:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">แดชบอร์ดผู้ปกครอง</span>
             </div>
             <p id="header-subtitle" class="text-xs text-gray-500 hidden md:block">ศูนย์วิเคราะห์ผลคะแนน & ติดตามความพร้อมของลูก (แปลไทย 100%)</p>
@@ -76,19 +84,19 @@
         </div>
 
         <!-- Utilities -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+        <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <!-- Realtime Presence Badge -->
-          <button id="live-presence-badge" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition" title="คลิกเพื่อดูเพื่อนๆ และลูกที่กำลังออนไลน์">
-            <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span id="live-online-text">🟢 ออนไลน์ 1 คน</span>
+          <button id="live-presence-badge" class="inline-flex items-center gap-1 px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition" title="คลิกเพื่อดูเพื่อนๆ และลูกที่กำลังออนไลน์">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="live-online-text"><span class="hidden sm:inline">ออนไลน์ </span>1<span class="hidden sm:inline"> คน</span></span>
           </button>
 
-          <button id="copy-student-link-btn" class="px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md transition flex items-center gap-1" onclick="copyStudentLink()">
+          <button id="copy-student-link-btn" class="px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md transition flex items-center gap-1" onclick="copyStudentLink()" title="คัดลอกลิงก์ส่งให้ลูก">
             <span>🔗</span>
-            <span id="copy-link-text" class="hidden xs:inline">ส่งให้ลูก</span>
+            <span id="copy-link-text" class="hidden sm:inline">ส่งให้ลูก</span>
           </button>
 
-          <a href="/student" class="px-2.5 sm:px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 transition flex items-center gap-1">
+          <a href="/student" class="px-2 py-1.5 sm:px-3 sm:py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 transition flex items-center gap-1" title="เปิดหน้าของลูก">
             <span>👦</span>
             <span class="hidden sm:inline">ดูหน้าของลูก</span>
           </a>
@@ -123,7 +131,7 @@
       </div>
 
       <!-- Navigation Tabs Bar for Parent -->
-      <nav class="flex items-center gap-1.5 overflow-x-auto py-2 -mb-px text-sm font-medium border-t border-gray-100 scrollbar-none">
+      <nav class="flex items-center gap-1.5 overflow-x-auto py-2 -mb-px text-sm font-medium border-t border-gray-100 no-scrollbar">
         <button class="parent-nav-btn px-4 py-2 rounded-xl font-bold bg-amber-500 text-white shadow-sm transition" data-target="section-overview">
           📊 รายงานความพร้อม
         </button>

@@ -47,26 +47,34 @@
     nav {
       -webkit-overflow-scrolling: touch;
     }
+    /* Hide scrollbars for smooth touch navigation */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 <body data-portal="student" class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-800 overflow-x-hidden w-full max-w-full">
 
   <!-- ================= TOP HEADER ================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
       
       <!-- Top Row: Logo & Utilities -->
-      <div class="flex items-center justify-between h-14 sm:h-20 gap-2">
+      <div class="flex items-center justify-between h-13 sm:h-20 gap-1.5 sm:gap-2">
         
         <!-- Logo -->
-        <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer flex-shrink-0" onclick="window.HSKApp.switchTab('dashboard')">
-          <div id="header-logo-icon" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center font-chinese font-bold text-xl sm:text-2xl shadow-md flex-shrink-0">
+        <div class="flex items-center gap-2 sm:gap-3 cursor-pointer flex-shrink-0" onclick="window.HSKApp.switchTab('dashboard')">
+          <div id="header-logo-icon" class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center font-chinese font-bold text-lg sm:text-2xl shadow-md flex-shrink-0">
             学
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <span id="header-logo-title" class="font-black text-lg sm:text-2xl text-gray-900 tracking-tight whitespace-nowrap">
-                HSK 3 <span class="text-indigo-600">Student</span>
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <span id="header-logo-title" class="font-black text-base sm:text-2xl text-gray-900 tracking-tight whitespace-nowrap">
+                HSK 3 <span class="hidden sm:inline text-indigo-600">Student</span>
               </span>
               <span id="current-portal-badge" class="hidden md:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">โหมดนักเรียน</span>
             </div>
@@ -88,22 +96,22 @@
         </div>
 
         <!-- Presence, Profile, Speed Toggle & Parent Portal Link -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           <!-- Realtime Presence Badge -->
-          <button id="live-presence-badge" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm hover:bg-emerald-100 transition" title="คลิกเพื่อดูเพื่อนๆ ที่กำลังออนไลน์">
-            <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span id="live-online-text">🟢 ออนไลน์ 1 คน</span>
+          <button id="live-presence-badge" class="inline-flex items-center gap-1 px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm hover:bg-emerald-100 transition" title="คลิกเพื่อดูเพื่อนๆ ที่กำลังออนไลน์">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="live-online-text"><span class="hidden sm:inline">ออนไลน์ </span>1<span class="hidden sm:inline"> คน</span></span>
           </button>
 
           <!-- User Profile Badge -->
-          <button id="user-profile-badge" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-indigo-50 text-xs font-bold text-gray-800 shadow-sm transition" title="คลิกเพื่อเปลี่ยนชื่อเล่นและไอคอน">
-            <span id="user-avatar-display" class="text-base">🦁</span>
-            <span id="user-name-display" class="hidden sm:inline-block max-w-[80px] sm:max-w-[120px] truncate">นักเรียน</span>
-            <span class="text-[10px] text-gray-400">✎</span>
+          <button id="user-profile-badge" class="inline-flex items-center justify-center p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-indigo-50 text-xs font-bold text-gray-800 shadow-sm transition" title="คลิกเพื่อเปลี่ยนชื่อเล่นและไอคอน">
+            <span id="user-avatar-display" class="text-base leading-none">🦁</span>
+            <span id="user-name-display" class="hidden sm:inline-block max-w-[80px] sm:max-w-[120px] truncate ml-1">นักเรียน</span>
+            <span class="text-[10px] text-gray-400 hidden sm:inline-block ml-0.5">✎</span>
           </button>
 
           <!-- Speed Toggle -->
-          <button id="speed-toggle-btn" class="px-2.5 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-sm transition flex items-center gap-1">
+          <button id="speed-toggle-btn" class="px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-sm transition flex items-center justify-center" title="ปรับความเร็วเสียงอ่าน">
             <span id="speed-label">⚡ 1.0x</span>
           </button>
 
@@ -142,7 +150,7 @@
       </div>
 
       <!-- Navigation Tabs Bar -->
-      <nav class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-2 -mb-px text-xs sm:text-sm font-medium border-t border-gray-100 scrollbar-none">
+      <nav class="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-2 -mb-px text-xs sm:text-sm font-medium border-t border-gray-100 no-scrollbar">
         <button class="nav-tab-btn flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl transition font-semibold whitespace-nowrap bg-indigo-600 text-white shadow-md" data-tab="dashboard">
           <span>🏠</span> <span>หน้าแรก</span>
         </button>

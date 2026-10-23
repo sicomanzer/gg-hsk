@@ -299,7 +299,7 @@
       const count = overrideCount !== null ? overrideCount : peers.length;
       const textEl = document.getElementById('live-online-text');
       if (textEl) {
-        textEl.textContent = `🟢 ออนไลน์ ${count} คน`;
+        textEl.innerHTML = `<span class="hidden sm:inline">ออนไลน์ </span>${count}<span class="hidden sm:inline"> คน</span>`;
       }
     },
 
