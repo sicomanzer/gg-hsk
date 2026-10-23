@@ -1,9 +1,7 @@
 {
-  "version": 2,
   "cleanUrls": true,
   "rewrites": [
     { "source": "/student", "destination": "/student.html" },
-    { "source": "/parent", "destination": "/parent.html" },
-    { "source": "/(.*)", "dest": "/$1" }
+    { "source": "/parent", "destination": "/parent.html" }
   ]
 }
