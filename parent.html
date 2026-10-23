@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 3 Master - แดชบอร์ดสำหรับคุณพ่อ (Parent Portal)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            chinese: ['"PingFang SC"', '"Microsoft YaHei"', '"SimHei"', '"Noto Sans SC"', 'sans-serif'],
+            sans: ['"Sarabun"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    .font-chinese {
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'KaiTi', 'SimSun', 'Noto Sans SC', sans-serif;
+    }
+  </style>
+</head>
+<body data-portal="parent" class="min-h-screen flex flex-col antialiased selection:bg-amber-100 selection:text-amber-900">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md">
+            父
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">HSK 3 <span class="text-amber-600">Parent</span></span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">แดชบอร์ดคุณพ่อ</span>
+            </div>
+            <p class="text-xs text-gray-500 hidden sm:block">ศูนย์วิเคราะห์ผลคะแนน & ติดตามความพร้อมของลูก (แปลไทย 100%)</p>
+          </div>
+        </div>
+
+        <!-- Copy Link for Student & View Student Page -->
+        <div class="flex items-center gap-2.5">
+          <button id="copy-student-link-btn" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md transition flex items-center gap-1.5" onclick="copyStudentLink()">
+            <span>🔗</span>
+            <span id="copy-link-text">คัดลอกลิงก์ส่งให้ลูก</span>
+          </button>
+          <a href="/student" class="px-3 py-2 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 transition flex items-center gap-1">
+            <span>👦</span>
+            <span>ดูหน้าของลูก</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Navigation Tabs Bar for Parent -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto py-2 -mb-px text-sm font-medium border-t border-gray-100 scrollbar-none">
+        <button class="parent-nav-btn px-4 py-2 rounded-xl font-bold bg-amber-500 text-white shadow-sm transition" data-target="section-overview">
+          📊 รายงานความพร้อม
+        </button>
+        <button class="parent-nav-btn px-4 py-2 rounded-xl font-bold text-gray-700 hover:bg-gray-100 transition" data-target="section-weakwords">
+          ⚠️ คำที่ลูกตอบผิดบ่อย
+        </button>
+        <button class="parent-nav-btn px-4 py-2 rounded-xl font-bold text-gray-700 hover:bg-gray-100 transition" data-target="section-worksheet">
+          🖨️ สั่งพิมพ์ใบงานกระดาษ
+        </button>
+        <button class="parent-nav-btn px-4 py-2 rounded-xl font-bold text-gray-700 hover:bg-gray-100 transition" data-target="section-vocab-search">
+          📚 ค้นหาคำศัพท์ 600 คำ
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+    <!-- Top Notification Banner for Parent -->
+    <div class="p-5 rounded-3xl bg-gradient-to-r from-amber-500 via-amber-600 to-indigo-700 text-white shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-white/20 text-white flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
+          👨‍🏫
+        </div>
+        <div>
+          <h2 class="text-lg sm:text-xl font-extrabold">คุณพ่อสามารถติดตามและทดสอบลูกได้โดยไม่ต้องรู้ภาษาจีน</h2>
+          <p class="text-xs sm:text-sm text-amber-100 mt-0.5">
+            ส่งลิงก์ด้านบนให้ลูกเปิดทำแบบทดสอบบน iPad หรือมือถือ ผลคะแนนและคำที่ลูกตอบผิดจะรายงานกลับมาที่หน้านี้อัตโนมัติ
+          </p>
+        </div>
+      </div>
+      <div class="flex-shrink-0 bg-white/10 rounded-2xl px-5 py-3 border border-white/20 text-center">
+        <div class="text-[11px] uppercase tracking-wider text-amber-200 font-semibold">วันนับถอยหลังก่อนสอบ</div>
+        <div class="text-3xl font-black text-white font-mono" id="exam-countdown-days">30 วัน</div>
+      </div>
+    </div>
+
+    <!-- ================= SECTION 1: OVERVIEW & READINESS ================= -->
+    <section id="section-overview" class="space-y-6">
+      
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-extrabold text-gray-900 flex items-center gap-2">
+          <span>📊 ภาพรวมสถิติและความพร้อมของลูก</span>
+        </h3>
+        <span class="text-xs text-gray-500">เกณฑ์สอบผ่าน HSK 3: 180 / 300 คะแนน</span>
+      </div>
+
+      <!-- 4 Pillars Stats Summary -->
+      <div id="parent-stats-summary" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+
+      <!-- 2 Columns: Weak Words & Exam History -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Top Weak Words for Parent's Eye -->
+        <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+            <h3 class="font-bold text-gray-900 text-base flex items-center gap-2">
+              <span>⚠️ คำศัพท์ที่ลูกตอบผิดบ่อยที่สุด</span>
+            </h3>
+            <span class="text-xs font-semibold text-rose-600">ควรทบทวนซ้ำ</span>
+          </div>
+          <div id="parent-weak-words-list" class="flex flex-col gap-2.5"></div>
+        </div>
+
+        <!-- Recent Test Logs -->
+        <div class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+            <h3 class="font-bold text-gray-900 text-base flex items-center gap-2">
+              <span>📜 ประวัติการทำข้อสอบของลูก</span>
+            </h3>
+            <span class="text-xs text-gray-400">10 ครั้งล่าสุด</span>
+          </div>
+          <div id="parent-exam-history-list" class="flex flex-col gap-2.5"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ================= SECTION 2: PRINTABLE WORKSHEETS ================= -->
+    <section id="section-worksheet" class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-sm space-y-6">
+      <div class="max-w-2xl mx-auto text-center space-y-3">
+        <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-3xl mx-auto">
+          🖨️
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900">พิมพ์แบบฝึกหัดกระดาษสำหรับให้ลูกทำด้วยดินสอ</h3>
+        <p class="text-sm text-gray-600">
+          คุณพ่อสามารถสั่งพิมพ์แบบฝึกหัด A4 สวยงาม พร้อมช่องเขียนคำแปล และมีเฉลยสำหรับคุณพ่อไว้ตรวจท้ายชุด
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto pt-3">
+          <button id="print-worksheet-10-btn" class="p-5 rounded-2xl border-2 border-indigo-200 hover:border-indigo-500 hover:bg-indigo-50/50 transition font-bold text-indigo-900 shadow-sm flex flex-col items-center gap-1">
+            <span class="text-2xl">📄</span>
+            <span>พิมพ์ชุดทดสอบ 10 ข้อ</span>
+            <span class="text-xs text-gray-400 font-normal">ฝึกเร็ว 10-15 นาที</span>
+          </button>
+          <button id="print-worksheet-20-btn" class="p-5 rounded-2xl border-2 border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition font-bold text-emerald-900 shadow-sm flex flex-col items-center gap-1">
+            <span class="text-2xl">📑</span>
+            <span>พิมพ์ชุดทดสอบ 20 ข้อ</span>
+            <span class="text-xs text-gray-400 font-normal">ชุดมาตรฐานพร้อมเฉลย</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 3: VOCABULARY SEARCH (FOR PARENT) ================= -->
+    <section id="section-vocab-search" class="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden p-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+        <div>
+          <h3 class="font-bold text-gray-900 text-lg">📚 คลังคำศัพท์ 600 คำ สำหรับคุณพ่อตรวจสอบ</h3>
+          <p class="text-xs text-gray-500">สามารถค้นหาความหมายภาษาไทย หรือตัวจีน หรือกดฟังเสียงอ่านได้ทุกคำ</p>
+        </div>
+        <div class="relative w-full sm:w-72">
+          <input type="text" id="vocab-search-input" placeholder="พิมพ์ค้นหาคำไทย หรือพินอิน..." class="w-full pl-3.5 pr-4 py-2 rounded-xl border border-gray-300 text-sm focus:border-indigo-500 outline-none">
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-[11px] font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">
+              <th class="p-3.5 text-center w-16">ลำดับ</th>
+              <th class="p-3.5 w-32">ตัวอักษรจีน</th>
+              <th class="p-3.5 w-32">พินอิน</th>
+              <th class="p-3.5">ความหมายภาษาไทย</th>
+              <th class="p-3.5 hidden md:table-cell">ตัวอย่างประโยค</th>
+              <th class="p-3.5 text-center w-20">เสียงอ่าน</th>
+            </tr>
+          </thead>
+          <tbody id="vocab-table-body" class="divide-y divide-gray-100 text-sm"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 4: HSK 3 GUIDE ================= -->
+    <section class="bg-white p-6 rounded-3xl border border-gray-200 shadow-sm space-y-4">
+      <h3 class="font-bold text-gray-900 text-base">ℹ️ โครงสร้างข้อสอบ HSK ระดับ 3 ที่ลูกต้องเจอในห้องสอบจริง</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-gray-700 leading-relaxed">
+        <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200">
+          <strong class="text-blue-900 text-sm block mb-1">1. พาร์ทการฟัง (听力)</strong>
+          มี 40 ข้อ เวลา 35 นาที (100 คะแนน)<br>
+          ฟังเสียงประโยคภาษาจีนแล้วจับคู่รูปภาพ หรือตอบถูก/ผิด
+        </div>
+        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
+          <strong class="text-emerald-900 text-sm block mb-1">2. พาร์ทการอ่าน (阅读)</strong>
+          มี 30 ข้อ เวลา 30 นาที (100 คะแนน)<br>
+          จับคู่ประโยคที่มีความสัมพันธ์กัน เติมคำศัพท์ในช่องว่าง และอ่านบทความสั้น
+        </div>
+        <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200">
+          <strong class="text-purple-900 text-sm block mb-1">3. พาร์ทการเขียน (书写)</strong>
+          มี 10 ข้อ เวลา 15 นาที (100 คะแนน)<br>
+          ตอนที่ 1: เรียงคำให้เป็นประโยค (5 ข้อ)<br>
+          ตอนที่ 2: เขียนอักษรจีนตามพินอิน (5 ข้อ)
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-auto border-t border-gray-200 bg-white py-6 text-center text-xs text-gray-400">
+    <p>HSK 3 Master (Parent Portal) • ระบบสนับสนุนผู้ปกครองเพื่อการเตรียมสอบ HSK ระดับ 3</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="vocab_data.js"></script>
+  <script src="sentences_data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/quiz_engine.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    function copyStudentLink() {
+      const studentUrl = window.location.origin + '/student';
+      navigator.clipboard.writeText(studentUrl).then(() => {
+        const textSpan = document.getElementById('copy-link-text');
+        textSpan.textContent = '✓ คัดลอกสำเร็จ! ส่งให้ลูกได้เลย';
+        setTimeout(() => {
+          textSpan.textContent = 'คัดลอกลิงก์ส่งให้ลูก';
+        }, 3000);
+      }).catch(() => {
+        prompt('คัดลอกลิงก์สำหรับส่งให้ลูกที่นี่:', studentUrl);
+      });
+    }
+
+    // Scroll to sections
+    document.querySelectorAll('.parent-nav-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.parent-nav-btn').forEach(b => {
+          b.className = 'parent-nav-btn px-4 py-2 rounded-xl font-bold text-gray-700 hover:bg-gray-100 transition';
+        });
+        btn.className = 'parent-nav-btn px-4 py-2 rounded-xl font-bold bg-amber-500 text-white shadow-sm transition';
+        const targetId = btn.dataset.target;
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      };
+    });
+  </script>
+
+</body>
+</html>

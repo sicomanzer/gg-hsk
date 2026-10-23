@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HSK 3 Master - โหมดนักเรียน (Student Portal)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            chinese: ['"PingFang SC"', '"Microsoft YaHei"', '"SimHei"', '"Noto Sans SC"', 'sans-serif'],
+            sans: ['"Sarabun"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    .font-chinese {
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'KaiTi', 'SimSun', 'Noto Sans SC', sans-serif;
+    }
+    .perspective {
+      perspective: 1000px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+  </style>
+</head>
+<body data-portal="student" class="min-h-screen flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-800">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="window.HSKApp.switchTab('dashboard')">
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md">
+            学
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">HSK 3 <span class="text-indigo-600">Student</span></span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">โหมดนักเรียน</span>
+            </div>
+            <p class="text-xs text-gray-500 hidden sm:block">พื้นที่ฝึกฝนและทำแบบทดสอบเตรียมสอบ HSK 3</p>
+          </div>
+        </div>
+
+        <!-- Speed Toggle & Parent Portal Link -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button id="speed-toggle-btn" class="px-3 py-1.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-xs font-semibold text-gray-700 shadow-sm transition flex items-center gap-1.5">
+            <span id="speed-label">⚡ เสียงปกติ 1.0x</span>
+          </button>
+          <a href="/parent" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-xs font-bold text-amber-800 transition">
+            👨‍🏫 สลับไปหน้าผู้ปกครอง
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Navigation Tabs Bar -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto py-2 -mb-px text-sm font-medium border-t border-gray-100 scrollbar-none">
+        <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap bg-indigo-600 text-white shadow-md" data-tab="dashboard">
+          <span>🏠</span> หน้าแรก
+        </button>
+        <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="flashcards">
+          <span>🎧</span> แบบทดสอบการฟัง 600 คำ & คำศัพท์
+        </button>
+        <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="quiz">
+          <span>🎯</span> แบบทดสอบ HSK 3 (ฟัง/อ่าน/เขียน)
+        </button>
+        <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="mistakes">
+          <span>📕</span> คำที่ตอบผิด (ฝึกซ้ำ)
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- ================= TAB 1: DASHBOARD ================= -->
+    <section id="tab-dashboard" class="tab-panel space-y-6">
+      
+      <!-- Welcome Hero -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-slate-900 text-white p-6 sm:p-8 shadow-xl">
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-400 text-amber-950 uppercase tracking-wide">
+              🔥 เตรียมสอบ HSK ระดับ 3 ให้พร้อม
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              ยินดีต้อนรับสู่ห้องฝึกภาษาจีน HSK 3
+            </h1>
+            <p class="text-indigo-200 text-sm sm:text-base leading-relaxed">
+              ฝึกฟัง พูด อ่าน และเขียนภาษาจีนให้คล่องแคล่ว มีทั้งแบบทดสอบการฟัง 600 คำ และจำลองสอบจริงครบทั้ง 3 พาร์ท พร้อมเสียงอ่านภาษาจีนสำเนียงมาตรฐาน
+            </p>
+          </div>
+
+          <!-- Countdown Card -->
+          <div class="flex-shrink-0 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 text-center min-w-[180px]">
+            <div class="text-xs uppercase tracking-wider text-indigo-200 font-semibold mb-1">นับถอยหลังสู่วันสอบ</div>
+            <div class="text-4xl sm:text-5xl font-black text-amber-300 font-mono" id="exam-countdown-days">30</div>
+            <div class="text-xs text-white/80 mt-1 font-medium">วันก่อนสอบจริง</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Readiness Stat Highlights -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 mb-1">คำศัพท์ที่แม่นแล้ว</div>
+          <div class="text-2xl sm:text-3xl font-black text-indigo-600 font-mono" id="stat-mastered-count">0 / 600</div>
+          <div class="text-[11px] text-gray-400 mt-1">เป้าหมาย 600 คำ</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 mb-1">คำที่ตอบผิด (ฝึกซ้ำ)</div>
+          <div class="text-2xl sm:text-3xl font-black text-rose-600 font-mono" id="stat-mistake-count">0</div>
+          <div class="text-[11px] text-gray-400 mt-1">อยู่ในสมุดข้อผิด</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 mb-1">ข้อที่ฝึกไปแล้ว</div>
+          <div class="text-2xl sm:text-3xl font-black text-emerald-600 font-mono" id="stat-total-tested">0</div>
+          <div class="text-[11px] text-gray-400 mt-1">ข้อทั้งหมดสะสม</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 mb-1">ความแม่นยำรวม</div>
+          <div class="text-2xl sm:text-3xl font-black text-amber-500 font-mono" id="stat-accuracy-rate">0%</div>
+          <div class="text-[11px] text-gray-400 mt-1">เป้าหมาย ≥ 75%</div>
+        </div>
+      </div>
+
+      <!-- Big Featured Banner: 600 Listening Quiz -->
+      <div class="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 rounded-2xl bg-white/20 text-white flex items-center justify-center text-3xl flex-shrink-0 shadow-inner">
+            🎧
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-xl sm:text-2xl font-extrabold">แบบทดสอบการฟัง 600 คำ</h3>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-400 text-amber-950">แนะนำ</span>
+            </div>
+            <p class="text-xs sm:text-sm text-indigo-100 mt-1">
+              ฝึกฟังเสียงภาษาจีนทีละ 1 คำ แล้วเลือกความหมายภาษาไทย มีระบบจำจุดเดิมทำค้างไว้ได้
+            </p>
+          </div>
+        </div>
+        <button onclick="window.HSKApp.switchTab('flashcards'); window.HSKApp.switchVocabSubtab('quiz600');" class="px-7 py-3 bg-white hover:bg-indigo-50 text-indigo-900 font-extrabold rounded-xl text-base shadow-md transition flex-shrink-0 text-center">
+          เริ่มทดสอบการฟัง ➔
+        </button>
+      </div>
+
+      <!-- Quick Quizzes Grid -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span>🎯 เลือกแบบทดสอบที่ต้องการฝึก</span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <div class="bg-white p-6 rounded-2xl border-2 border-indigo-100 hover:border-indigo-400 hover:shadow-lg transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">⚡</div>
+              <h3 class="text-lg font-bold text-gray-900 mb-1">แบบทดสอบด่วน 10 ข้อ</h3>
+              <p class="text-xs text-gray-600 mb-4 leading-relaxed">คละโจทย์ทั้งการฟัง การอ่าน และการเขียน เหมาะสำหรับทบทวนเร็วๆ</p>
+            </div>
+            <button data-quick-quiz="quick" data-count="10" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm transition shadow-sm">
+              เริ่มทำ 10 ข้อ ➔
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-blue-100 hover:border-blue-400 hover:shadow-lg transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">🎧</div>
+              <h3 class="text-lg font-bold text-gray-900 mb-1">แบบทดสอบการฟัง (听力)</h3>
+              <p class="text-xs text-gray-600 mb-4 leading-relaxed">ฟังเสียงภาษาจีน แล้วเลือกตัวอักษรจีนหรือความหมายภาษาไทย</p>
+            </div>
+            <button data-quick-quiz="listening" data-count="15" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition shadow-sm">
+              ฝึกการฟัง 15 ข้อ ➔
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-emerald-100 hover:border-emerald-400 hover:shadow-lg transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">📖</div>
+              <h3 class="text-lg font-bold text-gray-900 mb-1">แบบทดสอบการอ่าน (阅读)</h3>
+              <p class="text-xs text-gray-600 mb-4 leading-relaxed">จับคู่ความหมาย พินอิน และเติมคำในช่องว่างจากประโยคจริง</p>
+            </div>
+            <button data-quick-quiz="reading" data-count="15" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition shadow-sm">
+              ฝึกการอ่าน 15 ข้อ ➔
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-purple-100 hover:border-purple-400 hover:shadow-lg transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">✍️</div>
+              <h3 class="text-lg font-bold text-gray-900 mb-1">แบบทดสอบการเขียน (书写)</h3>
+              <p class="text-xs text-gray-600 mb-4 leading-relaxed">เรียงประโยค (连词成句) และคัดอักษรจีนบนกระดานดิจิทัลตามพินอิน</p>
+            </div>
+            <button data-quick-quiz="writing" data-count="10" class="w-full py-2.5 px-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-sm transition shadow-sm">
+              ฝึกการเขียน 10 ข้อ ➔
+            </button>
+          </div>
+
+          <div class="bg-gradient-to-br from-amber-500 to-amber-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/20 text-white flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">🏆</div>
+              <div class="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-amber-900/40 text-amber-100 mb-1">เหมือนห้องสอบจริง</div>
+              <h3 class="text-lg font-bold mb-1">จำลองสอบ HSK 3 เสมือนจริง</h3>
+              <p class="text-xs text-amber-100 mb-4 leading-relaxed">25 ข้อ จับเวลา 30 นาที คะแนนเต็ม 300 คะแนน (เกณฑ์ผ่าน 180 คะแนน)</p>
+            </div>
+            <button data-quick-quiz="mock_exam" data-count="25" class="w-full py-2.5 px-4 bg-white hover:bg-amber-50 text-amber-950 font-extrabold rounded-xl text-sm transition shadow-md">
+              เริ่มสอบเสมือนจริง ➔
+            </button>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border-2 border-rose-100 hover:border-rose-400 hover:shadow-lg transition flex flex-col justify-between group">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">📕</div>
+              <h3 class="text-lg font-bold text-gray-900 mb-1">ทบทวนคำที่เคยตอบผิด</h3>
+              <p class="text-xs text-gray-600 mb-4 leading-relaxed">ฝึกซ้ำเฉพาะคำที่ตอบผิดในข้อสอบ เพื่อให้จำได้แม่นยำ 100%</p>
+            </div>
+            <button data-quick-quiz="mistakes" class="w-full py-2.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-sm transition shadow-sm">
+              ฝึกซ้ำคำที่เคยตอบผิด ➔
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 2: ACTIVE QUIZ AREA ================= -->
+    <section id="tab-quiz" class="tab-panel hidden space-y-6">
+      
+      <div id="quiz-setup-area" class="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm max-w-xl mx-auto text-center space-y-5">
+        <div class="text-4xl">🎯</div>
+        <h2 class="text-2xl font-bold text-gray-900">เริ่มทำแบบทดสอบ HSK 3</h2>
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <button data-quick-quiz="listening" data-count="10" class="p-4 rounded-xl border-2 border-blue-200 hover:bg-blue-50 font-bold text-blue-700 text-sm transition">
+            🎧 ข้อสอบการฟัง (10 ข้อ)
+          </button>
+          <button data-quick-quiz="reading" data-count="10" class="p-4 rounded-xl border-2 border-emerald-200 hover:bg-emerald-50 font-bold text-emerald-700 text-sm transition">
+            📖 ข้อสอบการอ่าน (10 ข้อ)
+          </button>
+          <button data-quick-quiz="writing" data-count="10" class="p-4 rounded-xl border-2 border-purple-200 hover:bg-purple-50 font-bold text-purple-700 text-sm transition">
+            ✍️ ข้อสอบการเขียน (10 ข้อ)
+          </button>
+          <button data-quick-quiz="mock_exam" data-count="25" class="p-4 rounded-xl border-2 border-amber-300 bg-amber-50 hover:bg-amber-100 font-bold text-amber-900 text-sm transition">
+            🏆 จำลองสอบจริง (25 ข้อ)
+          </button>
+        </div>
+      </div>
+
+      <div id="quiz-active-area" class="hidden max-w-3xl mx-auto space-y-5">
+        <div class="flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+          <div class="flex items-center gap-3">
+            <span id="quiz-section-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">การฟัง</span>
+            <span id="quiz-progress-text" class="text-sm font-bold text-gray-700">ข้อที่ 1 / 10</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <div id="quiz-timer-display" class="hidden flex items-center gap-1.5 text-base font-bold font-mono text-gray-800 bg-amber-50 px-3 py-1 rounded-xl border border-amber-200">
+              <span>⏱️</span>
+              <span id="quiz-timer-text">30:00</span>
+            </div>
+            <button id="quiz-quit-btn" class="text-xs text-gray-400 hover:text-rose-600 font-semibold transition">✕ ยกเลิก</button>
+          </div>
+        </div>
+
+        <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 10%"></div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 sm:p-8">
+          <div class="text-sm sm:text-base font-bold text-gray-800 mb-5 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+            <span id="quiz-prompt-thai">คำสั่งข้อสอบ</span>
+          </div>
+          <div id="quiz-card-content"></div>
+          <div id="quiz-feedback-box" class="hidden"></div>
+        </div>
+      </div>
+
+      <div id="quiz-result-area" class="hidden max-w-3xl mx-auto bg-white rounded-3xl border border-gray-200 shadow-xl p-6 sm:p-10 space-y-6">
+        <div id="quiz-result-details"></div>
+        <div class="flex flex-col sm:flex-row justify-center gap-3 pt-4 border-t border-gray-100">
+          <button id="result-retry-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition">
+            🔄 ทำแบบทดสอบชุดนี้ซ้ำ
+          </button>
+          <button id="result-dashboard-btn" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition">
+            🏠 กลับสู่หน้าหลัก
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 3: VOCABULARY & FLASHCARDS & 600 QUIZ ================= -->
+    <section id="tab-flashcards" class="tab-panel hidden space-y-6">
+      
+      <!-- Sub-Navigation Bar inside Vocabulary Tab -->
+      <div class="flex items-center justify-between flex-wrap gap-3 bg-white p-2.5 rounded-2xl border border-gray-200 shadow-sm">
+        <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto">
+          <button id="subtab-btn-quiz600" class="subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow-sm" onclick="window.HSKApp.switchVocabSubtab('quiz600')">
+            <span>🎧</span>
+            <span>แบบทดสอบการฟัง 600 คำ</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] bg-amber-400 text-amber-950 font-black">โหมดใหม่</span>
+          </button>
+          <button id="subtab-btn-flashcards" class="subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 text-gray-700 hover:bg-gray-100" onclick="window.HSKApp.switchVocabSubtab('flashcards')">
+            <span>🗂️</span>
+            <span>บัตรคำศัพท์ (Flashcards)</span>
+          </button>
+          <button id="subtab-btn-table" class="subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 text-gray-700 hover:bg-gray-100" onclick="window.HSKApp.switchVocabSubtab('table')">
+            <span>📋</span>
+            <span>ตารางรายการคำศัพท์</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SUBVIEW 1: LISTENING QUIZ 600 -->
+      <div id="vocab-subtab-quiz600" class="space-y-6">
+        <div id="quiz600-setup-panel" class="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 sm:p-8 max-w-2xl mx-auto space-y-6 text-center">
+          <div class="w-16 h-16 rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-3xl mx-auto shadow-inner">🎧</div>
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">แบบทดสอบการฟัง 600 คำ</h2>
+            <p class="text-sm text-gray-600 max-w-md mx-auto leading-relaxed">
+              ฝึกฟังเสียงภาษาจีนทีละ 1 คำ แล้วเลือกความหมายภาษาไทยให้ถูกต้อง
+            </p>
+          </div>
+
+          <div id="quiz600-resume-box" class="hidden p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-950 text-left flex items-center justify-between gap-4">
+            <div>
+              <div class="font-bold text-sm">📍 พบประวัติที่ทำค้างไว้</div>
+              <div class="text-xs text-amber-800 mt-0.5" id="quiz600-resume-desc">ทำถึงคำที่ 45</div>
+            </div>
+            <button id="quiz600-resume-btn" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow transition flex-shrink-0">
+              ▶️ ทำต่อจากจุดเดิม
+            </button>
+          </div>
+
+          <div class="text-left bg-slate-50 p-5 rounded-2xl border border-gray-200 space-y-3">
+            <label class="block text-xs font-bold text-gray-700">เลือกช่วงคำศัพท์ที่ต้องการทดสอบ:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-semibold">
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+                <input type="radio" name="quiz600-range" value="all" checked class="text-indigo-600">
+                <div>
+                  <div class="text-gray-900 font-bold">ทั้งหมด 600 คำ (1 - 600)</div>
+                  <div class="text-gray-400 font-normal text-[11px]">HSK 1-3 ครบทุกคำ</div>
+                </div>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+                <input type="radio" name="quiz600-range" value="hsk3" class="text-indigo-600">
+                <div>
+                  <div class="text-gray-900 font-bold">เฉพาะ HSK 3 (คำที่ 301 - 600)</div>
+                  <div class="text-gray-400 font-normal text-[11px]">300 คำใหม่ระดับ 3</div>
+                </div>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+                <input type="radio" name="quiz600-range" value="hsk2" class="text-indigo-600">
+                <div>
+                  <div class="text-gray-900 font-bold">เฉพาะ HSK 2 (คำที่ 151 - 300)</div>
+                  <div class="text-gray-400 font-normal text-[11px]">150 คำระดับกลาง</div>
+                </div>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+                <input type="radio" name="quiz600-range" value="hsk1" class="text-indigo-600">
+                <div>
+                  <div class="text-gray-900 font-bold">เฉพาะ HSK 1 (คำที่ 1 - 150)</div>
+                  <div class="text-gray-400 font-normal text-[11px]">150 คำพื้นฐาน</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+            <button id="quiz600-start-btn" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl shadow-lg transition text-base">
+              🚀 เริ่มทดสอบการฟัง ➔
+            </button>
+            <button id="quiz600-reset-btn" class="px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition text-xs">
+              🔄 รีเซ็ตประวัตินี้
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Panel -->
+        <div id="quiz600-active-panel" class="hidden max-w-2xl mx-auto space-y-5">
+          <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+              <span id="quiz600-progress-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">คำที่ 1 / 600</span>
+              <span id="quiz600-level-badge" class="px-2 py-0.5 rounded text-[11px] font-bold bg-gray-100 text-gray-600">HSK 1</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-bold">
+              <span class="text-emerald-600">✓ <span id="quiz600-live-correct">0</span></span>
+              <span class="text-rose-600">✕ <span id="quiz600-live-wrong">0</span></span>
+              <span class="text-indigo-600" id="quiz600-live-percent">0%</span>
+            </div>
+            <button id="quiz600-quit-btn" class="text-xs text-gray-400 hover:text-rose-600 font-semibold transition px-2 py-1">
+              ⏹️ บันทึกและออก
+            </button>
+          </div>
+
+          <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+            <div id="quiz600-progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 1%"></div>
+          </div>
+
+          <div class="bg-white rounded-3xl border border-gray-200 shadow-lg p-6 sm:p-8 space-y-6">
+            <div class="text-center space-y-1">
+              <div class="text-xs font-bold text-indigo-600 uppercase tracking-wider">โจทย์การฟัง (听力)</div>
+              <h3 class="text-base sm:text-lg font-bold text-gray-800">กดฟังเสียงภาษาจีน แล้วเลือกความหมายภาษาไทย</h3>
+            </div>
+
+            <div id="quiz600-audio-trigger" class="flex flex-col items-center justify-center p-8 bg-gradient-to-b from-indigo-50 to-indigo-100/50 border-2 border-indigo-200 border-dashed rounded-3xl cursor-pointer hover:bg-indigo-100/80 active:scale-98 transition shadow-inner group">
+              <div class="w-20 h-20 rounded-full bg-indigo-600 group-hover:bg-indigo-700 text-white flex items-center justify-center text-3xl shadow-xl mb-3 transform group-hover:scale-105 transition">🔊</div>
+              <div class="font-extrabold text-indigo-900 text-lg">กดเพื่อฟังเสียงคำศัพท์</div>
+              <div class="text-xs text-indigo-500 mt-1">แตะซ้ำเพื่อฟังซ้ำได้เรื่อยๆ • <span id="quiz600-speed-indicator" class="font-semibold">1.0x</span></div>
+            </div>
+
+            <div id="quiz600-choices-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2"></div>
+            <div id="quiz600-feedback-box" class="hidden"></div>
+          </div>
+        </div>
+
+        <!-- Finished Panel -->
+        <div id="quiz600-finished-panel" class="hidden bg-white rounded-3xl border border-gray-200 shadow-xl p-8 max-w-xl mx-auto text-center space-y-6">
+          <div class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-4xl mx-auto shadow-inner">🏆</div>
+          <div class="space-y-2">
+            <h2 class="text-3xl font-extrabold text-gray-900">สุดยอดมาก! ฝึกครบตามเป้าหมายแล้ว</h2>
+            <p class="text-sm text-gray-600" id="quiz600-finish-desc"></p>
+          </div>
+          <div class="grid grid-cols-3 gap-3 p-4 bg-slate-50 rounded-2xl border border-gray-200 text-center">
+            <div>
+              <div class="text-xs text-gray-500 font-semibold">จำนวนคำที่ทำ</div>
+              <div class="text-2xl font-black text-gray-800" id="quiz600-finish-total">0</div>
+            </div>
+            <div>
+              <div class="text-xs text-emerald-600 font-semibold">ตอบถูกต้อง</div>
+              <div class="text-2xl font-black text-emerald-600" id="quiz600-finish-correct">0</div>
+            </div>
+            <div>
+              <div class="text-xs text-indigo-600 font-semibold">ความแม่นยำ</div>
+              <div class="text-2xl font-black text-indigo-600" id="quiz600-finish-percent">0%</div>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
+            <button id="quiz600-restart-btn" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition">
+              🔄 เริ่มทำใหม่อีกครั้ง
+            </button>
+            <button onclick="window.HSKApp.switchTab('mistakes')" class="px-6 py-3 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-xl transition border border-rose-200">
+              📕 ไปดูคำที่ตอบผิด
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBVIEW 2: FLASHCARDS -->
+      <div id="vocab-subtab-flashcards" class="hidden space-y-6">
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
+          <div class="relative w-full md:w-80">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">🔍</span>
+            <input type="text" id="vocab-search-input" placeholder="ค้นหา: ตัวจีน, พินอิน หรือความหมายไทย..." class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:border-indigo-500 outline-none text-sm transition">
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+            <select id="vocab-level-filter" class="px-3 py-2 rounded-xl border border-gray-300 bg-white text-xs font-semibold text-gray-700 outline-none">
+              <option value="all">ระดับ: ทั้งหมด 600 คำ</option>
+              <option value="1">ระดับ HSK 1 (150 คำ)</option>
+              <option value="2">ระดับ HSK 2 (150 คำ)</option>
+              <option value="3">ระดับ HSK 3 (300 คำใหม่)</option>
+            </select>
+            <span id="vocab-search-results-count" class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-2 rounded-xl border border-indigo-100">
+              พบ 600 คำศัพท์
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between max-w-md mx-auto px-2">
+            <h3 class="text-base font-bold text-gray-800">โหมดบัตรคำศัพท์ (Flashcards)</h3>
+            <span class="text-xs text-gray-500">แตะเพื่อดูคำแปล</span>
+          </div>
+          <div id="flashcard-container"></div>
+          <div class="flex justify-center items-center gap-4 pt-2">
+            <button id="flashcard-prev-btn" class="px-5 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-700 font-bold hover:bg-gray-50 shadow-sm transition">
+              ⬅️ คำก่อนหน้า
+            </button>
+            <button id="flashcard-next-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold hover:bg-indigo-700 shadow-md transition">
+              คำถัดไป ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBVIEW 3: TABLE -->
+      <div id="vocab-subtab-table" class="hidden space-y-6">
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
+          <div class="p-5 border-b border-gray-100">
+            <h3 class="font-bold text-gray-900 text-base">ตารางรายการคำศัพท์ HSK 600 คำ</h3>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-[11px] font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                  <th class="p-3.5 text-center w-16">ลำดับ</th>
+                  <th class="p-3.5 w-32">ตัวอักษรจีน</th>
+                  <th class="p-3.5 w-32">พินอิน</th>
+                  <th class="p-3.5">ความหมายภาษาไทย</th>
+                  <th class="p-3.5 hidden md:table-cell">ตัวอย่างประโยค</th>
+                  <th class="p-3.5 text-center w-20">เสียงอ่าน</th>
+                </tr>
+              </thead>
+              <tbody id="vocab-table-body" class="divide-y divide-gray-100 text-sm"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 4: MISTAKE NOTEBOOK ================= -->
+    <section id="tab-mistakes" class="tab-panel hidden space-y-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-rose-50/60 p-6 rounded-3xl border border-rose-200">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">📕</span>
+            <h2 class="text-xl font-bold text-rose-950">สมุดรวมคำศัพท์ที่ตอบผิด (错题本)</h2>
+            <span id="mistakes-total-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-200 text-rose-800">0 คำ</span>
+          </div>
+          <p class="text-xs text-rose-800 mt-1">คำศัพท์ที่ตอบผิดจะถูกบันทึกไว้ที่นี่ เพื่อให้ฝึกซ้ำจนกว่าจะจำได้แม่นยำ</p>
+        </div>
+        <button data-quick-quiz="mistakes" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-sm shadow transition flex-shrink-0">
+          🎯 ฝึกซ้ำเฉพาะคำที่ตอบผิด
+        </button>
+      </div>
+
+      <div id="mistakes-empty-state" class="p-12 text-center bg-white rounded-3xl border border-gray-200 shadow-sm space-y-3">
+        <div class="text-5xl">🎉</div>
+        <h3 class="text-xl font-bold text-gray-800">ไม่มีรายการคำที่ตอบผิดสะสม</h3>
+        <p class="text-sm text-gray-500 max-w-sm mx-auto">ยอดเยี่ยมมาก! ยังไม่มีคำศัพท์ที่ตอบผิด</p>
+      </div>
+
+      <div id="mistakes-list-container" class="hidden flex flex-col gap-3"></div>
+    </section>
+
+  </main>
+
+  <footer class="mt-auto border-t border-gray-200 bg-white py-6 text-center text-xs text-gray-400">
+    <p>HSK 3 Master (Student Portal) • ออกแบบเพื่อการเรียนรู้และเตรียมสอบ HSK ระดับ 3</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="vocab_data.js"></script>
+  <script src="sentences_data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/confetti.js"></script>
+  <script src="js/canvas_drawing.js"></script>
+  <script src="js/quiz_engine.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

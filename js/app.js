@@ -1537,6 +1537,14 @@
     if (print20Btn) print20Btn.onclick = () => printWorksheet(20);
 
     // Initial render
+    const portal = document.body.dataset.portal || '';
+    if (portal === 'student') {
+      state.userRole = 'student';
+    } else if (portal === 'parent') {
+      state.userRole = 'parent';
+      renderParentDashboard();
+      renderVocabTable(window.HSK_VOCAB || []);
+    }
     renderDashboard();
   }
 
