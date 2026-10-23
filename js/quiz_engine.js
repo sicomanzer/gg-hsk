@@ -13,8 +13,8 @@
     return shuffle(array).slice(0, n);
   }
 
-  function getVocabPool(levelFilter = 'all') {
-    const all = window.HSK_VOCAB || [];
+  function getVocabPool(levelFilter = 'all', examType = 'hsk') {
+    const all = (examType === 'yct' ? window.YCT_VOCAB : window.HSK_VOCAB) || window.HSK_VOCAB || [];
     if (!levelFilter || levelFilter === 'all') return all;
     const lvl = parseInt(levelFilter);
     return all.filter(v => v.level === lvl);
@@ -266,11 +266,12 @@
       const {
         mode = 'quick', // 'quick_10', 'quick_20', 'listening', 'reading', 'writing', 'mock_exam', 'mistakes'
         levelFilter = 'all',
+        examType = 'hsk',
         count = 10,
         mistakeItems = []
       } = options;
 
-      const pool = getVocabPool(levelFilter);
+      const pool = getVocabPool(levelFilter, examType);
       if (pool.length === 0) return [];
 
       let questions = [];

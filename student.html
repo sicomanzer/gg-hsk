@@ -63,6 +63,16 @@
           </div>
         </div>
 
+        <!-- Exam Mode Switcher (HSK ⇄ YCT) -->
+        <div class="flex items-center p-1 bg-gray-100 rounded-2xl border border-gray-200 shadow-inner">
+          <button id="exam-toggle-hsk" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm" onclick="window.HSKApp.setExamType('hsk')">
+            🔵 HSK (ทั่วไป)
+          </button>
+          <button id="exam-toggle-yct" class="px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white" onclick="window.HSKApp.setExamType('yct')">
+            🟢 YCT (เยาวชน)
+          </button>
+        </div>
+
         <!-- Presence, Profile, Speed Toggle & Parent Portal Link -->
         <div class="flex items-center gap-2 sm:gap-2.5">
           <!-- Realtime Presence Badge -->
@@ -587,6 +597,7 @@
 
   <!-- Scripts -->
   <script src="vocab_data.js"></script>
+  <script src="yct_vocab_data.js"></script>
   <script src="sentences_data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/storage.js"></script>

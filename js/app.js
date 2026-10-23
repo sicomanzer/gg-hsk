@@ -4,6 +4,7 @@
   const state = {
     currentTab: 'dashboard',
     currentVocabSubtab: 'quiz600',
+    examType: 'hsk', // 'hsk' or 'yct'
     userRole: 'parent', // 'parent' or 'student'
     audioSpeed: 1.0,
     filterLevel: 'all',
@@ -57,6 +58,153 @@
       parentWeakWordsList: document.getElementById('parent-weak-words-list'),
       parentExamHistoryList: document.getElementById('parent-exam-history-list')
     };
+  }
+
+  // --- EXAM TYPE & LEVEL SELECTOR (HSK ⇄ YCT) ---
+  function getActiveVocabPool() {
+    if (state.examType === 'yct') {
+      return window.YCT_VOCAB || [];
+    }
+    return window.HSK_VOCAB || [];
+  }
+
+  function setExamType(type) {
+    state.examType = type;
+    state.filterLevel = 'all';
+
+    // Update Toggle Buttons
+    const btnHsk = document.getElementById('exam-toggle-hsk');
+    const btnYct = document.getElementById('exam-toggle-yct');
+    if (btnHsk && btnYct) {
+      if (type === 'hsk') {
+        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
+        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
+      } else {
+        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
+        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
+      }
+    }
+
+    // Update badge in header if exists
+    const examBadge = document.getElementById('current-exam-badge');
+    if (examBadge) {
+      examBadge.textContent = type.toUpperCase();
+      examBadge.className = type === 'yct' 
+        ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'
+        : 'px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-700';
+    }
+
+    updateLevelSelectors();
+    updateQuiz600Radios();
+
+    renderDashboard();
+    if (state.currentTab === 'flashcards') {
+      if (state.currentVocabSubtab === 'quiz600') {
+        initQuiz600();
+      } else if (state.currentVocabSubtab === 'flashcards') {
+        renderFlashcards();
+      } else {
+        renderVocabTable(getActiveVocabPool());
+      }
+    }
+  }
+
+  function updateLevelSelectors() {
+    const isYCT = state.examType === 'yct';
+    const selects = [
+      document.getElementById('dashboard-level-filter'),
+      document.getElementById('vocab-level-filter')
+    ];
+
+    const optionsHTML = isYCT ? `
+      <option value="all">ทั้งหมด 600 คำ (YCT 1 - 4)</option>
+      <option value="1">YCT 1 (80 คำพื้นฐาน)</option>
+      <option value="2">YCT 2 (150 คำสะสม)</option>
+      <option value="3">YCT 3 (300 คำสะสม)</option>
+      <option value="4">YCT 4 (600 คำสะสม)</option>
+    ` : `
+      <option value="all">ทั้งหมด 600 คำ (HSK 1 - 3)</option>
+      <option value="1">ระดับ HSK 1 (150 คำ)</option>
+      <option value="2">ระดับ HSK 2 (150 คำ)</option>
+      <option value="3">ระดับ HSK 3 (300 คำใหม่)</option>
+    `;
+
+    selects.forEach(sel => {
+      if (sel) {
+        sel.innerHTML = optionsHTML;
+        sel.value = 'all';
+      }
+    });
+  }
+
+  function updateQuiz600Radios() {
+    const isYCT = state.examType === 'yct';
+    const container = document.querySelector('[name="quiz600-range"]')?.closest('.grid');
+    if (!container) return;
+
+    if (isYCT) {
+      container.innerHTML = `
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
+          <input type="radio" name="quiz600-range" value="all" checked class="text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <div class="text-gray-900 font-bold">ทั้งหมด 600 คำ (YCT 1 - 4)</div>
+            <div class="text-gray-400 font-normal text-[11px]">รวมทุกระดับชั้นเยาวชน</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
+          <input type="radio" name="quiz600-range" value="1" class="text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ YCT 1 (80 คำ)</div>
+            <div class="text-gray-400 font-normal text-[11px]">สำหรับเด็กเล็ก/เริ่มต้น</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
+          <input type="radio" name="quiz600-range" value="2" class="text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ YCT 2 (150 คำสะสม)</div>
+            <div class="text-gray-400 font-normal text-[11px]">ระดับประถมต้น</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
+          <input type="radio" name="quiz600-range" value="3" class="text-emerald-600 focus:ring-emerald-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ YCT 3 (300 คำสะสม)</div>
+            <div class="text-gray-400 font-normal text-[11px]">ระดับประถมปลาย</div>
+          </div>
+        </label>
+      `;
+    } else {
+      container.innerHTML = `
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+          <input type="radio" name="quiz600-range" value="all" checked class="text-indigo-600 focus:ring-indigo-500">
+          <div>
+            <div class="text-gray-900 font-bold">ทั้งหมด 600 คำ (1 - 600)</div>
+            <div class="text-gray-400 font-normal text-[11px]">HSK 1-3 ครบทุกคำ</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+          <input type="radio" name="quiz600-range" value="hsk3" class="text-indigo-600 focus:ring-indigo-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ HSK 3 (คำที่ 301 - 600)</div>
+            <div class="text-gray-400 font-normal text-[11px]">300 คำใหม่ระดับ 3</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+          <input type="radio" name="quiz600-range" value="hsk2" class="text-indigo-600 focus:ring-indigo-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ HSK 2 (คำที่ 151 - 300)</div>
+            <div class="text-gray-400 font-normal text-[11px]">150 คำระดับกลาง</div>
+          </div>
+        </label>
+        <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
+          <input type="radio" name="quiz600-range" value="hsk1" class="text-indigo-600 focus:ring-indigo-500">
+          <div>
+            <div class="text-gray-900 font-bold">เฉพาะ HSK 1 (คำที่ 1 - 150)</div>
+            <div class="text-gray-400 font-normal text-[11px]">150 คำพื้นฐาน</div>
+          </div>
+        </label>
+      `;
+    }
   }
 
   // --- TAB ROUTING ---
@@ -167,6 +315,7 @@
     const questions = QuizEngine.generateQuizSession({
       mode: mode,
       count: count,
+      examType: state.examType,
       levelFilter: state.filterLevel,
       mistakeItems: mistakes
     });
@@ -841,17 +990,20 @@
   }
 
   function startQuiz600(isResume = false) {
-    const allVocab = window.HSK_VOCAB || [];
+    const allVocab = getActiveVocabPool();
     const rangeRadio = document.querySelector('input[name="quiz600-range"]:checked');
     const rangeVal = rangeRadio ? rangeRadio.value : 'all';
 
     let pool = allVocab;
-    if (rangeVal === 'hsk1') {
-      pool = allVocab.filter(w => w.level === 1);
-    } else if (rangeVal === 'hsk2') {
-      pool = allVocab.filter(w => w.level === 2);
-    } else if (rangeVal === 'hsk3') {
-      pool = allVocab.filter(w => w.level === 3);
+    if (state.examType === 'yct') {
+      if (rangeVal === '1') pool = allVocab.filter(w => w.level === 1);
+      else if (rangeVal === '2') pool = allVocab.filter(w => w.level <= 2);
+      else if (rangeVal === '3') pool = allVocab.filter(w => w.level <= 3);
+      else if (rangeVal === '4') pool = allVocab.filter(w => w.level <= 4);
+    } else {
+      if (rangeVal === 'hsk1' || rangeVal === '1') pool = allVocab.filter(w => w.level === 1);
+      else if (rangeVal === 'hsk2' || rangeVal === '2') pool = allVocab.filter(w => w.level === 2);
+      else if (rangeVal === 'hsk3' || rangeVal === '3') pool = allVocab.filter(w => w.level === 3);
     }
 
     quiz600.words = pool;
@@ -890,7 +1042,7 @@
 
     // Badges & Progress
     document.getElementById('quiz600-progress-badge').textContent = `คำที่ ${currentNum} / ${totalWords}`;
-    document.getElementById('quiz600-level-badge').textContent = `HSK ระดับ ${targetWord.level}`;
+    document.getElementById('quiz600-level-badge').textContent = (state.examType === 'yct' ? 'YCT ระดับ ' : 'HSK ระดับ ') + targetWord.level;
     document.getElementById('quiz600-live-correct').textContent = quiz600.correctCount;
     document.getElementById('quiz600-live-wrong').textContent = quiz600.wrongCount;
 
@@ -909,7 +1061,7 @@
 
     // Generate 4 Thai choices
     const correctMeaning = (targetWord.entries && targetWord.entries[0]) ? targetWord.entries[0].meaning : '';
-    const allVocab = window.HSK_VOCAB || [];
+    const allVocab = getActiveVocabPool();
     
     // Pick 3 distractors with different meanings
     const distractorCandidates = allVocab
@@ -1082,7 +1234,7 @@
 
   // --- FLASHCARDS & VOCABULARY VIEW ---
   function renderFlashcards() {
-    const vocab = window.HSK_VOCAB || [];
+    const vocab = getActiveVocabPool();
     let filtered = vocab;
 
     // Filter by HSK Level
@@ -1131,7 +1283,7 @@
           
           <!-- Top bar inside card -->
           <div class="flex items-center justify-between text-xs text-gray-500">
-            <span class="px-2.5 py-1 rounded-full font-bold bg-indigo-50 text-indigo-700">HSK ระดับ ${word.level} (คำที่ ${word.id})</span>
+            <span class="px-2.5 py-1 rounded-full font-bold bg-indigo-50 text-indigo-700">${state.examType.toUpperCase()} ระดับ ${word.level} (คำที่ ${word.id})</span>
             <div class="flex items-center gap-2">
               <span class="text-xs ${masteryScore >= 2 ? 'text-emerald-600 font-bold' : 'text-gray-400'}">
                 ${masteryScore >= 2 ? '✓ แม่นยำแล้ว' : (masteryScore === 1 ? '🔄 กำลังจำ' : '⚪ ยังไม่เริ่ม')}
@@ -1393,7 +1545,7 @@
   }
 
   function printWorksheet(count = 20) {
-    const vocab = window.HSK_VOCAB || [];
+    const vocab = getActiveVocabPool();
     const pool = state.filterLevel === 'all' ? vocab : vocab.filter(v => v.level === parseInt(state.filterLevel));
     const picked = [...pool].sort(() => 0.5 - Math.random()).slice(0, count);
 
@@ -1403,12 +1555,13 @@
       return;
     }
 
+    const examTitle = state.examType.toUpperCase();
     const html = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
-        <title>ใบงานทดสอบคำศัพท์ HSK 3 - ${count} ข้อ</title>
+        <title>ใบงานทดสอบคำศัพท์ ${examTitle} - ${count} ข้อ</title>
         <style>
           body { font-family: "Sarabun", Arial, sans-serif; padding: 25px; color: #1e293b; }
           h1 { text-align: center; margin-bottom: 5px; font-size: 22px; }
@@ -1431,7 +1584,7 @@
             🖨️ คลิกเพื่อสั่งพิมพ์ (Print)
           </button>
         </div>
-        <h1>แบบทดสอบคำศัพท์ภาษาจีน HSK ระดับ 3</h1>
+        <h1>แบบทดสอบคำศัพท์ภาษาจีน ${examTitle}</h1>
         <div class="header-meta">
           <span>ชื่อ-นามสกุล: ..............................................................</span>
           <span>วันที่: ..............................</span>
@@ -1553,6 +1706,7 @@
     init,
     switchTab,
     switchVocabSubtab,
+    setExamType,
     initQuiz600,
     startQuiz,
     resolveMistake,

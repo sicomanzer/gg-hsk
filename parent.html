@@ -47,10 +47,20 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">HSK 3 <span class="text-amber-600">Parent</span></span>
-              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">แดชบอร์ดคุณพ่อ</span>
+              <span id="current-exam-badge" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">แดชบอร์ดคุณพ่อ</span>
             </div>
             <p class="text-xs text-gray-500 hidden sm:block">ศูนย์วิเคราะห์ผลคะแนน & ติดตามความพร้อมของลูก (แปลไทย 100%)</p>
           </div>
+        </div>
+
+        <!-- Exam Mode Switcher (HSK ⇄ YCT) -->
+        <div class="flex items-center p-1 bg-gray-100 rounded-2xl border border-gray-200 shadow-inner">
+          <button id="exam-toggle-hsk" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm" onclick="window.HSKApp.setExamType('hsk')">
+            🔵 HSK (ทั่วไป)
+          </button>
+          <button id="exam-toggle-yct" class="px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white" onclick="window.HSKApp.setExamType('yct')">
+            🟢 YCT (เยาวชน)
+          </button>
         </div>
 
         <!-- Copy Link for Student & View Student Page -->
@@ -244,6 +254,7 @@
 
   <!-- Scripts -->
   <script src="vocab_data.js"></script>
+  <script src="yct_vocab_data.js"></script>
   <script src="sentences_data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/storage.js"></script>
