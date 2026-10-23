@@ -16,8 +16,16 @@
   function getVocabPool(levelFilter = 'all', examType = 'hsk') {
     const all = (examType === 'yct' ? window.YCT_VOCAB : window.HSK_VOCAB) || window.HSK_VOCAB || [];
     if (!levelFilter || levelFilter === 'all') return all;
+    if (levelFilter === 'new3') return all.filter(v => v.level === 3);
     const lvl = parseInt(levelFilter);
-    return all.filter(v => v.level === lvl);
+    if (isNaN(lvl)) return all;
+    if (examType === 'yct') {
+      return all.filter(v => v.level <= lvl);
+    } else {
+      if (lvl === 1) return all.filter(v => v.level === 1);
+      if (lvl === 2) return all.filter(v => v.level <= 2);
+      return all.filter(v => v.level <= lvl);
+    }
   }
 
   function getFirstMeaning(word) {

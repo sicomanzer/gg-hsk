@@ -60,43 +60,183 @@
     };
   }
 
-  // --- EXAM TYPE & LEVEL SELECTOR (HSK ⇄ YCT) ---
-  function getActiveVocabPool() {
-    if (state.examType === 'yct') {
-      return window.YCT_VOCAB || [];
+  // --- LEVEL METADATA & LABELS ---
+  function getLevelMeta(examType, level) {
+    if (examType === 'yct') {
+      switch (level) {
+        case '1':
+          return { label: 'ระดับ 1', shortLabel: 'YCT 1', count: 80, desc: '80 คำพื้นฐาน (อนุบาล-ประถมต้น)' };
+        case '2':
+          return { label: 'ระดับ 2', shortLabel: 'YCT 2', count: 150, desc: '150 คำสะสม (ประถมต้น)' };
+        case '3':
+          return { label: 'ระดับ 3', shortLabel: 'YCT 3', count: 300, desc: '300 คำสะสม (ประถมปลาย-มัธยมต้น)' };
+        case '4':
+          return { label: 'ระดับ 4', shortLabel: 'YCT 4', count: 600, desc: '600 คำสะสม (มัธยม)' };
+        case 'all':
+        default:
+          return { label: 'ทุกระดับ (1-4)', shortLabel: 'YCT 1-4', count: 600, desc: 'ทั้งหมด 600 คำ (YCT 1 - 4)' };
+      }
+    } else {
+      switch (level) {
+        case '1':
+          return { label: 'ระดับ 1', shortLabel: 'HSK 1', count: 150, desc: '150 คำพื้นฐานเริ่มต้น' };
+        case '2':
+          return { label: 'ระดับ 2', shortLabel: 'HSK 2', count: 300, desc: '300 คำสะสม (ระดับ 1+2)' };
+        case 'new3':
+          return { label: 'เฉพาะคำใหม่ ระดับ 3', shortLabel: 'HSK 3 ใหม่', count: 300, desc: '300 คำใหม่ระดับ 3' };
+        case '3':
+        case 'all':
+        default:
+          return { label: 'ทุกระดับ (1-3)', shortLabel: 'HSK 1-3', count: 600, desc: 'ทั้งหมด 600 คำ (HSK 1 - 3)' };
+      }
     }
-    return window.HSK_VOCAB || [];
   }
 
-  function setExamType(type) {
-    state.examType = type;
-    state.filterLevel = 'all';
+  // --- GET ACTIVE VOCAB POOL ---
+  function getActiveVocabPool(applyLevelFilter = true) {
+    const rawPool = (state.examType === 'yct') ? (window.YCT_VOCAB || []) : (window.HSK_VOCAB || []);
+    if (!applyLevelFilter) return rawPool;
 
-    // Update Toggle Buttons
-    const btnHsk = document.getElementById('exam-toggle-hsk');
-    const btnYct = document.getElementById('exam-toggle-yct');
-    if (btnHsk && btnYct) {
-      if (type === 'hsk') {
-        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
-        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
+    const lvl = state.selectedLevel || state.filterLevel || 'all';
+    if (lvl === 'all') return rawPool;
+
+    if (state.examType === 'yct') {
+      const num = parseInt(lvl);
+      if (isNaN(num)) return rawPool;
+      return rawPool.filter(w => w.level <= num);
+    } else {
+      if (lvl === '1') return rawPool.filter(w => w.level === 1);
+      if (lvl === '2') return rawPool.filter(w => w.level <= 2);
+      if (lvl === 'new3') return rawPool.filter(w => w.level === 3);
+      if (lvl === '3') return rawPool.filter(w => w.level <= 3);
+      return rawPool;
+    }
+  }
+
+  // --- LEVEL SELECTION MODAL LOGIC ---
+  let modalTempExamType = 'hsk';
+  let modalTempLevel = 'all';
+
+  function openLevelModal(targetExamType) {
+    const modal = document.getElementById('level-select-modal');
+    if (!modal) return;
+
+    modalTempExamType = targetExamType || state.examType || 'hsk';
+    modalTempLevel = (targetExamType && targetExamType !== state.examType) ? 'all' : (state.selectedLevel || 'all');
+
+    renderModalContent();
+    modal.classList.remove('hidden');
+  }
+
+  function closeLevelModal() {
+    const modal = document.getElementById('level-select-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function renderModalContent() {
+    const tabHsk = document.getElementById('modal-tab-hsk');
+    const tabYct = document.getElementById('modal-tab-yct');
+    const container = document.getElementById('modal-levels-container');
+    const confirmBtn = document.getElementById('modal-confirm-btn');
+    const headerBg = document.getElementById('modal-header-bg');
+
+    const isYCT = modalTempExamType === 'yct';
+
+    if (headerBg) {
+      headerBg.className = isYCT
+        ? 'p-6 bg-gradient-to-r from-teal-950 to-emerald-900 text-white flex items-center justify-between'
+        : 'p-6 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between';
+    }
+
+    if (tabHsk && tabYct) {
+      if (isYCT) {
+        tabYct.className = 'py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 bg-emerald-600 text-white shadow';
+        tabHsk.className = 'py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 text-gray-600 hover:text-indigo-700 hover:bg-white';
       } else {
-        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
-        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
+        tabHsk.className = 'py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 bg-indigo-600 text-white shadow';
+        tabYct.className = 'py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 text-gray-600 hover:text-emerald-700 hover:bg-white';
       }
     }
 
-    // Update badge in header if exists
-    const examBadge = document.getElementById('current-exam-badge');
-    if (examBadge) {
-      examBadge.textContent = type.toUpperCase();
-      examBadge.className = type === 'yct' 
-        ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800'
-        : 'px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-700';
+    if (confirmBtn) {
+      confirmBtn.className = isYCT
+        ? 'px-6 py-2.5 rounded-xl text-sm font-extrabold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition flex items-center gap-2'
+        : 'px-6 py-2.5 rounded-xl text-sm font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition flex items-center gap-2';
     }
 
-    updateLevelSelectors();
-    updateQuiz600Radios();
+    if (!container) return;
 
+    const levels = isYCT ? [
+      { id: 'all', title: 'ทุกระดับ YCT (1 - 4)', count: '600 คำ', desc: 'รวมคำศัพท์เยาวชนครบทุกระดับ 1 ถึง 4', icon: '🌟' },
+      { id: '1', title: 'YCT ระดับ 1', count: '80 คำ', desc: 'ระดับ 1: เริ่มต้น อนุบาล / ประถมต้น (สัตว์ สี ตัวเลข)', icon: '🐣' },
+      { id: '2', title: 'YCT ระดับ 2', count: '150 คำสะสม', desc: 'ระดับ 2: ประถมต้น (ครอบครัว โรงเรียน กิจวัตร)', icon: '🎒' },
+      { id: '3', title: 'YCT ระดับ 3', count: '300 คำสะสม', desc: 'ระดับ 3: ประถมปลาย - มัธยมต้น (ประโยคบทสนทนา)', icon: '📚' },
+      { id: '4', title: 'YCT ระดับ 4', count: '600 คำสะสม', desc: 'ระดับ 4: มัธยม (ระดับสูงสุดของ YCT ไวยากรณ์ครบ)', icon: '🎓' }
+    ] : [
+      { id: 'all', title: 'ทุกระดับ HSK (1 - 3)', count: '600 คำ', desc: 'รวมทุกระดับ 1, 2, 3 คลังคำศัพท์และไวยากรณ์ครบวงจร', icon: '🌟' },
+      { id: '1', title: 'HSK ระดับ 1', count: '150 คำ', desc: 'ระดับ 1: พื้นฐานจำเป็น สำหรับผู้เริ่มต้นเรียนภาษาจีน', icon: '🌱' },
+      { id: '2', title: 'HSK ระดับ 2', count: '300 คำสะสม', desc: 'ระดับ 2: ระดับต้นตอนปลาย สื่อสารชีวิตประจำวัน (1+2)', icon: '🌿' },
+      { id: '3', title: 'HSK ระดับ 3', count: '600 คำทั้งหมด', desc: 'ระดับ 3: ระดับกลาง พร้อมสอบวัดระดับจริงสากล', icon: '🌳' },
+      { id: 'new3', title: 'เฉพาะคำใหม่ HSK 3', count: '300 คำใหม่', desc: 'เจาะลึกเฉพาะคำศัพท์ใหม่ของระดับ 3 (ไม่รวม 1-2)', icon: '🎯' }
+    ];
+
+    container.innerHTML = levels.map(lvl => {
+      const isSelected = modalTempLevel === lvl.id;
+      const activeBorder = isYCT 
+        ? (isSelected ? 'border-emerald-500 bg-emerald-50/80 ring-2 ring-emerald-400' : 'border-gray-200 bg-white hover:border-emerald-300')
+        : (isSelected ? 'border-indigo-600 bg-indigo-50/80 ring-2 ring-indigo-400' : 'border-gray-200 bg-white hover:border-indigo-300');
+
+      return `
+        <div class="level-card p-3.5 rounded-2xl border-2 cursor-pointer transition flex items-start gap-3 ${activeBorder}" onclick="window.HSKApp.selectModalLevel('${lvl.id}')">
+          <div class="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+            ${lvl.icon}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-extrabold text-sm text-gray-900 truncate">${lvl.title}</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">${lvl.count}</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-1 leading-snug">${lvl.desc}</p>
+          </div>
+          <div class="flex-shrink-0 pt-0.5">
+            <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center font-bold text-xs ${isSelected ? (isYCT ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-indigo-600 bg-indigo-600 text-white') : 'border-gray-300 bg-white'}">
+              ${isSelected ? '✓' : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function selectModalLevel(levelId) {
+    modalTempLevel = levelId;
+    renderModalContent();
+  }
+
+  function setModalExamType(examType) {
+    modalTempExamType = examType;
+    modalTempLevel = 'all';
+    renderModalContent();
+  }
+
+  function applyModalSelection() {
+    state.examType = modalTempExamType;
+    state.selectedLevel = modalTempLevel;
+    state.filterLevel = modalTempLevel;
+
+    // Save to settings
+    const currentSettings = Storage.getSettings();
+    Storage.saveSettings({
+      ...currentSettings,
+      examType: state.examType,
+      selectedLevel: state.selectedLevel,
+      hskLevelFilter: state.selectedLevel
+    });
+
+    closeLevelModal();
+    updateExamThemeAndContent();
+
+    // Rerender active views
     renderDashboard();
     if (state.currentTab === 'flashcards') {
       if (state.currentVocabSubtab === 'quiz600') {
@@ -104,9 +244,197 @@
       } else if (state.currentVocabSubtab === 'flashcards') {
         renderFlashcards();
       } else {
-        renderVocabTable(getActiveVocabPool());
+        renderVocabTable(getActiveVocabPool(true));
+      }
+    } else if (state.userRole === 'parent') {
+      renderParentDashboard();
+      renderVocabTable(getActiveVocabPool(true));
+    }
+  }
+
+  function setExamType(type) {
+    openLevelModal(type);
+  }
+
+  function updateExamThemeAndContent() {
+    const isYCT = state.examType === 'yct';
+    const lvl = state.selectedLevel || 'all';
+    const meta = getLevelMeta(state.examType, lvl);
+    const pool = getActiveVocabPool(true);
+    const poolCount = pool.length;
+
+    document.body.dataset.examType = state.examType;
+    document.body.dataset.examLevel = lvl;
+
+    // 1. Header Toggle Buttons
+    const btnHsk = document.getElementById('exam-toggle-hsk');
+    const btnYct = document.getElementById('exam-toggle-yct');
+    if (btnHsk && btnYct) {
+      if (isYCT) {
+        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
+        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
+      } else {
+        btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
+        btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
       }
     }
+
+    // 2. Header Level Selector Button
+    const headerLevelLabel = document.getElementById('header-level-label');
+    const headerLevelBtn = document.getElementById('header-level-btn');
+    if (headerLevelLabel) {
+      headerLevelLabel.textContent = `🏷️ ระดับ: ${meta.shortLabel} (${poolCount} คำ) ▾`;
+    }
+    if (headerLevelBtn) {
+      headerLevelBtn.className = isYCT
+        ? 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm transition'
+        : 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm transition';
+    }
+
+    // 3. Logo & Header Text
+    const logoIcon = document.getElementById('header-logo-icon');
+    const logoTitle = document.getElementById('header-logo-title');
+    const headerSubtitle = document.getElementById('header-subtitle');
+    const portalBadge = document.getElementById('current-portal-badge');
+    const currentExamBadge = document.getElementById('current-exam-badge');
+
+    if (logoIcon) {
+      logoIcon.textContent = isYCT ? '🐼' : '学';
+      logoIcon.className = isYCT
+        ? 'w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md'
+        : 'w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-500 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md';
+    }
+    if (logoTitle) {
+      const portal = document.body.dataset.portal || '';
+      if (portal === 'student') {
+        logoTitle.innerHTML = isYCT 
+          ? `YCT <span class="text-emerald-600">Youth</span>`
+          : `HSK 3 <span class="text-indigo-600">Student</span>`;
+      } else if (portal === 'parent') {
+        logoTitle.innerHTML = isYCT
+          ? `YCT <span class="text-emerald-600">Parent</span>`
+          : `HSK 3 <span class="text-amber-600">Parent</span>`;
+      } else {
+        logoTitle.innerHTML = isYCT
+          ? `YCT <span class="text-emerald-600">Master</span>`
+          : `HSK 3 <span class="text-indigo-600">Master</span>`;
+      }
+    }
+    if (headerSubtitle) {
+      headerSubtitle.textContent = isYCT
+        ? `ระบบฝึกฝนภาษาจีนสำหรับเด็กและเยาวชน YCT (${meta.shortLabel})`
+        : `พื้นที่ฝึกฝนและทำแบบทดสอบเตรียมสอบ HSK (${meta.shortLabel})`;
+    }
+    if (portalBadge) {
+      portalBadge.textContent = isYCT ? `โหมดเยาวชน (${meta.shortLabel})` : `โหมดนักเรียน (${meta.shortLabel})`;
+      portalBadge.className = isYCT
+        ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300'
+        : 'px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200';
+    }
+    if (currentExamBadge) {
+      currentExamBadge.textContent = isYCT ? `🟢 ${meta.shortLabel}` : `🔵 ${meta.shortLabel}`;
+      currentExamBadge.className = isYCT
+        ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300'
+        : 'px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200';
+    }
+
+    // 4. Hero Banner (Dashboard)
+    const heroBanner = document.getElementById('dashboard-hero-banner');
+    const heroTag = document.getElementById('hero-tag-badge');
+    const heroTitle = document.getElementById('hero-title');
+    const heroDesc = document.getElementById('hero-desc');
+
+    if (heroBanner) {
+      heroBanner.className = isYCT
+        ? 'relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl transition-all duration-300'
+        : 'relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-950 via-indigo-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl transition-all duration-300';
+    }
+    if (heroTag) {
+      heroTag.textContent = isYCT
+        ? `🐼 เตรียมสอบภาษาจีนเยาวชน ${meta.shortLabel} ให้พร้อม`
+        : `🔥 เตรียมสอบ ${meta.shortLabel} ให้พร้อม`;
+      heroTag.className = isYCT
+        ? 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-400 text-emerald-950 uppercase tracking-wide'
+        : 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-400 text-amber-950 uppercase tracking-wide';
+    }
+    if (heroTitle) {
+      heroTitle.textContent = isYCT
+        ? `ยินดีต้อนรับสู่ห้องฝึกภาษาจีนเยาวชน ${meta.shortLabel}`
+        : `ยินดีต้อนรับสู่ห้องฝึกภาษาจีน ${meta.shortLabel}`;
+    }
+    if (heroDesc) {
+      heroDesc.textContent = isYCT
+        ? `ฝึกฟัง พูด อ่าน และเขียนภาษาจีนอย่างสนุกสนาน คลังคำศัพท์ YCT ${meta.shortLabel} รวม ${poolCount} คำ มีทั้งแบบทดสอบการฟัง และแบบฝึกข้อสอบมาตรฐานสำหรับเยาวชน`
+        : `ฝึกฟัง พูด อ่าน และเขียนภาษาจีนให้คล่องแคล่ว คลังคำศัพท์ ${meta.shortLabel} รวม ${poolCount} คำ มีทั้งแบบทดสอบการฟัง 600 คำ และจำลองสอบจริงครบทั้ง 3 พาร์ท พร้อมเสียงอ่านมาตรฐาน`;
+    }
+
+    // 5. Featured Listening Banner
+    const featuredBanner = document.getElementById('featured-listening-banner');
+    const featuredTitle = document.getElementById('featured-listening-title');
+    const featuredDesc = document.getElementById('featured-listening-desc');
+
+    if (featuredBanner) {
+      featuredBanner.className = isYCT
+        ? 'p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-emerald-600 via-teal-700 to-cyan-800 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all'
+        : 'p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-800 text-white shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all';
+    }
+    if (featuredTitle) {
+      featuredTitle.textContent = `แบบทดสอบการฟัง ${isYCT ? 'YCT' : 'HSK'} (${poolCount} คำ)`;
+    }
+    if (featuredDesc) {
+      featuredDesc.textContent = isYCT
+        ? `ฝึกฟังเสียงภาษาจีนทีละ 1 คำ แล้วเลือกความหมายภาษาไทย (คลังคำศัพท์เยาวชน ${meta.shortLabel}) มีระบบจำจุดเดิมทำค้างไว้ได้`
+        : `ฝึกฟังเสียงภาษาจีนทีละ 1 คำ แล้วเลือกความหมายภาษาไทย (${meta.shortLabel}) มีระบบจำจุดเดิมทำค้างไว้ได้`;
+    }
+
+    // 6. Navigation Tabs
+    const navTabVocabText = document.getElementById('nav-tab-vocab-text');
+    const navTabQuizText = document.getElementById('nav-tab-quiz-text');
+    if (navTabVocabText) {
+      navTabVocabText.textContent = `แบบทดสอบการฟัง & คลังคำศัพท์ (${poolCount} คำ)`;
+    }
+    if (navTabQuizText) {
+      navTabQuizText.textContent = `แบบทดสอบ ${meta.shortLabel} (ฟัง/อ่าน/เขียน)`;
+    }
+
+    // 7. Cards
+    const cardMockTitle = document.getElementById('card-mock-title');
+    const cardMockTag = document.getElementById('card-mock-tag');
+    const cardMockDesc = document.getElementById('card-mock-desc');
+    if (cardMockTitle) {
+      cardMockTitle.textContent = `จำลองสอบ ${meta.shortLabel} เสมือนจริง`;
+    }
+    if (cardMockTag) {
+      cardMockTag.textContent = isYCT ? 'ข้อสอบเยาวชนมาตรฐาน' : 'เหมือนห้องสอบจริง';
+    }
+    if (cardMockDesc) {
+      cardMockDesc.textContent = isYCT
+        ? `20 ข้อ จับเวลา 25 นาที แบบทดสอบเยาวชน YCT ${meta.shortLabel} (ข้อสอบมาตรฐาน)`
+        : `25 ข้อ จับเวลา 30 นาที คะแนนเต็ม 300 คะแนน (เกณฑ์ผ่าน 180 คะแนน)`;
+    }
+
+    // 8. Quiz Setup Area
+    const quizSetupTitle = document.getElementById('quiz-setup-title');
+    if (quizSetupTitle) {
+      quizSetupTitle.textContent = `เริ่มทำแบบทดสอบ ${meta.shortLabel}`;
+    }
+
+    // 9. Readiness Stats Goal Label
+    const statGoalDesc = document.getElementById('stat-mastered-goal-desc');
+    if (statGoalDesc) {
+      statGoalDesc.textContent = `เป้าหมาย ${poolCount} คำ`;
+    }
+
+    // 10. Footer Description
+    const footerDesc = document.getElementById('footer-desc');
+    if (footerDesc) {
+      footerDesc.textContent = isYCT
+        ? `YCT Youth Master • ออกแบบเพื่อการเรียนรู้และเตรียมสอบวัดระดับภาษาจีนเยาวชน YCT (${meta.shortLabel}) รวม ${poolCount} คำ`
+        : `HSK Master • ออกแบบพิเศษสำหรับคุณพ่อและลูกเพื่อพิชิตการสอบ HSK (${meta.shortLabel}) รวม ${poolCount} คำ`;
+    }
+
+    updateLevelSelectors();
+    updateQuiz600Radios();
   }
 
   function updateLevelSelectors() {
@@ -125,14 +453,15 @@
     ` : `
       <option value="all">ทั้งหมด 600 คำ (HSK 1 - 3)</option>
       <option value="1">ระดับ HSK 1 (150 คำ)</option>
-      <option value="2">ระดับ HSK 2 (150 คำ)</option>
-      <option value="3">ระดับ HSK 3 (300 คำใหม่)</option>
+      <option value="2">ระดับ HSK 2 (300 คำสะสม)</option>
+      <option value="3">ระดับ HSK 3 (600 คำทั้งหมด)</option>
+      <option value="new3">เฉพาะคำใหม่ HSK 3 (300 คำ)</option>
     `;
 
     selects.forEach(sel => {
       if (sel) {
         sel.innerHTML = optionsHTML;
-        sel.value = 'all';
+        sel.value = state.selectedLevel || 'all';
       }
     });
   }
@@ -145,28 +474,28 @@
     if (isYCT) {
       container.innerHTML = `
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
-          <input type="radio" name="quiz600-range" value="all" checked class="text-emerald-600 focus:ring-emerald-500">
+          <input type="radio" name="quiz600-range" value="all" ${state.selectedLevel === 'all' ? 'checked' : ''} class="text-emerald-600 focus:ring-emerald-500">
           <div>
             <div class="text-gray-900 font-bold">ทั้งหมด 600 คำ (YCT 1 - 4)</div>
             <div class="text-gray-400 font-normal text-[11px]">รวมทุกระดับชั้นเยาวชน</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
-          <input type="radio" name="quiz600-range" value="1" class="text-emerald-600 focus:ring-emerald-500">
+          <input type="radio" name="quiz600-range" value="1" ${state.selectedLevel === '1' ? 'checked' : ''} class="text-emerald-600 focus:ring-emerald-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ YCT 1 (80 คำ)</div>
             <div class="text-gray-400 font-normal text-[11px]">สำหรับเด็กเล็ก/เริ่มต้น</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
-          <input type="radio" name="quiz600-range" value="2" class="text-emerald-600 focus:ring-emerald-500">
+          <input type="radio" name="quiz600-range" value="2" ${state.selectedLevel === '2' ? 'checked' : ''} class="text-emerald-600 focus:ring-emerald-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ YCT 2 (150 คำสะสม)</div>
             <div class="text-gray-400 font-normal text-[11px]">ระดับประถมต้น</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-emerald-400 transition">
-          <input type="radio" name="quiz600-range" value="3" class="text-emerald-600 focus:ring-emerald-500">
+          <input type="radio" name="quiz600-range" value="3" ${state.selectedLevel === '3' ? 'checked' : ''} class="text-emerald-600 focus:ring-emerald-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ YCT 3 (300 คำสะสม)</div>
             <div class="text-gray-400 font-normal text-[11px]">ระดับประถมปลาย</div>
@@ -176,28 +505,28 @@
     } else {
       container.innerHTML = `
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
-          <input type="radio" name="quiz600-range" value="all" checked class="text-indigo-600 focus:ring-indigo-500">
+          <input type="radio" name="quiz600-range" value="all" ${state.selectedLevel === 'all' || state.selectedLevel === '3' ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500">
           <div>
             <div class="text-gray-900 font-bold">ทั้งหมด 600 คำ (1 - 600)</div>
             <div class="text-gray-400 font-normal text-[11px]">HSK 1-3 ครบทุกคำ</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
-          <input type="radio" name="quiz600-range" value="hsk3" class="text-indigo-600 focus:ring-indigo-500">
+          <input type="radio" name="quiz600-range" value="hsk3" ${state.selectedLevel === 'new3' ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ HSK 3 (คำที่ 301 - 600)</div>
             <div class="text-gray-400 font-normal text-[11px]">300 คำใหม่ระดับ 3</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
-          <input type="radio" name="quiz600-range" value="hsk2" class="text-indigo-600 focus:ring-indigo-500">
+          <input type="radio" name="quiz600-range" value="hsk2" ${state.selectedLevel === '2' ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ HSK 2 (คำที่ 151 - 300)</div>
             <div class="text-gray-400 font-normal text-[11px]">150 คำระดับกลาง</div>
           </div>
         </label>
         <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-indigo-400 transition">
-          <input type="radio" name="quiz600-range" value="hsk1" class="text-indigo-600 focus:ring-indigo-500">
+          <input type="radio" name="quiz600-range" value="hsk1" ${state.selectedLevel === '1' ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500">
           <div>
             <div class="text-gray-900 font-bold">เฉพาะ HSK 1 (คำที่ 1 - 150)</div>
             <div class="text-gray-400 font-normal text-[11px]">150 คำพื้นฐาน</div>
@@ -290,14 +619,21 @@
     const diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
     if (dom.examCountdown) dom.examCountdown.textContent = diffDays;
 
-    // Count mastered words (score >= 2)
-    const masteredCount = Object.values(mastery).filter(v => v >= 2).length;
-    if (dom.statMasteredCount) dom.statMasteredCount.textContent = `${masteredCount} / 600`;
-    if (dom.statMistakeCount) dom.statMistakeCount.textContent = mistakes.length;
+    // Count mastered words in active pool (score >= 2)
+    const pool = getActiveVocabPool(true);
+    const poolIds = new Set(pool.map(w => w.id));
+    const masteredCount = Object.keys(mastery).filter(id => poolIds.has(parseInt(id)) && mastery[id] >= 2).length;
+    const poolMistakes = mistakes.filter(m => poolIds.has(m.id));
+
+    if (dom.statMasteredCount) dom.statMasteredCount.textContent = `${masteredCount} / ${pool.length}`;
+    if (dom.statMistakeCount) dom.statMistakeCount.textContent = poolMistakes.length;
     if (dom.statTotalTested) dom.statTotalTested.textContent = stats.totalQuestions;
 
     const accuracy = stats.totalQuestions > 0 ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100) : 0;
     if (dom.statAccuracyRate) dom.statAccuracyRate.textContent = `${accuracy}%`;
+
+    const goalDesc = document.getElementById('stat-mastered-goal-desc');
+    if (goalDesc) goalDesc.textContent = `เป้าหมาย ${pool.length} คำ`;
 
     updateRoleUI();
   }
@@ -951,7 +1287,7 @@
     } else if (subtabName === 'table') {
       if (btnTable) btnTable.className = 'subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow-sm';
       if (viewTable) viewTable.classList.remove('hidden');
-      renderVocabTable(window.HSK_VOCAB || []);
+      renderVocabTable(getActiveVocabPool(true));
     }
   }
 
@@ -1234,14 +1570,7 @@
 
   // --- FLASHCARDS & VOCABULARY VIEW ---
   function renderFlashcards() {
-    const vocab = getActiveVocabPool();
-    let filtered = vocab;
-
-    // Filter by HSK Level
-    if (state.filterLevel !== 'all') {
-      const lvl = parseInt(state.filterLevel);
-      filtered = filtered.filter(v => v.level === lvl);
-    }
+    let filtered = getActiveVocabPool(true);
 
     // Filter by POS
     if (state.vocabPosFilter !== 'all') {
@@ -1254,7 +1583,7 @@
       filtered = filtered.filter(v => 
         v.hanzi.includes(q) ||
         v.pinyin.toLowerCase().includes(q) ||
-        v.entries.some(e => e.meaning.toLowerCase().includes(q) || e.example_full.includes(q))
+        v.entries.some(e => e.meaning.toLowerCase().includes(q) || (e.example_full && e.example_full.includes(q)))
       );
     }
 
@@ -1689,6 +2018,35 @@
     const print20Btn = document.getElementById('print-worksheet-20-btn');
     if (print20Btn) print20Btn.onclick = () => printWorksheet(20);
 
+    // Bind Level Modal Events
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    if (modalCloseBtn) modalCloseBtn.onclick = closeLevelModal;
+
+    const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    if (modalCancelBtn) modalCancelBtn.onclick = closeLevelModal;
+
+    const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+    if (modalConfirmBtn) modalConfirmBtn.onclick = applyModalSelection;
+
+    const modalTabHsk = document.getElementById('modal-tab-hsk');
+    if (modalTabHsk) modalTabHsk.onclick = () => setModalExamType('hsk');
+
+    const modalTabYct = document.getElementById('modal-tab-yct');
+    if (modalTabYct) modalTabYct.onclick = () => setModalExamType('yct');
+
+    const levelModal = document.getElementById('level-select-modal');
+    if (levelModal) {
+      levelModal.onclick = (e) => {
+        if (e.target === levelModal) closeLevelModal();
+      };
+    }
+
+    // Load saved exam mode & level
+    const savedSettings = Storage.getSettings();
+    state.examType = savedSettings.examType || 'hsk';
+    state.selectedLevel = savedSettings.selectedLevel || 'all';
+    state.filterLevel = state.selectedLevel;
+
     // Initial render
     const portal = document.body.dataset.portal || '';
     if (portal === 'student') {
@@ -1696,8 +2054,9 @@
     } else if (portal === 'parent') {
       state.userRole = 'parent';
       renderParentDashboard();
-      renderVocabTable(window.HSK_VOCAB || []);
+      renderVocabTable(getActiveVocabPool(true));
     }
+    updateExamThemeAndContent();
     renderDashboard();
   }
 
@@ -1707,6 +2066,11 @@
     switchTab,
     switchVocabSubtab,
     setExamType,
+    openLevelModal,
+    closeLevelModal,
+    selectModalLevel,
+    setModalExamType,
+    applyModalSelection,
     initQuiz600,
     startQuiz,
     resolveMistake,

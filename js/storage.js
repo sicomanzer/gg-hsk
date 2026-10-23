@@ -14,6 +14,8 @@
     dailyGoal: 20,
     audioSpeed: 1.0,
     autoPlayAudio: true,
+    examType: 'hsk', // 'hsk' or 'yct'
+    selectedLevel: 'all', // 'all', '1', '2', '3', '4', 'new3'
     hskLevelFilter: 'all' // 'all', '1', '2', '3'
   };
 

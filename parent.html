@@ -41,25 +41,28 @@
         
         <!-- Logo -->
         <div class="flex items-center gap-3">
-          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md">
+          <div id="header-logo-icon" class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 text-white flex items-center justify-center font-chinese font-bold text-2xl shadow-md">
             父
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">HSK 3 <span class="text-amber-600">Parent</span></span>
+              <span id="header-logo-title" class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">HSK 3 <span class="text-amber-600">Parent</span></span>
               <span id="current-exam-badge" class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300">แดชบอร์ดคุณพ่อ</span>
             </div>
-            <p class="text-xs text-gray-500 hidden sm:block">ศูนย์วิเคราะห์ผลคะแนน & ติดตามความพร้อมของลูก (แปลไทย 100%)</p>
+            <p id="header-subtitle" class="text-xs text-gray-500 hidden sm:block">ศูนย์วิเคราะห์ผลคะแนน & ติดตามความพร้อมของลูก (แปลไทย 100%)</p>
           </div>
         </div>
 
-        <!-- Exam Mode Switcher (HSK ⇄ YCT) -->
-        <div class="flex items-center p-1 bg-gray-100 rounded-2xl border border-gray-200 shadow-inner">
-          <button id="exam-toggle-hsk" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm" onclick="window.HSKApp.setExamType('hsk')">
+        <!-- Exam & Level Switcher (HSK ⇄ YCT) -->
+        <div class="flex items-center gap-1.5 p-1 bg-gray-100 rounded-2xl border border-gray-200 shadow-inner">
+          <button id="exam-toggle-hsk" class="px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm" onclick="window.HSKApp.openLevelModal('hsk')">
             🔵 HSK (ทั่วไป)
           </button>
-          <button id="exam-toggle-yct" class="px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white" onclick="window.HSKApp.setExamType('yct')">
+          <button id="exam-toggle-yct" class="px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white" onclick="window.HSKApp.openLevelModal('yct')">
             🟢 YCT (เยาวชน)
+          </button>
+          <button id="header-level-btn" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-white hover:bg-amber-50 border border-gray-300 shadow-sm transition" onclick="window.HSKApp.openLevelModal()">
+            <span id="header-level-label">🏷️ ระดับ: ทั้งหมด 600 คำ ▾</span>
           </button>
         </div>
 
@@ -248,9 +251,68 @@
   </main>
 
   <footer class="mt-auto border-t border-gray-200 bg-white py-6 text-center text-xs text-gray-500">
-    <p>HSK 3 Master (Parent Portal) • ระบบสนับสนุนผู้ปกครองเพื่อการเตรียมสอบ HSK ระดับ 3</p>
+    <p id="footer-desc">HSK 3 Master (Parent Portal) • ระบบสนับสนุนผู้ปกครองเพื่อการเตรียมสอบ HSK ระดับ 3</p>
     <p class="mt-1">ผู้สร้างเว็บไซต์: <a href="https://www.instagram.com/program_12y" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-600 hover:text-pink-600 transition inline-flex items-center gap-1"><span>📸</span> @program_12y</a></p>
   </footer>
+
+  <!-- ================= LEVEL SELECTION MODAL (POPUP) ================= -->
+  <div id="level-select-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden animate-fade-in flex flex-col max-h-[90vh]">
+      
+      <!-- Modal Header -->
+      <div id="modal-header-bg" class="p-6 bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur flex items-center justify-center text-2xl shadow-inner">
+            🏷️
+          </div>
+          <div>
+            <h3 class="text-xl font-extrabold tracking-tight">เลือกระดับและหลักสูตร</h3>
+            <p class="text-xs text-indigo-200">เลือกประเภทการสอบและระดับชั้นที่ต้องการฝึกฝน</p>
+          </div>
+        </div>
+        <button id="modal-close-btn" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-lg font-bold transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-5">
+        
+        <!-- Mode Switcher Tabs (HSK ⇄ YCT) -->
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">1. เลือกประเภทการสอบ</label>
+          <div class="grid grid-cols-2 gap-2 p-1.5 bg-gray-100 rounded-2xl border border-gray-200">
+            <button id="modal-tab-hsk" class="py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 bg-indigo-600 text-white shadow">
+              <span>🔵</span> HSK (วัดระดับสากล)
+            </button>
+            <button id="modal-tab-yct" class="py-2.5 px-3 rounded-xl font-extrabold text-sm transition flex items-center justify-center gap-2 text-gray-600 hover:text-emerald-700 hover:bg-white">
+              <span>🟢</span> YCT (สำหรับเยาวชน)
+            </button>
+          </div>
+        </div>
+
+        <!-- Level Cards Grid -->
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">2. เลือกระดับชั้น</label>
+          <div id="modal-levels-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Dynamic Level Cards injected by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between gap-3">
+        <button id="modal-cancel-btn" class="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-200 transition">
+          ยกเลิก
+        </button>
+        <button id="modal-confirm-btn" class="px-6 py-2.5 rounded-xl text-sm font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition flex items-center gap-2">
+          <span>✓ บันทึกและเริ่มฝึกฝน</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="vocab_data.js"></script>
