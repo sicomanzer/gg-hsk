@@ -3,6 +3,7 @@
   // Global State
   const state = {
     currentTab: 'dashboard',
+    currentVocabSubtab: 'quiz600',
     userRole: 'parent', // 'parent' or 'student'
     audioSpeed: 1.0,
     filterLevel: 'all',
@@ -82,7 +83,7 @@
     if (tabName === 'dashboard') {
       renderDashboard();
     } else if (tabName === 'flashcards') {
-      renderFlashcards();
+      switchVocabSubtab(state.currentVocabSubtab || 'quiz600');
     } else if (tabName === 'mistakes') {
       renderMistakes();
     } else if (tabName === 'parent') {
@@ -756,6 +757,329 @@
     };
   }
 
+  // ========================================================
+  // --- SUBTAB: LISTENING QUIZ 600 WORDS (NEW FEATURE) ---
+  // ========================================================
+  const quiz600 = {
+    words: [],
+    currentIndex: 0,
+    correctCount: 0,
+    wrongCount: 0,
+    isAnswered: false,
+    selectedRange: 'all',
+    currentChoices: []
+  };
+
+  function switchVocabSubtab(subtabName) {
+    state.currentVocabSubtab = subtabName;
+    const btnQuiz = document.getElementById('subtab-btn-quiz600');
+    const btnFlash = document.getElementById('subtab-btn-flashcards');
+    const btnTable = document.getElementById('subtab-btn-table');
+
+    const viewQuiz = document.getElementById('vocab-subtab-quiz600');
+    const viewFlash = document.getElementById('vocab-subtab-flashcards');
+    const viewTable = document.getElementById('vocab-subtab-table');
+
+    // Reset button styles
+    [btnQuiz, btnFlash, btnTable].forEach(btn => {
+      if (!btn) return;
+      btn.className = 'subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 text-gray-700 hover:bg-gray-100';
+    });
+
+    // Hide all views
+    [viewQuiz, viewFlash, viewTable].forEach(v => {
+      if (v) v.classList.add('hidden');
+    });
+
+    if (subtabName === 'quiz600') {
+      if (btnQuiz) btnQuiz.className = 'subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow-sm';
+      if (viewQuiz) viewQuiz.classList.remove('hidden');
+      initQuiz600();
+    } else if (subtabName === 'flashcards') {
+      if (btnFlash) btnFlash.className = 'subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow-sm';
+      if (viewFlash) viewFlash.classList.remove('hidden');
+      renderFlashcards();
+    } else if (subtabName === 'table') {
+      if (btnTable) btnTable.className = 'subtab-btn px-4 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-indigo-600 text-white shadow-sm';
+      if (viewTable) viewTable.classList.remove('hidden');
+      renderVocabTable(window.HSK_VOCAB || []);
+    }
+  }
+
+  function initQuiz600() {
+    const saved = Storage.getQuiz600();
+    const resumeBox = document.getElementById('quiz600-resume-box');
+    const resumeDesc = document.getElementById('quiz600-resume-desc');
+    const resumeBtn = document.getElementById('quiz600-resume-btn');
+    const startBtn = document.getElementById('quiz600-start-btn');
+    const resetBtn = document.getElementById('quiz600-reset-btn');
+
+    // Check if there is a saved checkpoint
+    if (saved && saved.currentIndex > 0 && saved.totalWords && saved.currentIndex < saved.totalWords) {
+      if (resumeBox) resumeBox.classList.remove('hidden');
+      if (resumeDesc) {
+        resumeDesc.textContent = `ทำค้างไว้ถึงคำที่ ${saved.currentIndex + 1} จากทั้งหมด ${saved.totalWords} คำ (ตอบถูก ${saved.correctCount || 0} / ตอบผิด ${saved.wrongCount || 0})`;
+      }
+      if (resumeBtn) {
+        resumeBtn.onclick = () => startQuiz600(true);
+      }
+    } else {
+      if (resumeBox) resumeBox.classList.add('hidden');
+    }
+
+    if (startBtn) {
+      startBtn.onclick = () => startQuiz600(false);
+    }
+    if (resetBtn) {
+      resetBtn.onclick = () => {
+        if (confirm('ต้องการล้างประวัติการทำแบบทดสอบ 600 คำเพื่อเริ่มใหม่หรือไม่?')) {
+          Storage.resetQuiz600();
+          initQuiz600();
+        }
+      };
+    }
+  }
+
+  function startQuiz600(isResume = false) {
+    const allVocab = window.HSK_VOCAB || [];
+    const rangeRadio = document.querySelector('input[name="quiz600-range"]:checked');
+    const rangeVal = rangeRadio ? rangeRadio.value : 'all';
+
+    let pool = allVocab;
+    if (rangeVal === 'hsk1') {
+      pool = allVocab.filter(w => w.level === 1);
+    } else if (rangeVal === 'hsk2') {
+      pool = allVocab.filter(w => w.level === 2);
+    } else if (rangeVal === 'hsk3') {
+      pool = allVocab.filter(w => w.level === 3);
+    }
+
+    quiz600.words = pool;
+    quiz600.selectedRange = rangeVal;
+    quiz600.isAnswered = false;
+
+    if (isResume) {
+      const saved = Storage.getQuiz600();
+      quiz600.currentIndex = saved.currentIndex || 0;
+      quiz600.correctCount = saved.correctCount || 0;
+      quiz600.wrongCount = saved.wrongCount || 0;
+    } else {
+      quiz600.currentIndex = 0;
+      quiz600.correctCount = 0;
+      quiz600.wrongCount = 0;
+    }
+
+    // Toggle panels
+    document.getElementById('quiz600-setup-panel').classList.add('hidden');
+    document.getElementById('quiz600-active-panel').classList.remove('hidden');
+    document.getElementById('quiz600-finished-panel').classList.add('hidden');
+
+    renderCurrentQuiz600Word();
+  }
+
+  function renderCurrentQuiz600Word() {
+    if (quiz600.currentIndex >= quiz600.words.length) {
+      finishQuiz600();
+      return;
+    }
+
+    quiz600.isAnswered = false;
+    const targetWord = quiz600.words[quiz600.currentIndex];
+    const totalWords = quiz600.words.length;
+    const currentNum = quiz600.currentIndex + 1;
+
+    // Badges & Progress
+    document.getElementById('quiz600-progress-badge').textContent = `คำที่ ${currentNum} / ${totalWords}`;
+    document.getElementById('quiz600-level-badge').textContent = `HSK ระดับ ${targetWord.level}`;
+    document.getElementById('quiz600-live-correct').textContent = quiz600.correctCount;
+    document.getElementById('quiz600-live-wrong').textContent = quiz600.wrongCount;
+
+    const answeredCount = quiz600.correctCount + quiz600.wrongCount;
+    const accuracy = answeredCount > 0 ? Math.round((quiz600.correctCount / answeredCount) * 100) : 0;
+    document.getElementById('quiz600-live-percent').textContent = `แม่นยำ ${accuracy}%`;
+
+    const progressPct = Math.round((currentNum / totalWords) * 100);
+    document.getElementById('quiz600-progress-bar').style.width = `${progressPct}%`;
+    document.getElementById('quiz600-speed-indicator').textContent = `${state.audioSpeed}x`;
+
+    // Reset feedback box
+    const feedbackBox = document.getElementById('quiz600-feedback-box');
+    feedbackBox.classList.add('hidden');
+    feedbackBox.innerHTML = '';
+
+    // Generate 4 Thai choices
+    const correctMeaning = (targetWord.entries && targetWord.entries[0]) ? targetWord.entries[0].meaning : '';
+    const allVocab = window.HSK_VOCAB || [];
+    
+    // Pick 3 distractors with different meanings
+    const distractorCandidates = allVocab
+      .filter(w => w.id !== targetWord.id && w.entries && w.entries[0] && w.entries[0].meaning !== correctMeaning)
+      .map(w => w.entries[0].meaning);
+    
+    const uniqueCandidates = [...new Set(distractorCandidates)].sort(() => 0.5 - Math.random()).slice(0, 3);
+    const choices = [correctMeaning, ...uniqueCandidates].sort(() => 0.5 - Math.random());
+    quiz600.currentChoices = choices;
+
+    // Render choice buttons
+    const choicesGrid = document.getElementById('quiz600-choices-grid');
+    choicesGrid.innerHTML = '';
+
+    choices.forEach((choice, idx) => {
+      const letter = String.fromCharCode(65 + idx);
+      const btn = document.createElement('button');
+      btn.className = 'quiz600-choice-btn flex items-center gap-3.5 p-4 rounded-2xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50/40 bg-white text-left transition font-semibold text-gray-800 shadow-sm active:scale-98 text-base';
+      btn.innerHTML = `
+        <span class="w-8 h-8 rounded-xl bg-gray-100 text-gray-700 font-bold flex items-center justify-center flex-shrink-0 text-sm border border-gray-300">${letter}</span>
+        <span class="flex-1">${choice}</span>
+      `;
+      btn.onclick = () => handleQuiz600Answer(choice, btn, correctMeaning, targetWord);
+      choicesGrid.appendChild(btn);
+    });
+
+    // Audio Playback
+    setTimeout(() => {
+      Audio.speak(targetWord.hanzi, state.audioSpeed);
+    }, 200);
+
+    // Audio trigger button click
+    const trigger = document.getElementById('quiz600-audio-trigger');
+    trigger.onclick = () => Audio.speak(targetWord.hanzi, state.audioSpeed);
+
+    // Quit button click
+    document.getElementById('quiz600-quit-btn').onclick = () => {
+      Storage.saveQuiz600({
+        currentIndex: quiz600.currentIndex,
+        correctCount: quiz600.correctCount,
+        wrongCount: quiz600.wrongCount,
+        totalWords: totalWords,
+        range: quiz600.selectedRange
+      });
+      document.getElementById('quiz600-active-panel').classList.add('hidden');
+      document.getElementById('quiz600-setup-panel').classList.remove('hidden');
+      initQuiz600();
+    };
+  }
+
+  function handleQuiz600Answer(selectedChoice, chosenBtn, correctMeaning, targetWord) {
+    if (quiz600.isAnswered) return;
+    quiz600.isAnswered = true;
+
+    const isCorrect = (selectedChoice === correctMeaning);
+    const buttons = document.querySelectorAll('.quiz600-choice-btn');
+    buttons.forEach(b => b.classList.add('pointer-events-none'));
+
+    // Highlight buttons
+    if (isCorrect) {
+      Audio.playCorrect();
+      quiz600.correctCount++;
+      chosenBtn.classList.remove('border-gray-200', 'bg-white');
+      chosenBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+      Storage.updateMastery(targetWord.id, 1);
+    } else {
+      Audio.playWrong();
+      quiz600.wrongCount++;
+      chosenBtn.classList.remove('border-gray-200', 'bg-white');
+      chosenBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+      // Highlight the correct one
+      buttons.forEach(b => {
+        if (b.textContent.includes(correctMeaning)) {
+          b.classList.remove('border-gray-200', 'bg-white');
+          b.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+        }
+      });
+      // Save mistake
+      Storage.recordMistake({
+        wordId: targetWord.id,
+        hanzi: targetWord.hanzi,
+        pinyin: targetWord.pinyin,
+        meaning: correctMeaning
+      });
+    }
+
+    // Save progress
+    Storage.saveQuiz600({
+      currentIndex: quiz600.currentIndex + 1,
+      correctCount: quiz600.correctCount,
+      wrongCount: quiz600.wrongCount,
+      totalWords: quiz600.words.length,
+      range: quiz600.selectedRange
+    });
+
+    // Update Live Scores
+    document.getElementById('quiz600-live-correct').textContent = quiz600.correctCount;
+    document.getElementById('quiz600-live-wrong').textContent = quiz600.wrongCount;
+
+    // Show Feedback Box
+    const feedbackBox = document.getElementById('quiz600-feedback-box');
+    feedbackBox.classList.remove('hidden');
+    feedbackBox.className = `p-5 rounded-2xl border-2 ${isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-rose-50 border-rose-300 text-rose-950'} shadow-md animate-fade-in`;
+    
+    feedbackBox.innerHTML = `
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <div class="text-3xl">${isCorrect ? '🎉' : '💡'}</div>
+          <div>
+            <div class="font-bold text-base flex items-center gap-2">
+              <span>${isCorrect ? 'ถูกต้องแล้วครับ!' : 'ยังไม่ถูกต้องครับผม'}</span>
+              <button class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/80 border border-current shadow-sm hover:bg-white" onclick="window.HSKAudio.speak('${targetWord.hanzi}', ${state.audioSpeed})">
+                🔊 ฟังอีกครั้ง
+              </button>
+            </div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span class="text-3xl font-chinese font-bold text-gray-900">${targetWord.hanzi}</span>
+              <span class="text-base text-indigo-700 font-mono font-semibold">${targetWord.pinyin}</span>
+              <span class="text-sm text-gray-700">➔ แปลว่า: <strong class="text-gray-900">${correctMeaning}</strong></span>
+            </div>
+            ${targetWord.entries[0] && targetWord.entries[0].example_full ? `
+              <div class="mt-2 text-xs text-gray-600 bg-white/70 p-2.5 rounded-xl border border-gray-200">
+                <span class="font-bold">ตัวอย่างประโยค:</span> ${targetWord.entries[0].example_full}
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <button id="quiz600-next-word-btn" class="px-7 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition text-base">
+          คำถัดไป ➔
+        </button>
+      </div>
+    `;
+
+    document.getElementById('quiz600-next-word-btn').onclick = () => {
+      quiz600.currentIndex++;
+      renderCurrentQuiz600Word();
+    };
+  }
+
+  function finishQuiz600() {
+    Audio.playVictory();
+    if (window.launchConfetti) window.launchConfetti(3500);
+
+    document.getElementById('quiz600-active-panel').classList.add('hidden');
+    const finishPanel = document.getElementById('quiz600-finished-panel');
+    finishPanel.classList.remove('hidden');
+
+    const total = quiz600.words.length;
+    const correct = quiz600.correctCount;
+    const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+    document.getElementById('quiz600-finish-total').textContent = total;
+    document.getElementById('quiz600-finish-correct').textContent = correct;
+    document.getElementById('quiz600-finish-percent').textContent = `${pct}%`;
+
+    document.getElementById('quiz600-finish-desc').textContent = 
+      `ลูกได้ฝึกฟังคำศัพท์ครบ ${total} คำ ตอบถูกต้อง ${correct} คำ (${pct}%) ยอดเยี่ยมมากครับ!`;
+
+    document.getElementById('quiz600-restart-btn').onclick = () => {
+      Storage.resetQuiz600();
+      finishPanel.classList.add('hidden');
+      document.getElementById('quiz600-setup-panel').classList.remove('hidden');
+      initQuiz600();
+    };
+
+    renderDashboard();
+  }
+
   // --- FLASHCARDS & VOCABULARY VIEW ---
   function renderFlashcards() {
     const vocab = window.HSK_VOCAB || [];
@@ -1220,6 +1544,8 @@
   window.HSKApp = {
     init,
     switchTab,
+    switchVocabSubtab,
+    initQuiz600,
     startQuiz,
     resolveMistake,
     printWorksheet

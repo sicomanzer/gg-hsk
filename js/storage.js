@@ -6,6 +6,7 @@
   const STORAGE_KEY_MASTERY = 'hsk3_mastery_v1';
   const STORAGE_KEY_HISTORY = 'hsk3_history_v1';
   const STORAGE_KEY_SETTINGS = 'hsk3_settings_v1';
+  const STORAGE_KEY_QUIZ600 = 'hsk3_quiz600_v1';
 
   const defaultSettings = {
     childName: 'ลูกรัก',
@@ -134,6 +135,24 @@
     },
     getHistory() {
       return getJSON(STORAGE_KEY_HISTORY, []);
+    },
+    getQuiz600() {
+      return getJSON(STORAGE_KEY_QUIZ600, {
+        currentIndex: 0,
+        correctCount: 0,
+        wrongCount: 0,
+        range: 'all',
+        lastUpdated: null
+      });
+    },
+    saveQuiz600(data) {
+      setJSON(STORAGE_KEY_QUIZ600, {
+        ...data,
+        lastUpdated: new Date().toISOString()
+      });
+    },
+    resetQuiz600() {
+      localStorage.removeItem(STORAGE_KEY_QUIZ600);
     },
     addHistoryRecord(record) {
       const history = this.getHistory();
