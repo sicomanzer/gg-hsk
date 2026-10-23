@@ -273,15 +273,15 @@
     const btnYctMobile = document.getElementById('exam-toggle-yct-mobile');
 
     if (isYCT) {
-      if (btnYct) btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
-      if (btnHsk) btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
-      if (btnYctMobile) btnYctMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-emerald-600 text-white shadow-sm';
-      if (btnHskMobile) btnHskMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate text-gray-700 hover:bg-white';
+      if (btnYct) btnYct.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition bg-emerald-600 text-white shadow-sm';
+      if (btnHsk) btnHsk.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-indigo-700 hover:bg-white';
+      if (btnYctMobile) btnYctMobile.className = 'py-2 px-2 rounded-xl font-black transition text-center bg-emerald-600 text-white shadow-sm flex items-center justify-center gap-1.5';
+      if (btnHskMobile) btnHskMobile.className = 'py-2 px-2 rounded-xl font-black transition text-center text-gray-700 hover:bg-white flex items-center justify-center gap-1.5';
     } else {
-      if (btnHsk) btnHsk.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
-      if (btnYct) btnYct.className = 'px-3 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
-      if (btnHskMobile) btnHskMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-indigo-600 text-white shadow-sm';
-      if (btnYctMobile) btnYctMobile.className = 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate text-gray-700 hover:bg-white';
+      if (btnHsk) btnHsk.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition bg-indigo-600 text-white shadow-sm';
+      if (btnYct) btnYct.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition text-gray-700 hover:text-emerald-700 hover:bg-white';
+      if (btnHskMobile) btnHskMobile.className = 'py-2 px-2 rounded-xl font-black transition text-center bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5';
+      if (btnYctMobile) btnYctMobile.className = 'py-2 px-2 rounded-xl font-black transition text-center text-gray-700 hover:bg-white flex items-center justify-center gap-1.5';
     }
 
     // 2. Header Level Selector Button (Desktop & Mobile)
@@ -289,22 +289,28 @@
     const headerLevelBtn = document.getElementById('header-level-btn');
     const headerLevelLabelMobile = document.getElementById('header-level-label-mobile');
     const headerLevelBtnMobile = document.getElementById('header-level-btn-mobile');
+    const headerLevelBadgeMobile = document.getElementById('header-level-badge-mobile');
 
     if (headerLevelLabel) {
       headerLevelLabel.textContent = `🏷️ ระดับ: ${meta.shortLabel} (${poolCount} คำ) ▾`;
     }
     if (headerLevelLabelMobile) {
-      headerLevelLabelMobile.textContent = `🏷️ ${meta.shortLabel} (${poolCount}) ▾`;
+      headerLevelLabelMobile.textContent = `${meta.shortLabel} (${poolCount} คำ)`;
+    }
+    if (headerLevelBadgeMobile) {
+      headerLevelBadgeMobile.className = isYCT
+        ? 'flex-shrink-0 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200'
+        : 'flex-shrink-0 text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-200';
     }
     if (headerLevelBtn) {
       headerLevelBtn.className = isYCT
-        ? 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm transition'
-        : 'inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm transition';
+        ? 'inline-flex items-center gap-1 px-3.5 py-1.5 rounded-xl text-xs font-black bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm transition'
+        : 'inline-flex items-center gap-1 px-3.5 py-1.5 rounded-xl text-xs font-black bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm transition';
     }
     if (headerLevelBtnMobile) {
       headerLevelBtnMobile.className = isYCT
-        ? 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-sm'
-        : 'flex-1 py-1.5 px-1 rounded-lg font-black transition text-center truncate bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-300 shadow-sm';
+        ? 'w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-white border border-gray-300 hover:border-emerald-400 shadow-sm text-xs transition'
+        : 'w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-white border border-gray-300 hover:border-indigo-400 shadow-sm text-xs transition';
     }
 
     // 3. Logo & Header Text
@@ -342,10 +348,12 @@
         : `พื้นที่ฝึกฝนและทำแบบทดสอบเตรียมสอบ HSK (${meta.shortLabel})`;
     }
     if (portalBadge) {
-      portalBadge.textContent = isYCT ? `โหมดเยาวชน (${meta.shortLabel})` : `โหมดนักเรียน (${meta.shortLabel})`;
+      const portal = document.body.dataset.portal || '';
+      const portalText = portal === 'parent' ? 'โหมดผู้ปกครอง' : (isYCT ? 'โหมดเยาวชน' : 'โหมดนักเรียน');
+      portalBadge.textContent = portalText;
       portalBadge.className = isYCT
-        ? 'px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300'
-        : 'px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200';
+        ? 'hidden md:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300'
+        : 'hidden md:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 border border-indigo-200';
     }
     if (currentExamBadge) {
       currentExamBadge.textContent = isYCT ? `🟢 ${meta.shortLabel}` : `🔵 ${meta.shortLabel}`;
