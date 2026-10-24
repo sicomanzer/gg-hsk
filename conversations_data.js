@@ -1098,6 +1098,619 @@
         { cn: '高清', pinyin: 'gāoqīng', th: 'ความละเอียดสูง (HD)' }
       ],
       tip: '"微调" (wēitiáo) คือ คำศัพท์ยอดฮิตในที่ทำงาน หมายถึง การปรับแต่งรายละเอียดเล็กๆ น้อยๆ ให้สมบูรณ์แบบ'
+    },
+
+    // =========================================================================
+    // ชุดบทสนทนาเพิ่มเติม 18 สถานการณ์ใหม่ (BATCH 2: EXPANDED TO 50 SCENARIOS)
+    // =========================================================================
+
+    // --- หมวดในโรงเรียน (เพิ่มเติม) ---
+    {
+      id: 'school-e5',
+      categoryKey: 'school',
+      category: 'ในโรงเรียน',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🍱',
+      titleCn: '在学校食堂排队吃午饭',
+      titlePinyin: 'Zài xuéxiào shítáng páiduì chī wǔfàn',
+      titleTh: 'เข้าแถวกินข้าวเที่ยงที่โรงอาหารของโรงเรียน',
+      situation: 'การต่อแถวรับถาดอาหาร เลือกเมนูอาหารกลางวันและบอกขอบคุณคุณป้าโรงอาหาร',
+      roles: {
+        A: { name: '小雨 (เสี่ยวอวี่)', avatar: '👧', label: 'นักเรียน' },
+        B: { name: '食堂阿姨 (คุณป้าโรงอาหาร)', avatar: '👩‍🍳', label: 'ป้าโรงอาหาร' }
+      },
+      lines: [
+        { speaker: 'B', cn: '小朋友，端好餐盘，今天中午想吃什么菜？', pinyin: 'Xiǎopéngyou, duān hǎo cānpán, jīntiān zhōngwǔ xiǎng chī shénme cài?', th: 'หนูน้อย ถือถาดหลุมดีๆ นะจ๊ะ เที่ยงนี้อยากทานกับข้าวอะไรจ๊ะ?' },
+        { speaker: 'A', cn: '阿姨好！我要一份香酥鸡腿，还有西红柿炒鸡蛋。', pinyin: 'Āyí hǎo! Wǒ yào yí fèn xiāngsū jītuǐ, hái yǒu xīhóngshì chǎo jīdàn.', th: 'สวัสดีค่ะคุณป้า! หนูขอน่องไก่กรอบ 1 ชิ้น แล้วก็ผัดมะเขือเทศใส่ไข่ค่ะ' },
+        { speaker: 'B', cn: '还要绿色蔬菜吗？今天有新鲜的炒菠菜哦。', pinyin: 'Hái yào lǜsè shūcài ma? Jīntiān yǒu xīnxiān de chǎo bōcài o.', th: 'รับผักใบเขียวเพิ่มไหมจ๊ะ? วันนี้มีผัดผักปวยเล้งสดๆ ด้วยนะ' },
+        { speaker: 'A', cn: '要一点儿菠菜，多吃蔬菜身体棒！', pinyin: 'Yào yìdiǎnr bōcài, duō chī shūcài shēntǐ bàng!', th: 'ขอผักปวยเล้งนิดหน่อยค่ะ ทานผักเยอะๆ ร่างกายจะได้แข็งแรง!' },
+        { speaker: 'B', cn: '真乖！米饭不够可以再加，慢点走别洒了。', pinyin: 'Zhēn guāi! Mǐfàn bú gòu kěyǐ zài jiā, màn diǎn zǒu bié sǎ le.', th: 'เด็กดีจังเลย! ข้าวสวยไม่อิ่มมาเติมได้นะ เดินช้าๆ ระวังหกนะจ๊ะ' },
+        { speaker: 'A', cn: '谢谢阿姨！', pinyin: 'Xièxie āyí!', th: 'ขอบคุณค่ะคุณป้า!' }
+      ],
+      keyVocab: [
+        { cn: '食堂', pinyin: 'shítáng', th: 'โรงอาหาร' },
+        { cn: '餐盘', pinyin: 'cānpán', th: 'ถาดหลุมใส่อาหาร' },
+        { cn: '鸡腿', pinyin: 'jītuǐ', th: 'น่องไก่' },
+        { cn: '蔬菜', pinyin: 'shūcài', th: 'ผัก' },
+        { cn: '身体棒', pinyin: 'shēntǐ bàng', th: 'ร่างกายแข็งแรงยอดเยี่ยม' }
+      ],
+      tip: '"西红柿炒鸡蛋" (ผัดมะเขือเทศใส่ไข่) คือ เมนูอาหารประจำชาติยอดนิยมอันดับ 1 ของเด็กๆ ในโรงเรียนจีน'
+    },
+    {
+      id: 'school-e6',
+      categoryKey: 'school',
+      category: 'ในโรงเรียน',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🩹',
+      titleCn: '体育课跑步摔倒，去医务室擦药',
+      titlePinyin: 'Tǐyùkè pǎobù shuāidǎo, qù yīwùshì cā yào',
+      titleTh: 'วิ่งหกล้มในคาบพละ ไปทำแผลทายาที่ห้องพยาบาล',
+      situation: 'การบอกอาการเจ็บหลังจากหกล้มในวิชาพละ และครูพยาบาลช่วยทำแผลติดพลาสเตอร์',
+      roles: {
+        A: { name: '小宝 (เสี่ยวเป่า)', avatar: '👦', label: 'นักเรียน' },
+        B: { name: '校医老师 (คุณครูพยาบาล)', avatar: '👩‍⚕️', label: 'ครูพยาบาล' }
+      },
+      lines: [
+        { speaker: 'B', cn: '小朋友，你怎么哭了？哪儿摔疼了？', pinyin: 'Xiǎopéngyou, nǐ zěnme kū le? Nǎr shuāi téng le?', th: 'หนูน้อย ทำไมร้องไห้ล่ะจ๊ะ? หกล้มเจ็บตรงไหน?' },
+        { speaker: 'A', cn: '老师，刚才上体育课跑步，我不小心摔倒了，膝盖好疼。', pinyin: 'Lǎoshī, gāngcái shàng tǐyùkè pǎobù, wǒ bù xiǎoxīn shuāidǎo le, xīgài hǎo téng.', th: 'คุณครูครับ เมื่อกี้วิ่งในคาบพละ ผมเผลอสะดุดหกล้ม หัวเข่าเจ็บมากเลยครับ' },
+        { speaker: 'B', cn: '别怕，老师看看……只是破了一点皮，骨头没有受伤。', pinyin: 'Bié pà, lǎoshī kànkan... Zhǐshì pò le yìdiǎn pí, gútou méiyǒu shòushāng.', th: 'ไม่ต้องกลัวนะ ครูขอดูหน่อย... แค่ถลอกนิดหน่อย กระดูกไม่ได้รับบาดเจ็บจ้ะ' },
+        { speaker: 'A', cn: '擦药会很疼吗？', pinyin: 'Cā yào huì hěn téng ma?', th: 'ทายาจะแสบมากไหมครับ?' },
+        { speaker: 'B', cn: '老师用温和的药水消毒，再贴上可爱的创可贴，轻轻吹一下就不疼了！', pinyin: 'Lǎoshī yòng wēnhé de yàoshuǐ xiāodú, zài tiē shàng kě’ài de chuàngkětiē, qīngqīng chuī yíxià jiù bù téng le!', th: 'ครูใช้น้ำยาฆ่าเชื้อสูตรอ่อนโยน แล้วติดพลาสเตอร์ยาลายน่ารักให้ เป่าเบาๆ ทีเดียวก็หายเจ็บแล้วจ้ะ!' },
+        { speaker: 'A', cn: '真的不疼了，谢谢校医老师！', pinyin: 'Zhēn de bù téng le, xièxie xiàoyī lǎoshī!', th: 'ไม่เจ็บแล้วจริงๆ ด้วย ขอบคุณครับคุณครูพยาบาล!' }
+      ],
+      keyVocab: [
+        { cn: '医务室', pinyin: 'yīwùshì', th: 'ห้องพยาบาล' },
+        { cn: '摔倒', pinyin: 'shuāidǎo', th: 'หกล้ม' },
+        { cn: '膝盖', pinyin: 'xīgài', th: 'หัวเข่า' },
+        { cn: '消毒', pinyin: 'xiāodú', th: 'ฆ่าเชื้อ / ล้างแผล' },
+        { cn: '创可贴', pinyin: 'chuàngkětiē', th: 'พลาสเตอร์ยาปิดแผล' }
+      ],
+      tip: '"创可贴" (chuàngkětiē) แปลว่า พลาสเตอร์ยาติดแผล เป็นคำศัพท์ที่ใช้บ่อยมากในชีวิตประจำวัน'
+    },
+    {
+      id: 'school-m4',
+      categoryKey: 'school',
+      category: 'ในโรงเรียน',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '📚',
+      titleCn: '在学校图书馆借阅科普读物',
+      titlePinyin: 'Zài xuéxiào túshūguǎn jièyuè kēpǔ dúwù',
+      titleTh: 'ยืมหนังสือวิทยาศาสตร์น่ารู้ที่ห้องสมุดโรงเรียน',
+      situation: 'การใช้ระบบค้นหาหนังสือ การสแกนบัตรนักเรียนเพื่อยืมหนังสือ และสอบถามกำหนดคืน',
+      roles: {
+        A: { name: '晨晨 (เฉินเฉิน)', avatar: '👦', label: 'นักเรียน' },
+        B: { name: '图书管理员 (บรรณารักษ์)', avatar: '👩‍🏫', label: 'ครูบรรณารักษ์' }
+      },
+      lines: [
+        { speaker: 'A', cn: '老师您好，我想借一本关于恐龙和太空百科全书。', pinyin: 'Lǎoshī nín hǎo, wǒ xiǎng jiè yì běn guānyú kǒnglóng hé tàikōng bǎikē quánshū.', th: 'อาจารย์สวัสดีครับ ผมอยากยืมสารานุกรมเกี่ยวกับไดโนเสาร์และอวกาศสักเล่มครับ' },
+        { speaker: 'B', cn: '自然科学类的图书在三号书架第二层，你可以用旁边的电脑查询索书号。', pinyin: 'Zìrán kēxué lèi de túshū zài sān hào shūjià dì èr céng, nǐ kěyǐ yòng pángbiān de diànnǎo cháxún suǒshūhào.', th: 'หนังสือหมวดวิทยาศาสตร์ธรรมชาติอยู่ชั้นวางที่ 3 ชั้นที่ 2 จ้ะ เธอใช้คอมพิวเตอร์ข้างๆ ค้นหาเลขเรียกหนังสือได้เลย' },
+        { speaker: 'A', cn: '我找到了！这本书图文并茂，我想借这本《神奇的宇宙》。', pinyin: 'Wǒ zhǎodào le! Zhè běn shū túwén bìngmào, wǒ xiǎng jiè zhè běn "Shénqí de yǔzhòu".', th: 'ผมเจอแล้วครับ! เล่มนี้ภาพประกอบสวยงามมาก ผมขอยืมเล่ม "จักรวาลมหัศจรรย์" เล่มนี้ครับ' },
+        { speaker: 'B', cn: '请出示你的电子学生卡……借阅成功！借期是两个星期，最多可以借两本。', pinyin: 'Qǐng chūshì nǐ de diànzǐ xuéshēngkǎ... Jièyuè chénggōng! Jièqī shì liǎng gè xīngqī, zuìduō kěyǐ jiè liǎng běn.', th: 'แสดงบัตรนักเรียนดิจิทัลหน่อยจ้ะ... ยืมสำเร็จ! กำหนดยืมคือ 2 สัปดาห์ ยืมได้สูงสุด 2 เล่มนะ' },
+        { speaker: 'A', cn: '好的，如果在期限内看不完，可以续借吗？', pinyin: 'Hǎo de, rúguǒ zài qīxiàn nèi kàn bu wán, kěyǐ xùjiè ma?', th: 'ครับผม ถ้าในกำหนดอ่านไม่ทัน สามารถต่ออายุการยืมได้ไหมครับ?' },
+        { speaker: 'B', cn: '可以在学校公众号上在线续借一次，延长两周时间。', pinyin: 'Kěyǐ zài xuéxiào gōngzhònghào shang zàixiàn xùjiè yí cì, yáncháng liǎng zhōu shíjiān.', th: 'ต่ออายุออนไลน์ผ่านบัญชีทางการของโรงเรียนได้ 1 ครั้ง ขยายเวลาเพิ่มอีก 2 สัปดาห์จ้ะ' }
+      ],
+      keyVocab: [
+        { cn: '借阅', pinyin: 'jièyuè', th: 'ยืมอ่าน' },
+        { cn: '百科全书', pinyin: 'bǎikē quánshū', th: 'สารานุกรม' },
+        { cn: '图文并茂', pinyin: 'túwén bìngmào', th: 'ภาพและเนื้อหาโดดเด่นสมบูรณ์' },
+        { cn: '续借', pinyin: 'xùjiè', th: 'ต่อเวลายืมหนังสือ' },
+        { cn: '学生卡', pinyin: 'xuéshēngkǎ', th: 'บัตรนักเรียน' }
+      ],
+      tip: '"图文并茂" (túwén bìngmào) เป็นสำนวนชมหนังสือที่มีทั้งรูปภาพและเนื้อหาสอดคล้องกันอย่างงดงาม'
+    },
+    {
+      id: 'school-h3',
+      categoryKey: 'school',
+      category: 'ในโรงเรียน',
+      level: 'hard',
+      levelLabel: 'ยาก',
+      levelNum: 3,
+      badgeColor: 'rose',
+      icon: '🏆',
+      titleCn: '竞选少先队大队委的就职竞选演说',
+      titlePinyin: 'Jìngxuǎn shàoxiānduì dàduìwěi de jiùzhí jìngxuǎn yǎnshuō',
+      titleTh: 'การกล่าวสุนทรพจน์ลงสมัครรับเลือกตั้งประธานและคณะกรรมการนักเรียน',
+      situation: 'การกล่าวสุนทรพจน์ต่อหน้านักเรียนทั้งโรงเรียน แสดงวิสัยทัศน์ในการจัดกิจกรรมและการรับใช้ส่วนรวม',
+      roles: {
+        A: { name: '竞选同学 (ผู้สมัคร)', avatar: '🧑‍🎓', label: 'ผู้ลงสมัคร' },
+        B: { name: '大队辅导员 (อาจารย์ที่ปรึกษา)', avatar: '👩‍🏫', label: 'อาจารย์ที่ปรึกษา' }
+      },
+      lines: [
+        { speaker: 'A', cn: '老师们、同学们，大家好！我是来自五（2）中队的李浩然，今天我竞选的岗位是大队组织委员。', pinyin: 'Lǎoshīmen, tóngxuémen, dàjiā hǎo! Wǒ shì láizì wǔ (èr) zhōngduì de Lǐ Hàorán, jīntiān wǒ jìngxuǎn de gǎngwèi shì dàduì zǔzhī wěiyuán.', th: 'สวัสดีคุณครูและเพื่อนๆ ทุกคนครับ! ผมชื่อหลี่ฮ่าวหราน จากห้อง ป.5/2 วันนี้ผมมาลงสมัครตำแหน่งกรรมการฝ่ายกิจกรรมนักเรียนครับ' },
+        { speaker: 'B', cn: '浩然同学，如果成功当选，你打算如何调动各中队参与校园文化节的积极性？', pinyin: 'Hàorán tóngxué, rúguǒ chénggōng dāngxuǎn, nǐ dǎsuan rúhé diàodòng gè zhōngduì cānyù xiàoyuán wénhuàjié de jījíxìng?', th: 'นักเรียนฮ่าวหราน หากได้รับเลือกตั้ง เธอวางแผนจะปลุกพลังความกระตือรือร้นของเพื่อนๆ ทุกห้องในการร่วมงานเทศกาลวัฒนธรรมอย่างไร?' },
+        { speaker: 'A', cn: '我将设立“班级创意提案箱”，让每位同学都能为校园活动出谋划策，践行“服务他人、快乐自己”的队训。', pinyin: 'Wǒ jiāng shèlì "bānjí chuàngyì tí’ànxiāng", ràng měi wèi tóngxué dōu néng wèi xiàoyuán huódòng chūmóuhuàcè, jiànxíng "fúwù tārén, kuàilè zìjǐ" de duìxùn.', th: 'ผมจะจัดตั้ง "กล่องรับไอเดียสร้างสรรค์ประจำห้อง" ให้ทุกคนได้ร่วมเสนอแนวคิด สานต่อคำขวัญ "รับใช้ผู้อื่น สุขใจตนเอง" ครับ' },
+        { speaker: 'B', cn: '面对繁重的活动策划与日常学业，你将如何确保两者兼顾、相得益彰？', pinyin: 'Miànduì fánzhòng de huódòng cèhuà yǔ rìcháng xuéyè, nǐ jiāng rúhé quèbǎo liǎng zhě jiāngù, xiāngdéyìzhāng?', th: 'เมื่อต้องเจอกับงานวางแผนกิจกรรมที่หนักหน่วงและการเรียนปกติ เธอจะมั่นใจได้อย่างไรว่าจะดูแลทั้งสองอย่างควบคู่กันได้เป็นเลิศ?' },
+        { speaker: 'A', cn: '我会制定严谨的周计划清单，依靠集体的智慧协同推进，绝不因班务工作落下功课！请大家投出宝贵的一票！', pinyin: 'Wǒ huì zhìdìng yánjǐn de zhōu jìhuà qīngdān, yīkào jítǐ de zhìhuì xiétóng tuījìn, jué bù yīn bānwù gōngzuò luòxià gōngkè! Qǐng dàjiā tóuchū bǎoguì de yí piào!', th: 'ผมจะจัดตารางเวลารายสัปดาห์อย่างรัดกุม รวมพลังความคิดของทีม และไม่มีวันปล่อยให้การเรียนตกหล่นเด็ดขาด! ขอคะแนนเสียงอันมีค่าจากทุกคนด้วยครับ!' }
+      ],
+      keyVocab: [
+        { cn: '竞选', pinyin: 'jìngxuǎn', th: 'ลงสมัครรับเลือกตั้ง' },
+        { cn: '出谋划策', pinyin: 'chūmóuhuàcè', th: 'ระดมสมอง / เสนอแผนการ' },
+        { cn: '相得益彰', pinyin: 'xiāngdéyìzhāng', th: 'เกื้อหนุนส่งเสริมซึ่งกันและกัน' },
+        { cn: '宝贵的一票', pinyin: 'bǎoguì de yí piào', th: 'คะแนนเสียงอันมีค่า' }
+      ],
+      tip: '"相得益彰" (xiāngdéyìzhāng) หมายถึง สิ่งสองสิ่งร่วมมือกันแล้วทำให้เกิดผลลัพธ์ที่ดียิ่งขึ้นไปอีก'
+    },
+
+    // --- หมวดซื้อของ-สั่งอาหาร (เพิ่มเติม) ---
+    {
+      id: 'food-e5',
+      categoryKey: 'food-shopping',
+      category: 'ซื้อของ-สั่งอาหาร',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🎨',
+      titleCn: '在文具店买水彩笔和图画本',
+      titlePinyin: 'Zài wénjùdiàn mǎi shuǐcǎibǐ hé túhuàběn',
+      titleTh: 'ซื้อสีน้ำเมจิกและสมุดวาดเขียนที่ร้านเครื่องเขียน',
+      situation: 'การเลือกซื้ออุปกรณ์สำหรับคาบเรียนศิลปะ การถามจำนวนสี และการนับเงิน',
+      roles: {
+        A: { name: '学生 (นักเรียน)', avatar: '🧒', label: 'เด็กนักเรียน' },
+        B: { name: '文具店老板 (เจ้าของร้าน)', avatar: '👨‍💼', label: 'คนขายเครื่องเขียน' }
+      },
+      lines: [
+        { speaker: 'A', cn: '叔叔好！明天我们要上美术课，请问有二十四色的水彩笔吗？', pinyin: 'Shūshu hǎo! Míngtiān wǒmen yào shàng měishù kè, qǐngwèn yǒu èrshísì sè de shuǐcǎibǐ ma?', th: 'คุณลุงสวัสดีครับ! พรุ่งนี้พวกเรามีเรียนศิลปะ ไม่ทราบว่ามีปากกาสีน้ำ 24 สีไหมครับ?' },
+        { speaker: 'B', cn: '有的，在这里。这种是可以水洗的，弄到衣服上也能轻松洗掉。', pinyin: 'Yǒu de, zài zhèlǐ. Zhè zhǒng shì kěyǐ shuǐxǐ de, nòng dào yīfu shang yě néng qīngsōng xǐ diào.', th: 'มีจ้ะ อยู่ตรงนี้ แบบนี้สามารถซักออกด้วยน้ำได้ เปื้อนเสื้อผ้าก็ซักออกสบายๆ' },
+        { speaker: 'A', cn: '太棒了！我还要一本大号的图画本和一盒油画棒。', pinyin: 'Tài bàng le! Wǒ hái yào yì běn dàhào de túhuàběn hé yì hé yóuhuàbàng.', th: 'เยี่ยมเลยครับ! ผมขอสมุดวาดเขียนเล่มใหญ่ 1 เล่ม กับสีชอล์กน้ำมัน 1 กล่องด้วยครับ' },
+        { speaker: 'B', cn: '水彩笔十五块，图画本五块，油画棒八块，一共二十八块钱。', pinyin: 'Shuǐcǎibǐ shíwǔ kuài, túhuàběn wǔ kuài, yóuhuàbàng bā kuài, yígòng èrshíbā kuài qián.', th: 'สีน้ำ 15 หยวน, สมุดวาดเขียน 5 หยวน, สีชอล์ก 8 หยวน รวมทั้งหมด 28 หยวนจ้ะ' },
+        { speaker: 'A', cn: '这是三十块钱，给您。', pinyin: 'Zhè shì sānshí kuài qián, gěi nín.', th: 'นี่เงิน 30 หยวนครับ ให้คุณลุงครับ' },
+        { speaker: 'B', cn: '找你两块钱零钱，拿好发票，祝你画出最漂亮的画！', pinyin: 'Zhǎo nǐ liǎng kuài qián língqián, ná hǎo fāpiào, zhù nǐ huà chū zuì piàoliang de huà!', th: 'ทอนเงิน 2 หยวนจ้ะ เก็บใบเสร็จดีๆ ขอให้วาดรูปออกมาสวยที่สุดเลยนะ!' }
+      ],
+      keyVocab: [
+        { cn: '水彩笔', pinyin: 'shuǐcǎibǐ', th: 'ปากกาสีน้ำเมจิก' },
+        { cn: '水洗', pinyin: 'shuǐxǐ', th: 'ซักล้างออกด้วยน้ำ' },
+        { cn: '图画本', pinyin: 'túhuàběn', th: 'สมุดวาดเขียน' },
+        { cn: '找钱', pinyin: 'zhǎo qián', th: 'ทอนเงิน' },
+        { cn: '零钱', pinyin: 'língqián', th: 'เงินทอน / เงินเหรียญ' }
+      ],
+      tip: '"找你两块" (Zhǎo nǐ liǎng kuài) หมายถึง ทอนเงินให้คุณ 2 หยวน'
+    },
+    {
+      id: 'food-e6',
+      categoryKey: 'food-shopping',
+      category: 'ซื้อของ-สั่งอาหาร',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🎂',
+      titleCn: '在蛋糕店预订一个水果生日蛋糕',
+      titlePinyin: 'Zài dàngāodiàn yùdìng yí gè shuǐguǒ shēngrì dàngāo',
+      titleTh: 'สั่งจองเค้กผลไม้วันเกิดที่ร้านเบเกอรี่',
+      situation: 'การเลือกขนาดเค้ก รสชาติผลไม้ และเขียนข้อความอวยพรบนหน้าเค้ก',
+      roles: {
+        A: { name: '姐姐 (พี่สาว)', avatar: '👩', label: 'ผู้สั่งเค้ก' },
+        B: { name: '甜品师 (เชฟเบเกอรี่)', avatar: '👨‍🍳', label: 'คนทำขนม' }
+      },
+      lines: [
+        { speaker: 'A', cn: '您好，明天是我弟弟的八岁生日，我想订一个八寸的水果蛋糕。', pinyin: 'Nín hǎo, míngtiān shì wǒ dìdi de bā suì shēngrì, wǒ xiǎng dìng yí gè bā cùn de shuǐguǒ dàngāo.', th: 'สวัสดีค่ะ พรุ่งนี้วันเกิดน้องชายอายุครบ 8 ขวบ ฉันอยากสั่งเค้กผลไม้ขนาด 8 นิ้ว 1 ก้อนค่ะ' },
+        { speaker: 'B', cn: '好的，夹心要芒果还是草莓？我们的动物奶油香浓不甜腻。', pinyin: 'Hǎo de, jiāxīn yào mángguǒ háishì cǎoméi? Wǒmen de dòngwù nǎiyóu xiāngnóng bù tiánnì.', th: 'ได้ครับ ไส้ตรงกลางรับเป็นมะม่วงหรือสตรอว์เบอร์รีดีครับ? วิปครีมของทางร้านหอมละมุนไม่หวานเลี่ยนครับ' },
+        { speaker: 'A', cn: '要芒果夹心，上面请多放一些蓝莓和黄桃。', pinyin: 'Yào mángguǒ jiāxīn, shàngmiàn qǐng duō fàng yìxiē lánméi hé huángtáo.', th: 'เอามะม่วงค่ะ ด้านบนรบกวนวางบลูเบอร์รีกับพีชสีทองเยอะหน่อยนะคะ' },
+        { speaker: 'B', cn: '没问题。巧克力插牌上需要写什么祝福语吗？', pinyin: 'Méi wèntí. Qiǎokèlì chāpái shang xūyào xiě shénme zhùfúyǔ ma?', th: 'ไม่มีปัญหาครับ ป้ายช็อกโกแลตต้องการเขียนข้อความอวยพรอะไรไหมครับ?' },
+        { speaker: 'A', cn: '请写“祝乐乐八岁生日快乐，健康成长！”', pinyin: 'Qǐng xiě "Zhù Lèlè bā suì shēngrì kuàilè, jiànkāng chéngzhǎng!"', th: 'ช่วยเขียนว่า "สุขสันต์วันเกิดน้องเล่อเล่อครบ 8 ขวบ ขอให้เติบโตแข็งแรง!" ค่ะ' },
+        { speaker: 'B', cn: '记下了，明天下午五点准时为您准备好蜡烛和餐具！', pinyin: 'Jìxià le, míngtiān xiàwǔ wǔ diǎn zhǔnshí wèi nín zhǔnbèi hǎo làzhú hé cānjù!', th: 'จดเรียบร้อยครับ พรุ่งนี้บ่าย 5 โมงตรงจะเตรียมเทียนวันเกิดและจานช้อนให้พร้อมครับ!' }
+      ],
+      keyVocab: [
+        { cn: '预订', pinyin: 'yùdìng', th: 'จองล่วงหน้า' },
+        { cn: '生日蛋糕', pinyin: 'shēngrì dàngāo', th: 'เค้กวันเกิด' },
+        { cn: '夹心', pinyin: 'jiāxīn', th: 'ไส้ตรงกลาง' },
+        { cn: '祝福语', pinyin: 'zhùfúyǔ', th: 'คำอวยพร' },
+        { cn: '蜡烛', pinyin: 'làzhú', th: 'เทียน' }
+      ],
+      tip: '"健康成长" (jiànkāng chéngzhǎng) เป็นคำอวยพรเด็กยอดนิยม แปลว่า "ขอให้เติบโตอย่างแข็งแรงสดใส"'
+    },
+    {
+      id: 'food-m4',
+      categoryKey: 'food-shopping',
+      category: 'ซื้อของ-สั่งอาหาร',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '🍲',
+      titleCn: '一家人去吃四川鸳鸯火锅',
+      titlePinyin: 'Yì jiā rén qù chī Sìchuān yuānyang huǒguō',
+      titleTh: 'ครอบครัวไปทานสุกี้หม้อไฟเสฉวนแบบสองน้ำซุป (หยวนหยาง)',
+      situation: 'การสั่งน้ำซุปหม้อไฟ ซุปกระดูกหมูไม่เผ็ดคู่กับซุปหมาล่า และการเลือกเนื้อสัตว์ผักสด',
+      roles: {
+        A: { name: '爸爸 (คุณพ่อ)', avatar: '👨', label: 'คุณพ่อ' },
+        B: { name: '火锅店服务员 (บริกร)', avatar: '🧑‍🍳', label: 'พนักงานร้านหม้อไฟ' }
+      },
+      lines: [
+        { speaker: 'B', cn: '欢迎光临！请问几位？锅底喜欢清汤还是麻辣？', pinyin: 'Huānyíng guānglín! Qǐngwèn jǐ wèi? Guōdǐ xǐhuan qīngtāng háishì málà?', th: 'ยินดีต้อนรับครับ! มากันกี่ท่านครับ? น้ำซุปชอบแบบซุปใสหรือซุปหมาล่าครับ?' },
+        { speaker: 'A', cn: '一共三位，有小朋友不能吃辣，请给我们上一个“鸳鸯锅”。', pinyin: 'Yígòng sān wèi, yǒu xiǎopéngyou bù néng chī là, qǐng gěi wǒmen shàng yí gè "yuānyang guō".', th: 'มากัน 3 คนครับ มีเด็กทานเผ็ดไม่ได้ ขอสั่งเป็น "หม้อหยวนหยาง" (หม้อสองซุป) ครับ' },
+        { speaker: 'B', cn: '好的，一边是菌菇大骨浓汤，一边是微辣牛油锅底。请问菜品扫码点还是看纸质菜单？', pinyin: 'Hǎo de, yìbiān shì jùngū dàgǔ nóngtāng, yìbiān shì wēilà niúyóu guōdǐ. Qǐngwèn càipǐn sǎo mǎ diǎn háishì kàn zhǐzhì càidān?', th: 'ได้ครับ ฝั่งหนึ่งเป็นซุปกระดูกหมูตุ๋นเห็ด อีกฝั่งเป็นซุปหมาล่าเผ็ดน้อย สั่งอาหารสแกนโค้ดหรือดูเมนูกระดาษดีครับ?' },
+        { speaker: 'A', cn: '我们扫码点。先来两盘精品肥牛、一盘手工虾滑和一份冻豆腐。', pinyin: 'Wǒmen sǎo mǎ diǎn. Xiān lái liǎng pán jīngpǐn féiniú, yì pán shǒugōng xiāhuá hé yí fèn dòng dòufu.', th: 'พวกเราสแกนโค้ดสั่งครับ เอาเนื้อวัวสไลด์พรีเมียม 2 จาน, ลูกชิ้นกุ้งสดทำมือ 1 จาน และเต้าหู้แช่แข็ง 1 ที่ก่อนครับ' },
+        { speaker: 'B', cn: '调料台在左侧，有二十多种蘸料和小水果，都是自助免费享用的。', pinyin: 'Tiáoliàotái zài zuǒcè, yǒu èrshí duō zhǒng zhànliào hé xiǎo shuǐguǒ, dōu shì zìzhù miǎnfèi xiǎngyòng de.', th: 'บาร์น้ำจิ้มอยู่ทางซ้าย มีน้ำจิ้มกว่า 20 ชนิดและผลไม้สด เป็นบุฟเฟต์บริการฟรีตักได้ตามสบายครับ' }
+      ],
+      keyVocab: [
+        { cn: '鸳鸯锅', pinyin: 'yuānyang guō', th: 'หม้อไฟสองช่อง (เผ็ด + ไม่เผ็ด)' },
+        { cn: '菌菇', pinyin: 'jùngū', th: 'เห็ดรวม' },
+        { cn: '肥牛', pinyin: 'féiniú', th: 'เนื้อวัวสไลด์ติดมัน' },
+        { cn: '虾滑', pinyin: 'xiāhuá', th: 'กุ้งบดสดปั้นก้อน' },
+        { cn: '蘸料', pinyin: 'zhànliào', th: 'น้ำจิ้ม' }
+      ],
+      tip: '"鸳鸯锅" (yuānyang guō) นกเป็ดน้ำคู่รัก เป็นชื่อเรียกหม้อไฟ 2 ฝั่ง ฝั่งหนึ่งเผ็ดจัดจ้าน อีกฝั่งซุปใสกลมกล่อม'
+    },
+    {
+      id: 'food-h2',
+      categoryKey: 'food-shopping',
+      category: 'ซื้อของ-สั่งอาหาร',
+      level: 'hard',
+      levelLabel: 'ยาก',
+      levelNum: 3,
+      badgeColor: 'rose',
+      icon: '🥮',
+      titleCn: '挑选非遗传统中秋月饼礼盒赠送师长',
+      titlePinyin: 'Tiāoxuǎn fēiyí chuántǒng Zhōngqiū yuèbǐng lǐhé zèngsòng shīzhǎng',
+      titleTh: 'เลือกซื้อกล่องของขวัญขนมไหว้พระจันทร์สูตรโบราณเพื่อมอบแสดงความเคารพแด่ครูบาอาจารย์',
+      situation: 'การเลือกขนมไหว้พระจันทร์ในเทศกาล การสอบถามไส้ดั้งเดิมและความหมายมงคลของการระลึกถึงพระคุณครู',
+      roles: {
+        A: { name: '学生家长 (ผู้ปกครอง)', avatar: '👩', label: 'ผู้ปกครอง' },
+        B: { name: '老字号掌柜 (ผู้จัดการร้าน)', avatar: '👨‍💼', label: 'ผู้จัดการร้านโบราณ' }
+      },
+      lines: [
+        { speaker: 'A', cn: '掌柜您好，适逢中秋佳节，我想挑选两盒包装典雅、口感正宗的月饼登门拜访恩师。', pinyin: 'Zhǎngguì nín hǎo, shìféng Zhōngqiū jiājié, wǒ xiǎng tiāoxuǎn liǎng hé bāozhuāng diǎnyǎ, kǒugǎn zhèngzōng de yuèbǐng dēngmén bàifǎng ēnshī.', th: 'สวัสดีค่ะหลงจู๊ เนื่องในเทศกาลไหว้พระจันทร์ ฉันอยากเลือกกล่องของขวัญขนมไหว้พระจันทร์ที่กล่องเรียบหรูรสชาติดั้งเดิม 2 กล่องไปกราบอาจารย์ค่ะ' },
+        { speaker: 'B', cn: '尊师重道乃美德！我向您隆重推荐这款“花好月圆”礼盒，内含经典的双黄纯白莲蓉与金腿五仁。', pinyin: 'Zūnshī zhòngdào nǎi měidé! Wǒ xiàng nín lóngzhòng tuījiàn zhè kuǎn "huāhǎoyuèyuán" lǐhé, nèihán jīngdiǎn de shuānghuáng chún báilíanróng yǔ jīntuǐ wǔrén.', th: 'การเคารพครูบาอาจารย์เป็นคุณธรรมอันประเสริฐ! ขอแนะนำกล่อง "ดอกไม้งามจันทร์กระจ่าง" ด้านในมีไส้ลูกบัวขาวไข่คู่ และไส้โหงวยิ้งแฮมยูนนาน' },
+        { speaker: 'A', cn: '现在很多长辈注重健康养生，这款月饼在控糖工艺方面有何考量？', pinyin: 'Xiànzài hěn duō zhǎngbèi zhùzhòng jiànkāng yǎngshēng, zhè kuǎn yuèbǐng zài kòngtáng gōngyì fāngmiàn yǒu hé kǎoliang?', th: 'ปัจจุบันผู้ใหญ่หลายท่านใส่ใจเรื่องสุขภาพเป็นพิเศษ ขนมไหว้พระจันทร์ชุดนี้มีกรรมวิธีควบคุมน้ำตาลอย่างไรบ้างคะ?' },
+        { speaker: 'B', cn: '我们严格采用天然木糖醇代替蔗糖，既保留了甘甜醇厚的层次感，又减轻了糖分负担，老少皆宜。', pinyin: 'Wǒmen yángé cǎiyòng tiānrán mùtángchún dàitì zhètáng, jì bǎoliú le gāntián chúnhòu de céngcìgǎn, yòu jiǎnqīng le tángfèn fùdān, lǎoshào jiē yí.', th: 'ทางเราใช้ไซลิทอลธรรมชาติแทนนน้ำตาลทราย ยังคงรสหวานกลมกล่อมนุ่มนวล แต่ไร้กังวลเรื่องน้ำตาล เหมาะกับผู้ใหญ่มากครับ' },
+        { speaker: 'A', cn: '考虑得真周全，请帮我系上红色如意结丝带，非常感谢！', pinyin: 'Kǎolǜ de zhēn zhōuquán, qǐng bāng wǒ jì shàng hóngsè rúyìjié sīdài, fēicháng gǎnxiè!', th: 'คิดได้อย่างรอบคอบจริงๆ ช่วยผูกโบไหมสีแดงลายหรูอี้ให้ด้วยนะคะ ขอบคุณมากค่ะ!' }
+      ],
+      keyVocab: [
+        { cn: '中秋佳节', pinyin: 'Zhōngqiū jiājié', th: 'เทศกาลไหว้พระจันทร์' },
+        { cn: '尊师重道', pinyin: 'zūnshī zhòngdào', th: 'เคารพครูอาจารย์และเชิดชูคุณธรรม' },
+        { cn: '莲蓉', pinyin: 'liánróng', th: 'ไส้ลูกบัวกวน' },
+        { cn: '花好月圆', pinyin: 'huāhǎoyuèyuán', th: 'ดอกไม้งามพระจันทร์เต็มดวง (ความสมบูรณ์พูนสุข)' },
+        { cn: '养生', pinyin: 'yǎngshēng', th: 'การบำรุงสุขภาพ' }
+      ],
+      tip: '"花好月圆" (huāhǎoyuèyuán) เป็นสำนวนจีนมงคลที่ใช้ในเทศกาลไหว้พระจันทร์ เปรียบเหมือนครอบครัวได้อยู่พร้อมหน้าอย่างอบอุ่น'
+    },
+
+    // --- หมวดเดินทาง (เพิ่มเติม) ---
+    {
+      id: 'travel-e5',
+      categoryKey: 'travel',
+      category: 'เดินทาง',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🚌',
+      titleCn: '每天早上排队安全坐校车',
+      titlePinyin: 'Měitiān zǎoshang páiduì ānquán zuò xiàochē',
+      titleTh: 'เข้าแถวขึ้นรถรับส่งนักเรียนอย่างปลอดภัยทุกเช้า',
+      situation: 'การรอขึ้นรถโรงเรียนอย่างเป็นระเบียบ การทักทายคุณลุงคนขับ และการคาดเข็มขัดนิรภัย',
+      roles: {
+        A: { name: '学生 (นักเรียน)', avatar: '🧒', label: 'นักเรียน' },
+        B: { name: '校车司机伯伯 (ลุงคนขับรถ)', avatar: '👨‍✈️', label: 'คนขับรถโรงเรียน' }
+      },
+      lines: [
+        { speaker: 'A', cn: '司机伯伯，早上好！', pinyin: 'Sījī bóbo, zǎoshang hǎo!', th: 'คุณลุงคนขับ สวัสดีตอนเช้าครับ!' },
+        { speaker: 'B', cn: '早上好！慢点上车，扶好扶手。', pinyin: 'Zǎoshang hǎo! Màn diǎn shàng chē, fú hǎo fúshǒu.', th: 'อรุณสวัสดิ์จ้ะ! ค่อยๆ ก้าวขึ้นรถ จับราวมือจับให้มั่นคงนะ' },
+        { speaker: 'A', cn: '我已经坐好在座位上了，这就系好安全带。', pinyin: 'Wǒ yǐjīng zuò hǎo zài zuòwèi shang le, zhè jiù jì hǎo ānquándài.', th: 'ผมนั่งประจำที่เรียบร้อยแล้วครับ เดี๋ยวคาดเข็มขัดนิรภัยเลย' },
+        { speaker: 'B', cn: '真乖！在车上不能把头和手伸出窗外，知道吗？', pinyin: 'Zhēn guāi! Zài chē shang bù néng bǎ tóu hé shǒu shēn chū chuāngwài, zhīdào ma?', th: 'เด็กดีมาก! อยู่บนรถห้ามยื่นศีรษะและมือออกไปนอกหน้าต่างเด็ดขาด เข้าใจไหมจ๊ะ?' },
+        { speaker: 'A', cn: '知道！老师说过“安全第一，文明乘车”。', pinyin: 'Zhīdào! Lǎoshī shuō guò "ānquán dì-yī, wénmíng chéngchē".', th: 'ทราบครับ! คุณครูเคยสอนไว้ว่า "ปลอดภัยไว้ก่อน โดยสารอย่างมีมารยาท" ครับ' },
+        { speaker: 'B', cn: '好样的，坐稳了，校车出发去学校！', pinyin: 'Hǎoyàng de, zuò wěn le, xiàochē chūfā qù xuéxiào!', th: 'เก่งมากจ้ะ นั่งตัวตรงมั่นคงนะ รถโรงเรียนออกเดินทางไปโรงเรียนแล้ว!' }
+      ],
+      keyVocab: [
+        { cn: '校车', pinyin: 'xiàochē', th: 'รถรับส่งนักเรียน (รถโรงเรียน)' },
+        { cn: '扶手', pinyin: 'fúshǒu', th: 'ราวจับ' },
+        { cn: '安全带', pinyin: 'ānquándài', th: 'เข็มขัดนิรภัย' },
+        { cn: '窗外', pinyin: 'chuāngwài', th: 'นอกหน้าต่าง' },
+        { cn: '文明乘车', pinyin: 'wénmíng chéngchē', th: 'โดยสารรถอย่างมีมารยาท' }
+      ],
+      tip: '"文明乘车" (wénmíng chéngchē) คือ การมีมารยาทในการโดยสาร เช่น ไม่ส่งเสียงดัง และคาดเข็มขัดนิรภัย'
+    },
+    {
+      id: 'travel-e6',
+      categoryKey: 'travel',
+      category: 'เดินทาง',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🚣',
+      titleCn: '周末去北海公园租小船划船',
+      titlePinyin: 'Zhōumò qù Běihǎi gōngyuán zū xiǎochuán huáchuán',
+      titleTh: 'วันหยุดสุดสัปดาห์ไปเช่าเรือพายเล่นที่สวนสาธารณะเป๋ยไห่',
+      situation: 'การเช่าเรือเป็ดถีบในสวนสาธารณะ การสวมเสื้อชูชีพ และพายเรือชมดอกบัว',
+      roles: {
+        A: { name: '小朋友 (เด็กน้อย)', avatar: '👦', label: 'เด็กน้อย' },
+        B: { name: '码头工作人员 (เจ้าหน้าที่ท่าเรือ)', avatar: '👨‍✈️', label: 'เจ้าหน้าที่คุมเรือ' }
+      },
+      lines: [
+        { speaker: 'A', cn: '叔叔，我们想租一只四人座的小黄鸭脚踏船。', pinyin: 'Shūshu, wǒmen xiǎng zū yì zhī sì rén zuò de xiǎohuángyā jiǎotàchuán.', th: 'คุณน้าครับ พวกเราอยากเช่าเรือเป็ดเหลืองถีบ 4 ที่นั่ง 1 ลำครับ' },
+        { speaker: 'B', cn: '好的，押金一百元，租金每小时八十元。所有人上船前必须穿好救生衣。', pinyin: 'Hǎo de, yājīn yìbǎi yuán, zūjīn měi xiǎoshí bāshí yuán. Suǒyǒu rén shàng chuán qián bìxū chuān hǎo jiùshēngyī.', th: 'ได้ครับ มัดจำ 100 หยวน ค่าเช่าชั่วโมงละ 80 หยวน ทุกคนก่อนลงเรือต้องสวมเสื้อชูชีพให้เรียบร้อยนะ' },
+        { speaker: 'A', cn: '救生衣已经穿好了！请问湖中心那座白色的塔叫什么？', pinyin: 'Jiùshēngyī yǐjīng chuān hǎo le! Qǐngwèn hú zhōngxīn nà zuò báisè de tǎ jiào shénme?', th: 'สวมเสื้อชูชีพเรียบร้อยแล้วครับ! ขอถามหน่อยเจดีย์สีขาวตรงใจกลางทะเลสาบชื่ออะไรครับ?' },
+        { speaker: 'B', cn: '那是著名的北海白塔。你们可以一边踩踏板，一边听微风吹过柳树的声音。', pinyin: 'Nà shì zhùmíng de Běihǎi bái tǎ. Nǐmen kěyǐ yìbiān cǎi tàbǎn, yìbiān tīng wēifēng chuī guò liǔshù de shēngyīn.', th: 'นั่นคือเจดีย์ขาวเป๋ยไห่อันเลื่องชื่อจ้ะ พวกเธอสามารถถีบเรือไปด้วย และฟังเสียงสายลมพัดผ่านกิ่งหลิวไปด้วย' },
+        { speaker: 'A', cn: '就像课本里唱的《让我们荡起双桨》一样美！', pinyin: 'Jiù xiàng kèběn lǐ chàng de "Ràng wǒmen dàng qǐ shuāng jiǎng" yíyàng měi!', th: 'สวยงามเหมือนในบทเรียนเพลง "ให้พวกเราพายเรือคู่ไปด้วยกัน" เลยครับ!' }
+      ],
+      keyVocab: [
+        { cn: '脚踏船', pinyin: 'jiǎotàchuán', th: 'เรือถีบ (Pedal Boat)' },
+        { cn: '押金', pinyin: 'yājīn', th: 'เงินมัดจำ' },
+        { cn: '救生衣', pinyin: 'jiùshēngyī', th: 'เสื้อชูชีพ' },
+        { cn: '白塔', pinyin: 'bái tǎ', th: 'เจดีย์สีขาว' },
+        { cn: '湖', pinyin: 'hú', th: 'ทะเลสาบ' }
+      ],
+      tip: 'เพลง "让我们荡起双桨" (Ràng wǒmen dàng qǐ shuāng jiǎng) คือ เพลงเด็กคลาสสิกอมตะที่ชาวจีนทุกคนร้องได้'
+    },
+    {
+      id: 'travel-m4',
+      categoryKey: 'travel',
+      category: 'เดินทาง',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '🚠',
+      titleCn: '乘坐空中缆车登上八达岭长城',
+      titlePinyin: 'Chéngzuò kōngzhōng lǎnchē dēngshàng Bādálǐng chángchéng',
+      titleTh: 'นั่งกระเช้าลอยฟ้าขึ้นสู่กำแพงเมืองจีนปาต๋าหลิ่ง',
+      situation: 'การขึ้นกระเช้าลอยฟ้า ชมทัศนียภาพภูเขา และการเดินชมป้อมปราการบนกำแพงเมืองจีน',
+      roles: {
+        A: { name: '导游 (มัคคุเทศก์)', avatar: '🚩', label: 'ไกด์นำเที่ยว' },
+        B: { name: '游客 (นักท่องเที่ยว)', avatar: '🧑', label: 'นักท่องเที่ยว' }
+      },
+      lines: [
+        { speaker: 'A', cn: '大家请抓紧扶手，我们现在乘坐缆车直达长城最高峰——北八楼。', pinyin: 'Dàjiā qǐng zhuājǐn fúshǒu, wǒmen xiànzài chéngzuò lǎnchē zhídá chángchéng zuì gāofēng——Běi bā lóu.', th: 'ทุกคนจับราวยึดให้มั่นนะ ตอนนี้พวกเรากำลังขึ้นกระเช้าลอยฟ้าตรงสู่ยอดเขาที่สูงที่สุดของกำแพงเมืองจีน คือ ป้อมเหนือ 8' },
+        { speaker: 'B', cn: '从空中看下去太壮观了！长城宛如巨龙在群山之间起伏蜿蜒。', pinyin: 'Cóng kōngzhōng kàn xiàqu tài zhuàngguān le! Chángchéng wǎnrú jùlóng zài qúnshān zhījiān qǐfú wānyán.', th: 'มองลงมาจากบนฟ้าอลังการตระการตามาก! กำแพงเมืองจีนเปรียบเสมือนมังกรยักษ์เลื้อยลัดเลาะไปตามแนวเทือกเขา' },
+        { speaker: 'A', cn: '没错，八达岭长城是明长城最精华的一段。俗话说：“不到长城非好汉！”', pinyin: 'Méi cuò, Bādálǐng chángchéng shì Míng chángchéng zuì jīnghuá de yí duàn. Súhuà shuō: "Bú dào chángchéng fēi hǎohàn!"', th: 'ถูกต้องครับ กำแพงเมืองจีนด่านปาต๋าหลิ่งคือจุดที่สมบูรณ์ที่สุดของสมัยราชวงศ์หมิง ดังสุภาษิตที่ว่า "ไม่ถึงกำแพงเมืองจีน ไม่ใช่ผู้กล้า!"' },
+        { speaker: 'B', cn: '今天终于登上来了，感觉自己也是个“好汉”了！', pinyin: 'Jīntiān zhōngyú dēng shànglai le, gǎnjué zìjǐ yě shì gè "hǎohàn" le!', th: 'วันนี้ในที่สุดก็ได้ขึ้นมาถึง รู้สึกว่าตัวเองกลายเป็น "ผู้กล้า" แล้วครับ!' },
+        { speaker: 'A', cn: '长城台阶比较陡峭，大家游览拍照时一定要“走路不看景，看景不走路”。', pinyin: 'Chángchéng táijiē bǐjiào dǒuqiào, dàjiā yóulǎn pāizhào shí yídìng yào "zǒulù bú kàn jǐng, kàn jǐng bù zǒulù".', th: 'ขั้นบันไดกำแพงเมืองจีนค่อนข้างชัน เวลาถ่ายรูปขอให้จำกฎทอง: "เดินอย่าดูวิว จะดูวิวให้หยุดเดิน" นะครับ' }
+      ],
+      keyVocab: [
+        { cn: '缆车', pinyin: 'lǎnchē', th: 'กระเช้าลอยฟ้า (Cable car)' },
+        { cn: '壮观', pinyin: 'zhuàngguān', th: 'อลังการตระการตา' },
+        { cn: '不到长城非好汉', pinyin: 'bú dào chángchéng fēi hǎohàn', th: 'ไม่ถึงกำแพงเมืองจีน ไม่ใช่ผู้กล้า' },
+        { cn: '陡峭', pinyin: 'dǒuqiào', th: 'ลาดชัน' },
+        { cn: '好汉', pinyin: 'hǎohàn', th: 'ผู้กล้า / วีรบุรุษ' }
+      ],
+      tip: '"不到长城非好汉" เป็นประโยคทองยอดนิยมระดับโลก หมายถึง การมีความมุ่งมั่นตั้งใจฟันฝ่าอุปสรรคจนถึงจุดหมาย'
+    },
+    {
+      id: 'travel-h2',
+      categoryKey: 'travel',
+      category: 'เดินทาง',
+      level: 'hard',
+      levelLabel: 'ยาก',
+      levelNum: 3,
+      badgeColor: 'rose',
+      icon: '🏛️',
+      titleCn: '游览故宫博物院并聆听专家古建历史讲解',
+      titlePinyin: 'Yóulǎn Gùgōng bówùyuàn bìng língtīng zhuānjiā gǔjiàn lìshǐ jiǎngjiě',
+      titleTh: 'ชมนิทรรศการพระราชวังต้องห้ามและรับฟังบรรยายประวัติศาสตร์สถาปัตยกรรมโบราณจากผู้เชี่ยวชาญ',
+      situation: 'การเยี่ยมชมพระราชวังโบราณ การศึกษาแนวแกนกลางสถาปัตยกรรมจีน และปรัชญา "ฟ้าคนรวมเป็นหนึ่ง"',
+      roles: {
+        A: { name: '古建研究员 (นักวิจัยสถาปัตยกรรม)', avatar: '📜', label: 'ผู้เชี่ยวชาญประวัติศาสตร์' },
+        B: { name: '建筑系学子 (นักศึกษา)', avatar: '🧑‍🎓', label: 'ผู้เข้าชม' }
+      },
+      lines: [
+        { speaker: 'A', cn: '各位请看眼前的太和殿，这是紫禁城中规制最高、体量最大的木结构宫殿建筑。', pinyin: 'Gèwèi qǐng kàn yǎnqián de Tàihédiàn, zhè shì Zǐjìnchéng zhōng guīzhì zuì gāo, tǐliàng zuì dà de mù jiégòu gōngdiàn jiànzhù.', th: 'ทุกท่านเชิญทอดสายตาดูพระที่นั่งไท่เหอเตี้ยนตรงหน้า นี่คือพระราชวังโครงสร้างไม้ที่มีฐานันดรศักดิ์สูงสุดและขนาดใหญ่ที่สุดในพระราชวังต้องห้ามครับ' },
+        { speaker: 'B', cn: '老师，我注意到屋顶重檐庑殿顶的脊兽竟然有十个之多，这在全国古建筑中绝无仅有吧？', pinyin: 'Lǎoshī, wǒ zhùyì dào wūdǐng chóngyán wǔdiàndǐng de jǐshòu jìngrán yǒu shí gè zhī duō, zhè zài quánguó gǔ jiànzhù zhōng juéwújǐnyǒu ba?', th: 'อาจารย์ครับ ผมสังเกตเห็นสัตว์มงคลบนสันหลังคามีถึง 10 ตัว นี่ถือเป็นหนึ่งเดียวในบรรดาสถาปัตยกรรมโบราณทั่วประเทศจีนเลยใช่ไหมครับ?' },
+        { speaker: 'A', cn: '观察得非常细致！自骑凤仙人之后依次排列十只神兽，象征着皇权至高无上与风调雨顺的祈愿。', pinyin: 'Guānchá de fēicháng xìzhì! Zì qí fèng xiānrén zhīhòu yīcì páiliè shí zhī shénshòu, xiàngzhēng zhe huángquán zhìgāo-wúshàng yǔ fēngtiáo-yǔshùn de qíyuàn.', th: 'ช่างสังเกตได้ละเอียดมาก! สัตว์เทพทั้ง 10 ตัว เรียงต่อจากเทพขี่หงส์ สื่อถึงพระราชอำนาจอันสูงสุดและความปรารถนาให้ฟ้าฝนตกต้องตามฤดูกาล' },
+        { speaker: 'B', cn: '整座故宫严格坐落于北京城的中轴线上，充分体现了中国古代“天人合一”与尊崇礼制的世界观。', pinyin: 'Zhěng zuò Gùgōng yángé zuòluò yú Běijīng chéng de zhōngzhóuxiàn shang, chōngfèn tǐxiàn le Zhōngguó gǔdài "tiān rén hé yī" yǔ zūnchóng lǐzhì de shìjièguān.', th: 'พระราชวังต้องห้ามทั้งหลังวางตัวอยู่บนแนวแกนกลางของกรุงปักกิ่งอย่างเคร่งครัด สะท้อนโลกทัศน์ "ฟ้าและมนุษย์รวมเป็นหนึ่ง" อย่างสมบูรณ์' },
+        { speaker: 'A', cn: '六百年的红墙黄瓦，不仅是凝固的史诗，更是中华文明生生不息的精神载体。', pinyin: 'Liùbǎi nián de hóng qiáng huáng wǎ, bùjǐn shì nínggù de shǐshī, gèng shì Zhōnghuá wénmíng shēngshēngbùxī de jīngshén zàitǐ.', th: 'กำแพงสีแดงและกระเบื้องสีเหลืองตลอด 600 ปี ไม่เพียงเป็นมหากาพย์ประวัติศาสตร์ แต่ยังเป็นจิตวิญญาณแห่งอารยธรรมจีนที่สืบทอดอย่างไม่รู้จบ' }
+      ],
+      keyVocab: [
+        { cn: '太和殿', pinyin: 'Tàihédiàn', th: 'พระที่นั่งไท่เหอ' },
+        { cn: '绝无仅有', pinyin: 'juéwújǐnyǒu', th: 'หนึ่งเดียวไม่มีสอง' },
+        { cn: '风调雨顺', pinyin: 'fēngtiáo-yǔshùn', th: 'ดินฟ้าอากาศสมบูรณ์ ฝนตกต้องตามฤดูกาล' },
+        { cn: '中轴线', pinyin: 'zhōngzhóuxiàn', th: 'แนวแกนกลางของเมือง' },
+        { cn: '天人合一', pinyin: 'tiān rén hé yī', th: 'ฟ้าและมนุษย์ผสานเป็นหนึ่งเดียว (ปรัชญาจีน)' }
+      ],
+      tip: '"天人合一" (tiān rén hé yī) เป็นปรัชญาโบราณที่ลึกซึ้งที่สุดของจีน หมายถึง ความกลมกลืนเป็นหนึ่งเดียวกันระหว่างธรรมชาติกับมนุษย์'
+    },
+
+    // --- หมวดในที่ทำงาน (เพิ่มเติม) ---
+    {
+      id: 'work-e3',
+      categoryKey: 'workplace',
+      category: 'ในที่ทำงาน',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '📮',
+      titleCn: '去邮局寄明信片给远方的朋友',
+      titlePinyin: 'Qù yóujú jì míngxìnpiàn gěi yuǎnfāng de péngyou',
+      titleTh: 'ไปที่ทำการไปรษณีย์ส่งโปสการ์ดให้เพื่อนที่อยู่แดนไกล',
+      situation: 'การซื้อแสตมป์ การเขียนรหัสไปรษณีย์ และการหยอดตู้ไปรษณีย์สีเขียว',
+      roles: {
+        A: { name: '寄信人 (คนส่งจดหมาย)', avatar: '👦', label: 'ผู้ส่ง' },
+        B: { name: '邮局营业员 (เจ้าหน้าที่ไปรษณีย์)', avatar: '👩‍💼', label: 'พนักงานไปรษณีย์' }
+      },
+      lines: [
+        { speaker: 'A', cn: '阿姨您好，我想买两张寄往泰国的航空邮票，贴在明信片上。', pinyin: 'Āyí nín hǎo, wǒ xiǎng mǎi liǎng zhāng jì wǎng Tàiguó de hángkōng yóupiào, tiē zài míngxìnpiàn shang.', th: 'คุณน้าสวัสดีครับ ผมอยากซื้อแสตมป์ไปรษณีย์อากาศส่งไปประเทศไทย 2 ดวง เพื่อติดบนโปสการ์ดครับ' },
+        { speaker: 'B', cn: '国际明信片航空邮票是四块五一张，两张一共九块钱。', pinyin: 'Guójì míngxìnpiàn hángkōng yóupiào shì sì kuài wǔ yì zhāng, liǎng zhāng yígòng jiǔ kuài qián.', th: 'แสตมป์ไปรษณีย์อากาศระหว่างประเทศดวงละ 4.5 หยวนจ้ะ 2 ดวง รวมเป็น 9 หยวน' },
+        { speaker: 'A', cn: '好的，请问邮政编码写在右上角还是左上角？', pinyin: 'Hǎo de, qǐngwèn yóuzhèng biānmǎ xiě zài yòushàngjiǎo háishì zuǒshàngjiǎo?', th: 'ครับ รบกวนถามหน่อยรหัสไปรษณีย์ต้องเขียนตรงมุมบนขวาหรือมุมบนซ้ายครับ?' },
+        { speaker: 'B', cn: '六位邮政编码填在左上角的红色格子里，收件人地址写在右侧。', pinyin: 'Liù wèi yóuzhèng biānmǎ tián zài zuǒshàngjiǎo de hóngsè gézi lǐ, shōujiànrén dìzhǐ xiě zài yòucè.', th: 'รหัสไปรษณีย์ 6 หลักกรอกในช่องสี่เหลี่ยมสีแดงมุมบนซ้ายจ้ะ ส่วนที่อยู่ผู้รับเขียนฝั่งขวามือนะ' },
+        { speaker: 'A', cn: '粘好邮票了，可以直接投进门外的绿色邮箱吗？', pinyin: 'Zhān hǎo yóupiào le, kěyǐ zhíjiē tóujìn ménwài de lǜsè yóuxiāng ma?', th: 'ติดแสตมป์เรียบร้อยแล้ว หยอดลงตู้ไปรษณีย์สีเขียวหน้าประตูได้เลยไหมครับ?' },
+        { speaker: 'B', cn: '可以的，每天下午四点邮递员叔叔会准时开箱取信！', pinyin: 'Kěyǐ de, měitiān xiàwǔ sì diǎn yóudìyuán shūshu huì zhǔnshí kāixiāng qǔxìn!', th: 'หยอดได้เลยจ้ะ ทุกบ่าย 4 โมง บุรุษไปรษณีย์จะมาเปิดตู้เก็บจดหมายตรงเวลาจ้ะ!' }
+      ],
+      keyVocab: [
+        { cn: '邮局', pinyin: 'yóujú', th: 'ที่ทำการไปรษณีย์' },
+        { cn: '明信片', pinyin: 'míngxìnpiàn', th: 'โปสการ์ด' },
+        { cn: '邮票', pinyin: 'yóupiào', th: 'แสตมป์' },
+        { cn: '邮政编码', pinyin: 'yóuzhèng biānmǎ', th: 'รหัสไปรษณีย์' },
+        { cn: '邮箱', pinyin: 'yóuxiāng', th: 'ตู้จดหมาย / ตู้ไปรษณีย์' }
+      ],
+      tip: 'ตู้ไปรษณีย์และเครื่องแบบบุรุษไปรษณีย์ของประเทศจีนเป็น "สีเขียว" (绿色) อันเป็นเอกลักษณ์'
+    },
+    {
+      id: 'work-m5',
+      categoryKey: 'workplace',
+      category: 'ในที่ทำงาน',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '🏦',
+      titleCn: '去银行柜台办理一张儿童储蓄卡',
+      titlePinyin: 'Qù yínháng guìtái bànlǐ yì zhāng értóng chǔxùkǎ',
+      titleTh: 'ไปที่เคาน์เตอร์ธนาคารเปิดบัตรเดบิตออมทรัพย์สำหรับเด็ก',
+      situation: 'การเปิดบัญชีเงินฝาก การฝากเงินอั่งเปาของเด็กๆ และการตั้งรหัสผ่าน 6 หลัก',
+      roles: {
+        A: { name: '妈妈带孩子 (แม่และลูก)', avatar: '👩‍👦', label: 'ผู้มาเปิดบัญชี' },
+        B: { name: '银行柜员 (พนักงานธนาคาร)', avatar: '🧑‍💼', label: 'พนักงานเคาน์เตอร์' }
+      },
+      lines: [
+        { speaker: 'A', cn: '您好，我想带孩子开一张专属的儿童压岁钱储蓄卡，培养他的理财意识。', pinyin: 'Nín hǎo, wǒ xiǎng dài háizi kāi yì zhāng zhuānshǔ de értóng yāsuìqián chǔxùkǎ, péiyǎng tā de lǐcái yìshí.', th: 'สวัสดีค่ะ ฉันอยากพาลูกมาเปิดบัตรออมทรัพย์เงินอั่งเปาสำหรับเด็ก เพื่อปลูกฝังวินัยการเงินให้เขาค่ะ' },
+        { speaker: 'B', cn: '太有远见了！请出示户口本、家长的身份证，并在申请表上签字确认。', pinyin: 'Tài yǒu yuǎnjiàn le! Qǐng chūshì hùkǒuběn, jiāzhǎng de shēnfènzhèng, bìng zài shēnqǐngbiǎo shang qiānzì quèrèn.', th: 'มีวิสัยทัศน์มากครับ! รบกวนแสดงทะเบียนบ้าน บัตรประชาชนผู้ปกครอง และเซ็นชื่อในใบสมัครครับ' },
+        { speaker: 'A', cn: '这是孩子积攒的一千块压岁钱，今天一起存进去。', pinyin: 'Zhè shì háizi jīzǎn de yìqiān kuài yāsuìqián, jīntiān yìqǐ cún jìnqu.', th: 'นี่คือเงินอั่งเปา 1,000 หยวนที่ลูกสะสมไว้ วันนี้ฝากเข้าบัญชีพร้อมกันเลยค่ะ' },
+        { speaker: 'B', cn: '好的，小朋友请看密码键盘，按下六位数字作为你的银行卡取款密码。', pinyin: 'Hǎo de, xiǎopéngyou qǐng kàn mìmǎ jiànpán, ànxià liù wèi shùzì zuòwéi nǐ de yínhángkǎ qǔkuǎn mìmǎ.', th: 'ได้ครับ หนูน้อยมองที่แป้นกดรหัสนะ กดตัวเลข 6 หลักเพื่อตั้งเป็นรหัสผ่านถอนเงินของบัตรหนูนะ' },
+        { speaker: 'A', cn: '办好了，卡面是可爱的生肖图案，孩子特别喜欢！', pinyin: 'Bàn hǎo le, kǎmiàn shì kě’ài de shēngxiào tú’àn, háizi tèbié xǐhuan!', th: 'เรียบร้อยแล้ว หน้าบัตรเป็นลาย 12 นักษัตรน่ารักมากลูกชอบมากค่ะ!' }
+      ],
+      keyVocab: [
+        { cn: '储蓄卡', pinyin: 'chǔxùkǎ', th: 'บัตรเดบิต / บัตรเงินฝาก' },
+        { cn: '压岁钱', pinyin: 'yāsuìqián', th: 'เงินอั่งเปาตรุษจีน' },
+        { cn: '理财', pinyin: 'lǐcái', th: 'การบริหารจัดการเงิน' },
+        { cn: '存钱', pinyin: 'cún qián', th: 'ฝากเงิน' },
+        { cn: '密码', pinyin: 'mìmǎ', th: 'รหัสผ่าน' }
+      ],
+      tip: 'รหัสบัตร ATM/เดบิตของธนาคารในประเทศจีนมาตรฐานจะเป็นตัวเลข "6 หลัก" (六位密码)'
+    },
+    {
+      id: 'work-h3',
+      categoryKey: 'workplace',
+      category: 'ในที่ทำงาน',
+      level: 'hard',
+      levelLabel: 'ยาก',
+      levelNum: 3,
+      badgeColor: 'rose',
+      icon: '🌱',
+      titleCn: '企业社会责任与低碳环保公益项目的立项汇报',
+      titlePinyin: 'Qǐyè shèhuì zérèn yǔ dītàn huánbǎo gōngyì xiàngmù de lìxiàng huìbào',
+      titleTh: 'การนำเสนอโครงการความรับผิดชอบต่อสังคม (CSR) และนวัตกรรมสิ่งแวดล้อมคาร์บอนต่ำ',
+      situation: 'การนำเสนอโครงการส่งเสริมการศึกษาและปลูกป่าลดคาร์บอนในที่ประชุมผู้บริหารระดับสูง',
+      roles: {
+        A: { name: 'CSR总监 (ผู้อำนวยการ CSR)', avatar: '🌿', label: 'ผู้นำเสนอโครงการ' },
+        B: { name: '执行总裁 (ประธานฝ่ายบริหาร)', avatar: '👔', label: 'ผู้บริหารสูงสุด' }
+      },
+      lines: [
+        { speaker: 'A', cn: '各位董事，我们团队今天提议启动“绿茵未来”乡村教育数字化与零碳校园公益工程。', pinyin: 'Gèwèi dǒngshì, wǒmen tuánduì jīntiān tíyì qǐdòng "Lǜyīn Wèilái" xiāngcūn jiàoyù shùzìhuà yǔ língtàn xiàoyuán gōngyì gōngchéng.', th: 'เรียนท่านคณะกรรมการ ทีมงานขอเสนอเปิดตัวโครงการสาธารณประโยชน์ "อนาคตสีเขียว" เพื่อการศึกษาชนบทดิจิทัลและโรงเรียนคาร์บอนสุทธิเป็นศูนย์ครับ' },
+        { speaker: 'B', cn: '这个方案切中可持续发展的时代脉搏。请问具体的实施路径与社会效益如何量化评估？', pinyin: 'Zhège fāng’àn qièzhòng kěchíxù fāzhǎn de shídài màibó. Qǐngwèn jùtǐ de shíshī lùjìng yǔ shèhuì xiàoyì rúhé liànghuà pínggū?', th: 'ข้อเสนอนี้ตอบโจทย์กระแสการพัฒนาอย่างยั่งยืนอย่างยิ่ง ช่วยแจกแจงแนวทางการปฏิบัติจริงและการประเมินผลลัพธ์ทางสังคมเชิงปริมาณด้วยครับ' },
+        { speaker: 'A', cn: '我们计划首期援建五十所太阳能智能图书室，通过回收旧数码产品减少两千吨碳排放，并惠及数万名边远山区学童。', pinyin: 'Wǒmen jìhuà shǒuqī yuánjiàn wǔshí suǒ tàiyángnéng zhìnéng túshūshì, tōngguò huíshōu jiù shùmǎ chǎnpǐn jiǎnshǎo liǎngqiān dūn tàn páifàng, bìng huìjí shùwàn míng biānyuǎn shānqū xuétóng.', th: 'ในระยะแรกมีแผนสร้างห้องสมุดอัจฉริยะพลังงานแสงอาทิตย์ 50 แห่ง รีไซเคิลอุปกรณ์ดิจิทัลเก่าลดการปล่อยคาร์บอน 2,000 ตัน และส่งต่อประโยชน์ให้เด็กๆ ในพื้นที่ห่างไกลนับหมื่นคนครับ' },
+        { speaker: 'B', cn: '既履行了企业的社会公民责任，又深化了品牌的绿色美誉度，董事会全票通过，全额拨付专项启动基金！', pinyin: 'Jì lǚxíng le qǐyè de shèhuì gōngmín zérèn, yòu shēnhuà le pǐnpái de lǜsè měiyùdù, dǒngshìhuì quánpiào tōngguò, quán’é bōfù zhuānxiàng qǐdòng jījīn!', th: 'ทั้งตอบสนองความรับผิดชอบต่อพลเมืองสังคม และยกระดับชื่อเสียงแบรนด์สีเขียว คณะกรรมการมีมติเอกฉันท์อนุมัติงบประมาณกองทุนเริ่มต้นเต็มจำนวน!' },
+        { speaker: 'A', cn: '感谢董事会的高瞻远瞩，我们将秉持公开透明原则，定期向全社会公示项目进展与审计账目！', pinyin: 'Gǎnxiè dǒngshìhuì de gāozhānyuǎnzhǔ, wǒmen jiāng bǐngchí gōngkāi tòumíng yuánzé, dìngqī xiàng quán shèhuì gōngshì xiàngmù jìndù yǔ shěnjì zhàngmù!', th: 'ขอบพระคุณวิสัยทัศน์อันกว้างไกลของคณะกรรมการ ทางเราจะยึดมั่นหลักความโปร่งใส รายงานความคืบหน้าและบัญชีตรวจสอบต่อสาธารณะเป็นประจำครับ!' }
+      ],
+      keyVocab: [
+        { cn: '可持续发展', pinyin: 'kěchíxù fāzhǎn', th: 'การพัฒนาอย่างยั่งยืน (Sustainability)' },
+        { cn: '碳排放', pinyin: 'tàn páifàng', th: 'การปล่อยก๊าซคาร์บอนไดออกไซด์' },
+        { cn: '高瞻远瞩', pinyin: 'gāozhānyuǎnzhǔ', th: 'มีวิสัยทัศน์กว้างไกล' },
+        { cn: '公益', pinyin: 'gōngyì', th: 'สาธารณกุศล / ประโยชน์ส่วนรวม' },
+        { cn: '透明', pinyin: 'tòumíng', th: 'โปร่งใส ตรวจสอบได้' }
+      ],
+      tip: '"高瞻远瞩" (gāozhānyuǎnzhǔ) เป็นสุภาษิตจีนยกย่องผู้นำที่มีสายตากว้างไกล มองเห็นอนาคตได้อย่างแม่นยำ'
+    },
+
+    // --- 3 บทสนทนายอดนิยมครบ 50 บทบริบูรณ์ ---
+    {
+      id: 'school-e7',
+      categoryKey: 'school',
+      category: 'ในโรงเรียน',
+      level: 'easy',
+      levelLabel: 'ง่าย',
+      levelNum: 1,
+      badgeColor: 'emerald',
+      icon: '🤸‍♂️',
+      titleCn: '大课间在操场做眼保健操和跳绳',
+      titlePinyin: 'Dàkèjiān zài cāochǎng zuò yǎnbǎojiàncāo hé tiàoshéng',
+      titleTh: 'ช่วงพักเบรกใหญ่ทำกายบริหารดวงตาและกระโดดเชือกที่สนาม',
+      situation: 'กิจกรรมพักเบรกใหญ่ของโรงเรียนจีน การพักสายตาและออกกำลังกายกระโดดเชือกกับเพื่อน',
+      roles: {
+        A: { name: '小红 (เสี่ยวหง)', avatar: '👧', label: 'เพื่อน A' },
+        B: { name: '小华 (เสี่ยวหัว)', avatar: '👦', label: 'เพื่อน B' }
+      },
+      lines: [
+        { speaker: 'A', cn: '小华，广播里播放眼保健操音乐了，快闭上眼睛跟着节奏按穴位。', pinyin: 'Xiǎohuá, guǎngbō lǐ bōfàng yǎnbǎojiàncāo yīnyuè le, kuài bì shàng yǎnjing gēnzhe jiézòu àn xuéwèi.', th: 'เสี่ยวหัว เสียงเพลงกายบริหารดวงตาดังขึ้นในลำโพงแล้ว รีบหลับตาแล้วนวดตามจังหวะนะ' },
+        { speaker: 'B', cn: '做完眼保健操，眼睛感觉特别舒服、特别明亮！', pinyin: 'Zuò wán yǎnbǎojiàncāo, yǎnjing gǎnjué tèbié shūfu, tèbié míngliàng!', th: 'พอนวดกายบริหารตาเสร็จแล้ว รู้สึกสบายตาและตาสว่างขึ้นเยอะเลย!' },
+        { speaker: 'A', cn: '大课间还有二十分钟自由活动时间，我们去操场比赛跳绳吧？', pinyin: 'Dàkèjiān hái yǒu èrshí fēnzhōng zìyóu huódòng shíjiān, wǒmen qù cāochǎng bǐsài tiàoshéng ba?', th: 'ช่วงพักเบรกใหญ่ยังมีเวลาอิสระอีก 20 นาที พวกเราไปแข่งกระโดดเชือกที่สนามกันไหม?' },
+        { speaker: 'B', cn: '好啊！看谁一分钟能跳一百五十个，输的人请喝酸奶！', pinyin: 'Hǎo a! Kàn shéi yì fēnzhōng néng tiào yìbǎi wǔshí gè, shū de rén qǐng hē suānnǎi!', th: 'ได้เลย! ดูสิว่าใครจะกระโดดได้ 150 ครั้งใน 1 นาที คนแพ้เลี้ยงนมเปรี้ยวนะ!' },
+        { speaker: 'A', cn: '一言为定，拿起跳绳出发！', pinyin: 'Yì yán wéi dìng, ná qǐ tiàoshéng chūfā!', th: 'ตกลงตามนี้ หยิบเชือกกระโดดแล้วไปกันเลย!' }
+      ],
+      keyVocab: [
+        { cn: '眼保健操', pinyin: 'yǎnbǎojiàncāo', th: 'กายบริหารดวงตา' },
+        { cn: '大课间', pinyin: 'dàkèjiān', th: 'ช่วงพักเบรกใหญ่ระหว่างคาบเรียน' },
+        { cn: '跳绳', pinyin: 'tiàoshéng', th: 'กระโดดเชือก' },
+        { cn: '酸奶', pinyin: 'suānnǎi', th: 'โยเกิร์ต / นมเปรี้ยว' }
+      ],
+      tip: '"眼保健操" (กายบริหารดวงตา) คือ กิจกรรมที่นักเรียนจีนทุกคนต้องทำวันละ 2 ครั้งเพื่อถนอมสายตา'
+    },
+    {
+      id: 'food-m5',
+      categoryKey: 'food-shopping',
+      category: 'ซื้อของ-สั่งอาหาร',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '🥭',
+      titleCn: '在生鲜水果超市挑选热带水果',
+      titlePinyin: 'Zài shēngxiān shuǐguǒ chāoshì tiāoxuǎn rèdài shuǐguǒ',
+      titleTh: 'เลือกซื้อผลไม้เมืองร้อนสดใหม่ที่ซูเปอร์มาร์เก็ตผลไม้',
+      situation: 'การเลือกซื้อมะม่วง ทุเรียน มังคุด และการสอบถามความสดและการชั่งน้ำหนัก',
+      roles: {
+        A: { name: '挑水果的客人 (ลูกค้า)', avatar: '👩', label: 'ลูกค้า' },
+        B: { name: '水果理货员 (พนักงานดูแลผลไม้)', avatar: '🧑‍🌾', label: 'พนักงานร้าน' }
+      },
+      lines: [
+        { speaker: 'A', cn: '师傅，今天刚到的泰国金枕头榴莲怎么挑？帮我看一个肉多的。', pinyin: 'Shīfu, jīntiān gāng dào de Tàiguó jīnlǐngtou liúlián zěnme tiāo? Bāng wǒ kàn yí gè ròu duō de.', th: 'พี่คะ ทุเรียนหมอนทองไทยที่เพิ่งมาถึงวันนี้เลือกยังไงคะ? ช่วยดูลูกที่เนื้อเยอะๆ ให้หน่อยค่ะ' },
+        { speaker: 'B', cn: '您看这个，果形匀称鼓包多，捏一下相邻的尖刺能轻松捏动，说明熟透了，皮薄肉厚！', pinyin: 'Nín kàn zhège, guǒxíng yúnchèn gǔbāo duō, niē yíxià xiānglín de jiāncì néng qīngsōng niēdòng, shuōmíng shú tòu le, pí báo ròu hòu!', th: 'คุณดูผลนี้นะครับ พูโป่งสม่ำเสมอ หนามที่ติดกันบีบเข้าหากันได้สบาย แสดงว่าสุกเต็มที่ เปลือกบางเนื้อแน่นครับ!' },
+        { speaker: 'A', cn: '太专业了！那旁边的山竹和芒果新鲜吗？', pinyin: 'Tài zhuānyè le! Nà pángbiān de shānzhú hé mángguǒ xīnxiān ma?', th: 'มืออาชีพมากเลยค่ะ! แล้วมังคุดกับมะม่วงข้างๆ สดไหมคะ?' },
+        { speaker: 'B', cn: '都是今天清晨空运直达的，山竹外壳软软的，蒂头是鲜绿色，特别甜多汁。', pinyin: 'Dōu shì jīntiān qīngchén kōngyùn zhídá de, shānzhú wàiké ruǎnruǎn de, dìtóu shì xiānlǜsè, tèbié tián duō zhī.', th: 'ส่งตรงทางเครื่องบินเมื่อเช้ามืดนี้เลยครับ เปลือกมังคุดนิ่มกำลังดี ขั้วผลสีเขียวสด หวานฉ่ำน้ำมากครับ' },
+        { speaker: 'A', cn: '那帮我称一个榴莲和两斤山竹，今天全家有口福了！', pinyin: 'Nà bāng wǒ chēng yí gè liúlián hé liǎng jīn shānzhú, jīntiān quánjiā yǒu kǒufú le!', th: 'งั้นช่วยชั่งทุเรียน 1 ลูกกับมังคุด 2 จิน (1 กก.) ให้ด้วยค่ะ วันนี้ทุกคนในบ้านได้อิ่มอร่อยกันเต็มที่เลย!' }
+      ],
+      keyVocab: [
+        { cn: '榴莲', pinyin: 'liúlián', th: 'ทุเรียน' },
+        { cn: '山竹', pinyin: 'shānzhú', th: 'มังคุด (ราชินีผลไม้)' },
+        { cn: '皮薄肉厚', pinyin: 'pí báo ròu hòu', th: 'เปลือกบางเนื้อหนาแน่น' },
+        { cn: '多汁', pinyin: 'duō zhī', th: 'ฉ่ำน้ำ' },
+        { cn: '有口福', pinyin: 'yǒu kǒufú', th: 'มีลาภปาก / โชคดีได้กินของอร่อย' }
+      ],
+      tip: '"有口福" (yǒu kǒufú) เป็นสำนวนจีนยอดนิยม หมายถึง โชคดีที่มีโอกาสได้ลิ้มรสอาหารอร่อย'
+    },
+    {
+      id: 'work-m6',
+      categoryKey: 'workplace',
+      category: 'ในที่ทำงาน',
+      level: 'medium',
+      levelLabel: 'ปานกลาง',
+      levelNum: 2,
+      badgeColor: 'amber',
+      icon: '📦',
+      titleCn: '在前台签收快递包裹与核对单号',
+      titlePinyin: 'Zài qiántái qiānshōu kuàidì bāoguǒ yǔ héduì dānhào',
+      titleTh: 'เซ็นรับพัสดุด่วนที่เคาน์เตอร์ต้อนรับและตรวจสอบหมายเลขพัสดุ',
+      situation: 'การรับพัสดุเอกสารสัญญาสำคัญที่ส่งมาถึงออฟฟิศ และการเซ็นชื่อส่งมอบ',
+      roles: {
+        A: { name: '公司前台秘书 (เลขาหน้าฟรอนต์)', avatar: '👩‍💼', label: 'เจ้าหน้าที่ฟรอนต์' },
+        B: { name: '快递派送员 (พนักงานส่งพัสดุ)', avatar: '🛵', label: 'พนักงานขนส่ง' }
+      },
+      lines: [
+        { speaker: 'B', cn: '您好，顺丰特快！这里有两件给法务部王总监的加急保价文件，需要前台签收。', pinyin: 'Nín hǎo, Shùnfēng tèkuài! Zhèlǐ yǒu liǎng jiàn gěi fǎwùbù Wáng zhǒngjiān de jiājí bǎojià wénjiàn, xūyào qiántái qiānshōu.', th: 'สวัสดีครับ SF Express ครับ! มีเอกสารด่วนพิเศษมีประกันส่งถึงผู้อำนวยการหวังฝ่ายกฎหมาย 2 ซอง รบกวนฟรอนต์เซ็นรับครับ' },
+        { speaker: 'A', cn: '您好，请稍等，我先核对一下运单号码和外包装是否完好无损。', pinyin: 'Nín hǎo, qǐng shāoděng, wǒ xiān héduì yíxià yùndān hàomǎ hé wài bāozhuāng shìfǒu wánhǎo-wúsǔn.', th: 'สวัสดีค่ะ รอสักครู่นะคะ ขอตรวจเช็คเลขพัสดุและสภาพซองภายนอกว่าสมบูรณ์เรียบร้อยดีไหมก่อนค่ะ' },
+        { speaker: 'B', cn: '文件封条完好，请在巴枪手写屏幕上签您的姓名。', pinyin: 'Wénjiàn fēngtiáo wánhǎo, qǐng zài bāqiāng shǒuxiě píngmù shang qiān nín de xìngmíng.', th: 'แถบซีลปิดผนึกสมบูรณ์ดีครับ รบกวนเซ็นชื่อบนหน้าจอเครื่องสแกนบาร์โค้ดได้เลยครับ' },
+        { speaker: 'A', cn: '已经签好了，我会立刻在内部办公软件上发消息通知王总监来取件。', pinyin: 'Yǐjīng qiān hǎo le, wǒ huì lìkè zài nèibù bàngōng ruǎnjiàn shang fā xiāoxi tōngzhī Wáng zhǒngjiān lái qǔ jiàn.', th: 'เซ็นเรียบร้อยแล้วค่ะ เดี๋ยวฉันจะส่งข้อความแจ้งผู้อำนวยการหวังผ่านระบบออฟฟิศให้มารับเอกสารทันทีค่ะ' },
+        { speaker: 'B', cn: '非常感谢配合，祝您工作顺利！', pinyin: 'Fēicháng gǎnxiè pèihé, zhù nín gōngzuò shùnlì!', th: 'ขอบพระคุณที่ให้ความร่วมมือ ขอให้การงานราบรื่นครับ!' }
+      ],
+      keyVocab: [
+        { cn: '签收', pinyin: 'qiānshōu', th: 'เซ็นรับพัสดุ' },
+        { cn: '加急', pinyin: 'jiājí', th: 'ด่วนพิเศษ' },
+        { cn: '完好无损', pinyin: 'wánhǎo-wúsǔn', th: 'สมบูรณ์ไร้ร่องรอยเสียหาย' },
+        { cn: '通知', pinyin: 'tōngzhī', th: 'แจ้งเตือน / ประกาศ' },
+        { cn: '工作顺利', pinyin: 'gōngzuò shùnlì', th: 'การงานราบรื่น' }
+      ],
+      tip: '"工作顺利" (gōngzuò shùnlì) เป็นคำอวยพรมาตรฐานที่ใช้ในชีวิตการทำงานของคนจีน'
     }
   ];
 })();
