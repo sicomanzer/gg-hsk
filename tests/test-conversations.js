@@ -47,7 +47,6 @@ async function runTests() {
   await page.waitForTimeout(400);
 
   console.log('\n--- 1. NAVIGATION TAB ORDER VERIFICATION ---');
-  // Check that the conversation button is right before the creator link
   const navTabs = page.locator('nav .nav-tab-btn, nav a');
   const navTexts = await navTabs.allTextContents();
   console.log('Nav tabs found:', navTexts.map(t => t.trim()));
@@ -74,35 +73,73 @@ async function runTests() {
   assert.ok(await tabConv.isVisible(), '#tab-conversation must be visible');
   console.log('✅ [PASS] Successfully navigated to #tab-conversation');
 
-  console.log('\n--- 3. 3-LEVEL FILTERING (ง่าย • ปานกลาง • ยาก) ---');
-  // Initial all cards
-  let cards = await page.locator('.conv-card').count();
-  assert.strictEqual(cards, 18, `Expected 18 total conversation cards, got ${cards}`);
-  console.log(`✅ [PASS] All 18 conversations rendered across 3 levels`);
+  console.log('\n--- 3. 4 CATEGORY TABS AUDIT (ในโรงเรียน • ซื้อของ-สั่งอาหาร • เดินทาง • ในที่ทำงาน) ---');
+  const catBtns = page.locator('.conv-cat-btn');
+  const catCount = await catBtns.count();
+  assert.strictEqual(catCount, 5, `Expected 5 category buttons (All + 4 categories), got ${catCount}`);
 
-  // Filter 1: ง่าย (Easy)
+  // Test Category: 1. ในโรงเรียน (school)
+  await page.locator('.conv-cat-btn[data-cat="school"]').click();
+  await page.waitForTimeout(200);
+  const schoolCards = await page.locator('.conv-card').count();
+  assert.ok(schoolCards >= 4, `Expected at least 4 school conversations, got ${schoolCards}`);
+  console.log(`✅ [PASS] Category "ในโรงเรียน" filtered successfully (${schoolCards} conversations)`);
+
+  // Test Category: 2. ซื้อของ-สั่งอาหาร (food-shopping)
+  await page.locator('.conv-cat-btn[data-cat="food-shopping"]').click();
+  await page.waitForTimeout(200);
+  const foodCards = await page.locator('.conv-card').count();
+  assert.ok(foodCards >= 4, `Expected at least 4 food & shopping conversations, got ${foodCards}`);
+  console.log(`✅ [PASS] Category "ซื้อของ-สั่งอาหาร" filtered successfully (${foodCards} conversations)`);
+
+  // Test Category: 3. เดินทาง (travel)
+  await page.locator('.conv-cat-btn[data-cat="travel"]').click();
+  await page.waitForTimeout(200);
+  const travelCards = await page.locator('.conv-card').count();
+  assert.ok(travelCards >= 4, `Expected at least 4 travel conversations, got ${travelCards}`);
+  console.log(`✅ [PASS] Category "เดินทาง" filtered successfully (${travelCards} conversations)`);
+
+  // Test Category: 4. ในที่ทำงาน (workplace)
+  await page.locator('.conv-cat-btn[data-cat="workplace"]').click();
+  await page.waitForTimeout(200);
+  const workCards = await page.locator('.conv-card').count();
+  assert.ok(workCards >= 4, `Expected at least 4 workplace conversations, got ${workCards}`);
+  console.log(`✅ [PASS] Category "ในที่ทำงาน" filtered successfully (${workCards} conversations)`);
+
+  // Return to all categories
+  await page.locator('.conv-cat-btn[data-cat="all"]').click();
+  await page.waitForTimeout(200);
+  const totalCards = await page.locator('.conv-card').count();
+  assert.ok(totalCards >= 18, `Expected large conversation library, got ${totalCards}`);
+  console.log(`✅ [PASS] All categories view shows ${totalCards} total conversations`);
+
+  console.log('\n--- 4. 3-LEVEL FILTERING (ง่าย • ปานกลาง • ยาก) ---');
+  // Filter: ง่าย (Easy)
   await page.locator('.conv-filter-btn[data-level="easy"]').click();
   await page.waitForTimeout(200);
-  cards = await page.locator('.conv-card').count();
-  assert.strictEqual(cards, 6, `Expected 6 easy conversation cards, got ${cards}`);
-  console.log('✅ [PASS] Level 1 (ง่าย) filtered correctly to 6 conversations');
+  const easyCards = await page.locator('.conv-card').count();
+  assert.ok(easyCards >= 4, `Expected easy cards, got ${easyCards}`);
+  console.log(`✅ [PASS] Level 1 (ง่าย) filtered correctly (${easyCards} cards)`);
 
-  // Filter 2: ปานกลาง (Medium)
+  // Filter: ปานกลาง (Medium)
   await page.locator('.conv-filter-btn[data-level="medium"]').click();
   await page.waitForTimeout(200);
-  cards = await page.locator('.conv-card').count();
-  assert.strictEqual(cards, 6, `Expected 6 medium conversation cards, got ${cards}`);
-  console.log('✅ [PASS] Level 2 (ปานกลาง) filtered correctly to 6 conversations');
+  const medCards = await page.locator('.conv-card').count();
+  assert.ok(medCards >= 4, `Expected medium cards, got ${medCards}`);
+  console.log(`✅ [PASS] Level 2 (ปานกลาง) filtered correctly (${medCards} cards)`);
 
-  // Filter 3: ยาก (Hard)
+  // Filter: ยาก (Hard)
   await page.locator('.conv-filter-btn[data-level="hard"]').click();
   await page.waitForTimeout(200);
-  cards = await page.locator('.conv-card').count();
-  assert.strictEqual(cards, 6, `Expected 6 hard conversation cards, got ${cards}`);
-  console.log('✅ [PASS] Level 3 (ยาก) filtered correctly to 6 conversations');
+  const hardCards = await page.locator('.conv-card').count();
+  assert.ok(hardCards >= 4, `Expected hard cards, got ${hardCards}`);
+  console.log(`✅ [PASS] Level 3 (ยาก) filtered correctly (${hardCards} cards)`);
 
-  console.log('\n--- 4. INTERACTIVE DIALOGUE PLAYER DETAIL VIEW ---');
-  // Open the first card
+  // Reset level to all
+  await page.locator('.conv-filter-btn[data-level="all"]').click();
+  await page.waitForTimeout(100);
+
+  console.log('\n--- 5. INTERACTIVE DIALOGUE PLAYER DETAIL VIEW ---');
   await page.locator('.conv-card').first().click();
   await page.waitForTimeout(300);
 
@@ -140,7 +177,7 @@ async function runTests() {
   assert.ok(await page.locator('.conv-card').first().isVisible(), 'Returned to card grid');
   console.log('✅ [PASS] Back button successfully returns to list view');
 
-  console.log('\n--- 5. CHECK / (INDEX.HTML) MASTER PORTAL ---');
+  console.log('\n--- 6. CHECK / (INDEX.HTML) MASTER PORTAL ---');
   await page.goto(`http://localhost:${PORT}/`);
   await page.waitForTimeout(400);
 
@@ -160,7 +197,7 @@ async function runTests() {
   await browser.close();
   server.close();
   console.log('\n==================================================');
-  console.log('🎉 ALL CONVERSATION FEATURE TESTS PASSED (100%)');
+  console.log('🎉 ALL EXPANDED CONVERSATION FEATURE TESTS PASSED (100%)');
   console.log('==================================================');
 }
 

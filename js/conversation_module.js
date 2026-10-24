@@ -2,6 +2,7 @@
 (function() {
   'use strict';
 
+  let currentCategoryFilter = 'all'; // 'all' | 'school' | 'food-shopping' | 'travel' | 'workplace'
   let currentLevelFilter = 'all'; // 'all' | 'easy' | 'medium' | 'hard'
   let currentSearchQuery = '';
   let activeConversation = null;
@@ -18,9 +19,18 @@
 
   function filterConversations() {
     let list = getConversations();
+
+    // 1. Filter by category
+    if (currentCategoryFilter !== 'all') {
+      list = list.filter(c => c.categoryKey === currentCategoryFilter);
+    }
+
+    // 2. Filter by level
     if (currentLevelFilter !== 'all') {
       list = list.filter(c => c.level === currentLevelFilter);
     }
+
+    // 3. Filter by search query
     if (currentSearchQuery.trim()) {
       const q = currentSearchQuery.toLowerCase().trim();
       list = list.filter(c => 
@@ -39,7 +49,6 @@
     const container = document.getElementById('tab-conversation');
     if (!container) return;
 
-    // Check if an active conversation is open
     if (activeConversation) {
       renderActiveConversationView(container);
     } else {
@@ -49,11 +58,20 @@
 
   // --- RENDER LIST VIEW ---
   function renderConversationListView(container) {
+    const allList = getConversations();
     const list = filterConversations();
-    const allCount = getConversations().length;
-    const easyCount = getConversations().filter(c => c.level === 'easy').length;
-    const medCount = getConversations().filter(c => c.level === 'medium').length;
-    const hardCount = getConversations().filter(c => c.level === 'hard').length;
+
+    const allCount = allList.length;
+    const schoolCount = allList.filter(c => c.categoryKey === 'school').length;
+    const foodCount = allList.filter(c => c.categoryKey === 'food-shopping').length;
+    const travelCount = allList.filter(c => c.categoryKey === 'travel').length;
+    const workCount = allList.filter(c => c.categoryKey === 'workplace').length;
+
+    // Filtered level counts within current category
+    const catList = currentCategoryFilter === 'all' ? allList : allList.filter(c => c.categoryKey === currentCategoryFilter);
+    const easyCount = catList.filter(c => c.level === 'easy').length;
+    const medCount = catList.filter(c => c.level === 'medium').length;
+    const hardCount = catList.filter(c => c.level === 'hard').length;
 
     container.innerHTML = `
       <div class="space-y-6">
@@ -65,10 +83,10 @@
                 💬 บทสนทนาภาษาจีนในชีวิตประจำวัน
               </div>
               <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
-                ฝึกพูดภาษาจีนจริง 3 ระดับ
+                คลังบทสนทนาภาษาจีน 4 หมวดหมู่
               </h1>
               <p class="text-sm sm:text-base text-emerald-100 leading-relaxed">
-                เรียนรู้ประโยคใช้งานจริง พร้อมเสียงอ่านเจ้าของภาษา ระบบสวมบทบาท (Role-play) และแปลไทย 100%
+                ครอบคลุม <strong>ในโรงเรียน • ซื้อของ-สั่งอาหาร • เดินทาง • ในที่ทำงาน</strong> แบ่ง 3 ระดับความยาก พร้อมเสียงอ่านและระบบฝึกสวมบทบาท (Role-play)
               </p>
             </div>
             <div class="flex items-center gap-2 bg-white/10 backdrop-blur rounded-2xl p-3 border border-white/20 self-start md:self-auto text-center">
@@ -78,19 +96,49 @@
               </div>
               <div class="h-8 w-px bg-white/20"></div>
               <div class="px-3">
-                <p class="text-2xl sm:text-3xl font-black text-emerald-300">3</p>
+                <p class="text-2xl sm:text-3xl font-black text-emerald-300">4</p>
+                <p class="text-[11px] text-white/80">หมวดหมู่หลัก</p>
+              </div>
+              <div class="h-8 w-px bg-white/20"></div>
+              <div class="px-3">
+                <p class="text-2xl sm:text-3xl font-black text-indigo-300">3</p>
                 <p class="text-[11px] text-white/80">ระดับความยาก</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Filter & Search Controls -->
+        <!-- 1. CATEGORY TABS (4 หมวดหมู่หลัก) -->
+        <div class="bg-white rounded-3xl p-3 sm:p-4 shadow-sm border border-gray-200">
+          <div class="text-xs font-bold text-gray-500 mb-2 px-1 flex items-center gap-1.5">
+            <span>📂</span> <span>เลือกหมวดหมู่บทสนทนา:</span>
+          </div>
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            <button class="conv-cat-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 whitespace-nowrap ${currentCategoryFilter === 'all' ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-cat="all">
+              <span>🌟</span> <span>ทั้งหมด (${allCount})</span>
+            </button>
+            <button class="conv-cat-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 whitespace-nowrap ${currentCategoryFilter === 'school' ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-cat="school">
+              <span>🏫</span> <span>ในโรงเรียน (${schoolCount})</span>
+            </button>
+            <button class="conv-cat-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 whitespace-nowrap ${currentCategoryFilter === 'food-shopping' ? 'bg-emerald-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-cat="food-shopping">
+              <span>🛍️</span> <span>ซื้อของ-สั่งอาหาร (${foodCount})</span>
+            </button>
+            <button class="conv-cat-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 whitespace-nowrap ${currentCategoryFilter === 'travel' ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-cat="travel">
+              <span>✈️</span> <span>เดินทาง (${travelCount})</span>
+            </button>
+            <button class="conv-cat-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition flex items-center gap-1.5 whitespace-nowrap ${currentCategoryFilter === 'workplace' ? 'bg-purple-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-cat="workplace">
+              <span>💼</span> <span>ในที่ทำงาน (${workCount})</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. DIFFICULTY LEVEL PILLS & SEARCH CONTROLS -->
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <!-- Level Filter Buttons (3 ระดับ: ง่าย, ปานกลาง, ยาก) -->
           <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 md:pb-0 no-scrollbar">
-            <button class="conv-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 whitespace-nowrap ${currentLevelFilter === 'all' ? 'bg-indigo-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-level="all">
-              <span>🌟</span> <span>ทั้งหมด (${allCount})</span>
+            <span class="text-xs font-bold text-gray-400 mr-1 hidden sm:inline">ระดับ:</span>
+            <button class="conv-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 whitespace-nowrap ${currentLevelFilter === 'all' ? 'bg-gray-900 text-white shadow' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-level="all">
+              <span>ทั้งหมด</span>
             </button>
             <button class="conv-filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 whitespace-nowrap ${currentLevelFilter === 'easy' ? 'bg-emerald-600 text-white shadow-md' : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'}" data-level="easy">
               <span>🟢</span> <span>1. ง่าย (${easyCount})</span>
@@ -109,7 +157,7 @@
               type="text" 
               id="conv-search-input"
               value="${currentSearchQuery}"
-              placeholder="🔍 ค้นหาหัวข้อ / คำศัพท์..." 
+              placeholder="🔍 ค้นหาบทสนทนา / คำศัพท์..." 
               class="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"
             />
             <span class="absolute left-3 top-2.5 text-gray-400 text-xs">🔎</span>
@@ -121,10 +169,10 @@
         ${list.length === 0 ? `
           <div class="text-center py-16 bg-white rounded-3xl border border-dashed border-gray-300">
             <span class="text-5xl">🔍</span>
-            <h3 class="text-base font-bold text-gray-800 mt-3">ไม่พบบทสนทนาที่ค้นหา</h3>
-            <p class="text-xs text-gray-500 mt-1">ลองเปลี่ยนคำค้นหา หรือเลือกตัวกรองระดับความยากอื่น</p>
+            <h3 class="text-base font-bold text-gray-800 mt-3">ไม่พบบทสนทนาตามเงื่อนไขที่เลือก</h3>
+            <p class="text-xs text-gray-500 mt-1">ลองเปลี่ยนหมวดหมู่ เลือกระดับความยากอื่น หรือล้างคำค้นหา</p>
             <button onclick="window.ConversationModule.resetFilters()" class="mt-4 px-4 py-2 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition">
-              ล้างการค้นหา
+              ล้างตัวกรองทั้งหมด
             </button>
           </div>
         ` : `
@@ -142,9 +190,9 @@
                       c.level === 'medium' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
                       'bg-rose-100 text-rose-800 border border-rose-200'
                     }">
-                      ${c.level === 'easy' ? '🟢 ระดับ 1: ง่าย' : c.level === 'medium' ? '🟡 ระดับ 2: ปานกลาง' : '🔴 ระดับ 3: ยาก'}
+                      ${c.level === 'easy' ? '🟢 ง่าย' : c.level === 'medium' ? '🟡 ปานกลาง' : '🔴 ยาก'}
                     </span>
-                    <span class="text-xs font-medium text-gray-400 bg-gray-50 px-2.5 py-0.5 rounded-lg border border-gray-100">
+                    <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-lg border border-indigo-100">
                       ${c.category}
                     </span>
                   </div>
@@ -191,7 +239,15 @@
       </div>
     `;
 
-    // Bind event listeners
+    // Category button click handlers
+    container.querySelectorAll('.conv-cat-btn').forEach(btn => {
+      btn.onclick = () => {
+        currentCategoryFilter = btn.dataset.cat;
+        renderConversationTab();
+      };
+    });
+
+    // Level filter click handlers
     container.querySelectorAll('.conv-filter-btn').forEach(btn => {
       btn.onclick = () => {
         currentLevelFilter = btn.dataset.level;
@@ -244,8 +300,8 @@
             }">
               ${c.level === 'easy' ? '🟢 ระดับ 1: ง่าย' : c.level === 'medium' ? '🟡 ระดับ 2: ปานกลาง' : '🔴 ระดับ 3: ยาก'}
             </span>
-            <span class="hidden sm:inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
-              🏷️ ${c.category}
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              📂 ${c.category}
             </span>
           </div>
         </div>
@@ -433,7 +489,7 @@
           </p>
         </div>
 
-        <!-- Next / Previous Navigation -->
+        <!-- Next / Previous Navigation within current filtered pool -->
         <div class="flex items-center justify-between pt-2">
           <button id="conv-prev-btn" class="px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-xs sm:text-sm font-bold text-gray-700 hover:bg-gray-50 transition shadow-sm flex items-center gap-1.5">
             <span>←</span> <span>บทก่อนหน้า</span>
@@ -503,16 +559,16 @@
       };
     });
 
-    // Prev / Next Navigation
-    const allConvs = getConversations();
-    const curIdx = allConvs.findIndex(item => item.id === c.id);
+    // Prev / Next Navigation within current list
+    const currentPool = filterConversations();
+    const curIdx = currentPool.findIndex(item => item.id === c.id);
 
     const prevBtn = container.querySelector('#conv-prev-btn');
     if (prevBtn) {
       if (curIdx > 0) {
         prevBtn.onclick = () => {
           stopAllContinuousPlay();
-          openConversation(allConvs[curIdx - 1].id);
+          openConversation(currentPool[curIdx - 1].id);
         };
       } else {
         prevBtn.disabled = true;
@@ -522,10 +578,10 @@
 
     const nextBtn = container.querySelector('#conv-next-btn');
     if (nextBtn) {
-      if (curIdx < allConvs.length - 1) {
+      if (curIdx < currentPool.length - 1 && curIdx !== -1) {
         nextBtn.onclick = () => {
           stopAllContinuousPlay();
-          openConversation(allConvs[curIdx + 1].id);
+          openConversation(currentPool[curIdx + 1].id);
         };
       } else {
         nextBtn.disabled = true;
@@ -604,7 +660,7 @@
     playIndex++;
 
     if (isUserMuted) {
-      // Give user time to speak their role (3.5 seconds)
+      // User role: pause for speaking practice
       playTimer = setTimeout(() => {
         removeHighlightBubble(curIndex);
         if (isPlayingAll) playNextLine(c);
@@ -612,7 +668,6 @@
     } else {
       speakLine(line.cn, () => {
         removeHighlightBubble(curIndex);
-        // Short natural breath pause before next speaker
         if (isPlayingAll) {
           playTimer = setTimeout(() => {
             playNextLine(c);
@@ -646,6 +701,7 @@
   }
 
   function resetFilters() {
+    currentCategoryFilter = 'all';
     currentLevelFilter = 'all';
     currentSearchQuery = '';
     renderConversationTab();
@@ -656,6 +712,11 @@
     render: renderConversationTab,
     open: openConversation,
     resetFilters: resetFilters,
+    filterByCategory: (cat) => {
+      currentCategoryFilter = cat;
+      activeConversation = null;
+      renderConversationTab();
+    },
     filterByLevel: (lvl) => {
       currentLevelFilter = lvl;
       activeConversation = null;
