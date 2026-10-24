@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/run-all-tests.js && node tests/deep-qa.test.js",
+    "test": "node tests/run-all-tests.js && node tests/deep-qa.test.js && node tests/test-conversations.js",
     "test:e2e": "node tests/run-all-tests.js",
     "test:deep": "node tests/deep-qa.test.js"
   },

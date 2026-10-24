@@ -192,10 +192,13 @@
           <span>📕</span> <span>สมุดข้อที่ตอบผิด</span>
         </button>
         <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="parent">
-          <span>👨‍🏫</span> <span>สถิติสำหรับคุณพ่อ</span>
+          <span>👨‍🏫</span> <span>แดชบอร์ดผู้ปกครอง</span>
         </button>
         <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="worksheet">
           <span>🖨️</span> <span>พิมพ์ใบงานกระดาษ</span>
+        </button>
+        <button class="nav-tab-btn flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gray-100" data-tab="conversation">
+          <span>💬</span> <span>บทสนทนาประจำวัน</span>
         </button>
         <a href="https://www.instagram.com/program_12y" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition font-semibold whitespace-nowrap text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-pink-600 border border-transparent hover:border-pink-200">
           <span>✨</span> ผู้สร้างเว็บไซต์
@@ -936,6 +939,11 @@
       </div>
     </section>
 
+    <!-- ================= TAB: DAILY CHINESE CONVERSATIONS ================= -->
+    <section id="tab-conversation" class="tab-panel hidden space-y-4 sm:space-y-6">
+      <!-- Dynamically rendered by js/conversation_module.js -->
+    </section>
+
   </main>
 
   <!-- ================= FOOTER ================= -->
@@ -1007,11 +1015,13 @@
   <script src="vocab_data.js"></script>
   <script src="yct_vocab_data.js"></script>
   <script src="sentences_data.js"></script>
+  <script src="conversations_data.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/confetti.js"></script>
   <script src="js/canvas_drawing.js"></script>
   <script src="js/quiz_engine.js"></script>
+  <script src="js/conversation_module.js"></script>
   <script src="js/app.js"></script>
   <script src="js/mqtt.min.js"></script>
   <script src="js/presence.js"></script>

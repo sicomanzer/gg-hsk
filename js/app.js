@@ -585,6 +585,8 @@
       renderDashboard();
     } else if (tabName === 'flashcards') {
       switchVocabSubtab(state.currentVocabSubtab || 'quiz600');
+    } else if (tabName === 'conversation') {
+      if (window.ConversationModule) window.ConversationModule.render();
     } else if (tabName === 'mistakes') {
       renderMistakes();
     } else if (tabName === 'parent') {
